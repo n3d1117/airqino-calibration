@@ -18,7 +18,7 @@ def save_coordinates():
             })
         data['stations'].append({'name': name, 'coords': coords})
 
-    with open('generated_data/locations.json', 'w') as f:
+    with open('map/locations.json', 'w') as f:
         json.dump(data, f)
 
 

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SMART Locations</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+    <style>
+
+        .cluster-icon {
+            width: 0;
+            height: 0;
+            border: 0;
+            padding: 0;
+        }
+
+        .cluster-icon b {
+            display: inline-block;
+            padding: 5px;
+            border: 1px solid #666;
+            border-radius: 8px;
+            transform: translate(-50%, -50%);
+            opacity: 0.9;
+        }
+
+        .red {
+            background: #CB2B3E;
+        }
+
+        .green {
+            background: #2AAD27;
+        }
+
+        .yellow {
+            background: #FFD326;
+        }
+
+        .blue {
+            background: #2A81CB;
+        }
+
+        .legend {
+            padding: 12px;
+            font-size: 15px;
+            background: white;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            line-height: 22px;
+        }
+
+        .legend .icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 5px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div id="map" style="height: calc(100vh - 20px)"></div>
+
+<script>
+    const map = L.map('map', {tap: false}).setView([43.6345704, 10.8227335], 10);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    fetch('./locations.json')
+        .then(response => response.json())
+        .then(data => {
+
+            const colors = ['red', 'green', 'blue', 'yellow']
+            const labels = ['SMART16', 'SMART24', 'SMART25', 'SMART26']
+            const icons = [getIcon('red'), getIcon('green'), getIcon('blue'), getIcon('gold')]
+
+            // Add clustered layers
+            for (let i = 0; i < data.stations.length; i++) {
+                const station = data.stations[i];
+                const markers = L.markerClusterGroup({
+                    iconCreateFunction: function (cluster) {
+                        return L.divIcon({
+                            html: '<b class="' + colors[i] + '">' + cluster.getChildCount() + '</b>',
+                            iconSize: 'auto',
+                            className: 'cluster-icon'
+                        });
+                    },
+                });
+                for (const coord of station.coords)
+                    markers.addLayer(L.marker([coord.lat, coord.long], {icon: icons[i]}).bindPopup(station.name));
+                map.addLayer(markers);
+            }
+
+            // Add legend
+            const legend = L.control({position: 'bottomleft'});
+            legend.onAdd = function (_) {
+                const div = L.DomUtil.create('ul', 'legend');
+                for (let i = 0; i < labels.length; i++) {
+                    div.innerHTML += '<i> <span class="icon" style="background: ' + colors[i] + '"></span> ' + labels[i] + '</i><br>'
+                }
+                return div;
+            };
+            legend.addTo(map);
+        })
+        .catch(error => console.log(error));
+
+    function getIcon(color) {
+        return new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-' + color + '.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+    }
+
+</script>
+
+</body>
+</html>
