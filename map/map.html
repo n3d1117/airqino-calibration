@@ -101,8 +101,17 @@
                         });
                     },
                 });
-                for (const coord of station.coords)
-                    markers.addLayer(L.marker([coord.lat, coord.long], {icon: icons[i]}).bindPopup(station.name));
+                for (const coord of station.coords) {
+                    let popupContent = '<b>' + station.name + '</b><br>';
+                    if (coord.from === coord.to)
+                        popupContent += '<b>Date: </b>' + coord.from;
+                    else
+                        popupContent += '<b>Date range: </b> ' + coord.from + ' → ' + coord.to;
+                    popupContent += '<br><b>Coords: </b> ' + coord.lat + ',' + coord.long;
+
+                    markers.addLayer(L.marker([coord.lat, coord.long], {icon: icons[i]})
+                        .bindPopup(popupContent));
+                }
                 map.addLayer(markers);
             }
 
