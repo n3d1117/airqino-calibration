@@ -3,3 +3,4 @@
 .DS_Store
 /data/smart
 /data/arpat_lucca
+/__pycache__
