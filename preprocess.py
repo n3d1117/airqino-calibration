@@ -237,6 +237,28 @@ def arpat_clean_no2_dataset(name):
     plt.savefig('generated_data/arpat/plot/{}_avg.png'.format(name.lower()))
 
 
+def arpat_clean_pm_dataset(name):
+    csv = 'data/arpat_lucca/{}.csv'.format(name)
+    df = pd.read_csv(csv)
+
+    # Convert data
+    df['data'] = pd.to_datetime(df.DATA, format='%d/%m/%Y') + pd.to_timedelta(df.ORA, unit='h')
+    df.drop(columns=['DATA', 'ORA', 'NO_LU-CAPANNORI', 'NOX_LU-CAPANNORI'], inplace=True)
+
+    # Localize date and convert to UTC
+    df.set_index('data', inplace=True)
+    df.index = df.index.tz_localize('Europe/Rome', ambiguous='NaT', nonexistent='NaT').tz_convert('utc')
+
+    # Drop NaN/NaT
+    df.dropna(inplace=True)
+
+    # Rename columns
+    df.columns = ['pm10', 'pm2.5']
+
+    # Save
+    df.to_csv('generated_data/arpat/{}_cleaned.csv'.format(name.lower()))
+
+
 if __name__ == '__main__':
     smart_stations_resample(station='SMART16', columns=['no2', 'pm2_5', 'pm10'])
     smart_stations_resample(station='SMART24', columns=['no2'])
@@ -247,4 +269,4 @@ if __name__ == '__main__':
     arpat_clean_no2_dataset(name='LU-MICHELETTO_NO2_2020')
     arpat_clean_no2_dataset(name='LU-SAN-CONCORDIO_NO2_2020')
 
-    # todo: arpat pm2.5 and pm10
+    arpat_clean_pm_dataset(name='LU-CAPANNORI_PM_Dati_Orari')
