@@ -5,7 +5,7 @@ def merge_datasets(ds1, ds2):
     return pd.merge(ds1, ds2, on='data', how='inner').dropna()
 
 
-def merge_and_save(df1, df2):
+def merge_and_save_no2(df1, df2):
     smart = pd.read_csv('generated_data/smart/{}_resampled.csv'.format(df1))
     smart.set_index('data', inplace=True)
     smart.index = pd.to_datetime(smart.index, utc=True)
@@ -22,8 +22,27 @@ def merge_and_save(df1, df2):
     merged.to_csv('generated_data/merged/{df1}-{df2}-no2.csv'.format(df1=df1, df2=df2))
 
 
+def merge_and_save_pm(df1, df2):
+    smart = pd.read_csv('generated_data/smart/{}_resampled.csv'.format(df1))
+    smart.set_index('data', inplace=True)
+    smart.index = pd.to_datetime(smart.index, utc=True)
+    smart.rename(columns={'pm2_5': 'airqino_pm2.5', 'pm10': 'airqino_pm10'}, inplace=True)
+    smart_pm = smart[['airqino_pm2.5', 'airqino_pm10']]
+
+    arpat = pd.read_csv('generated_data/arpat/lu-{}_pm_dati_orari_cleaned.csv'.format(df2))
+    arpat.set_index('data', inplace=True)
+    arpat.index = pd.to_datetime(arpat.index, utc=True)
+    arpat.rename(columns={'pm2.5': 'arpat_pm2.5', 'pm10': 'arpat_pm10'}, inplace=True)
+    arpat_pm = arpat[['arpat_pm2.5', 'arpat_pm10']]
+
+    merged = merge_datasets(smart_pm, arpat_pm)
+    merged.to_csv('generated_data/merged/{df1}-{df2}-pm.csv'.format(df1=df1, df2=df2))
+
+
 if __name__ == '__main__':
-    merge_and_save(df1='smart16', df2='capannori')
-    merge_and_save(df1='smart24', df2='micheletto')
-    merge_and_save(df1='smart25', df2='san-concordio')
-    merge_and_save(df1='smart26', df2='san-concordio')
+    merge_and_save_no2(df1='smart16', df2='capannori')
+    merge_and_save_no2(df1='smart24', df2='micheletto')
+    merge_and_save_no2(df1='smart25', df2='san-concordio')
+    merge_and_save_no2(df1='smart26', df2='san-concordio')
+
+    merge_and_save_pm(df1='smart16', df2='capannori')
