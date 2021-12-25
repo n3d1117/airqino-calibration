@@ -96,12 +96,21 @@ def print_annual_results(regressors_list, results, title):
 
 
 def print_monthly_results(regressors_list, month_results, title):
-    table = PrettyTable()
-    table.title = title
-    table.add_column('Regressor', regressors_list)
-    for res in month_results:
-        table.add_column(res['period'] + ' (' + res['values_count'] + ')', res['results'][0])
-    table.align = 'l'
+    def construct_table(i):
+        t = PrettyTable()
+        t.title = '{} | '.format('R²' if i == 0 else 'RMSE') + title
+        t.add_column('Regressor', regressors_list)
+        for res in month_results:
+            t.add_column(res['period'] + ' (' + res['values_count'] + ')', res['results'][i])
+        t.align = 'l'
+        return t
+
+    # R²
+    table = construct_table(0)
+    print(table)
+
+    # RMSE
+    table = construct_table(1)
     print(table)
 
 
@@ -125,24 +134,29 @@ if __name__ == '__main__':
         X = dataset['airqino_no2'].values.reshape((-1, 1))
         y = dataset['arpat_no2'].values
         results = evaluate(X, y)
-        print_annual_results(regressors, results, title='All year - NO2 for {}'.format(d.name))
+        print_annual_results(regressors, results, title='All year | NO2 | {}'.format(d.name))
 
         month_results = []
         for month in pd.date_range('2020-01-01', '2020-12-31', freq='MS'):
+            month_str = month.strftime('%b')
             month_start = month.strftime('%Y-%m-%d')
             month_end = (month + MonthEnd(1)).strftime('%Y-%m-%d')
 
             month_dataset = dataset.loc[month_start: month_end]
             if month_dataset.empty or len(month_dataset.index) < 30:
-                print('too few values for {m1} -> {m2} - NO2 - {d}'.format(m1=month_start, m2=month_end, d=d.name))
+                month_results.append({
+                    'results': [[0 for _ in regressors], [0 for _ in regressors]],
+                    'period': month_str,
+                    'values_count': str(len(month_dataset.index))
+                })
                 continue
 
             X = month_dataset['airqino_no2'].values.reshape((-1, 1))
             y = month_dataset['arpat_no2'].values
 
             results = evaluate(X, y)
-            month_results.append({'results': results, 'period': month.strftime('%b'), 'values_count': str(len(y))})
+            month_results.append({'results': results, 'period': month_str, 'values_count': str(len(y))})
 
-        print_monthly_results(regressors, month_results, title='Monthly results NO2 for {d}'.format(d=d.name))
+        print_monthly_results(regressors, month_results, title='Monthly results | NO2 | {d}'.format(d=d.name))
 
     # todo: add pm2.5 and pm10 too
