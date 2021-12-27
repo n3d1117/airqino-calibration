@@ -9,7 +9,20 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.svm import SVR
 
-from utils import get_no2_dataset, Dataset
+from utils import Dataset, get_dataset, get_pm_dataset
+
+
+def get_regressors():
+    return [
+        'Linear Regression',
+        'Huber Regression',
+        'Polynomial Regression',
+        'Random Forest Regression',
+        'Gradient Boosting Regression',
+        'SVR Regression (Linear Kernel)',
+        'SVR Regression (Polynomial Kernel)',
+        'SVR Regression (RBF Kernel)'
+    ]
 
 
 def avg(scores):
@@ -55,7 +68,7 @@ def apply_gradient_boosting_regression(X, y):
 
 def apply_svr_linear_regression(X, y):
     svr_lin = SVR(kernel='linear', C=10, gamma='scale')
-    return make_avg(svr_lin, X, y)  # , make_avg(svr_poly, X, y), make_avg(svr_rbf, X, y)
+    return make_avg(svr_lin, X, y)
 
 
 def apply_svr_polynomial_regression(X, y):
@@ -84,10 +97,10 @@ def evaluate(X, y):
     return r2_scores, rmse_scores
 
 
-def print_annual_results(regressors_list, results, title):
+def print_annual_results(results, title):
     table = PrettyTable()
     table.title = title
-    table.add_column('Regressor', regressors_list)
+    table.add_column('Regressor', get_regressors())
     table.add_column('R²', results[0])
     table.add_column('RMSE', results[1])
     table.align = 'l'
@@ -95,11 +108,11 @@ def print_annual_results(regressors_list, results, title):
     print(table)
 
 
-def print_monthly_results(regressors_list, month_results, title):
+def print_monthly_results(month_results, title):
     def construct_table(i):
         t = PrettyTable()
         t.title = '{} | '.format('R²' if i == 0 else 'RMSE') + title
-        t.add_column('Regressor', regressors_list)
+        t.add_column('Regressor', get_regressors())
         for res in month_results:
             t.add_column(res['period'] + ' (' + res['values_count'] + ')', res['results'][i])
         t.align = 'l'
@@ -114,49 +127,59 @@ def print_monthly_results(regressors_list, month_results, title):
     print(table)
 
 
-if __name__ == '__main__':
+def annual_summary(dataset, station, chemical):
+    X = dataset['airqino_{}'.format(chemical)].values.reshape((-1, 1))
+    y = dataset['arpat_{}'.format(chemical)].values
+    results = evaluate(X, y)
+    print_annual_results(results, title='All year | {c} | {n}'.format(c=chemical.upper(), n=station))
 
-    regressors = [
-        'Linear Regression',
-        'Huber Regression',
-        'Polynomial Regression',
-        'Random Forest Regression',
-        'Gradient Boosting Regression',
-        'SVR Regression (Linear Kernel)',
-        'SVR Regression (Polynomial Kernel)',
-        'SVR Regression (RBF Kernel)'
-    ]
 
-    # NO2
-    for d in [Dataset.SMART16, Dataset.SMART24, Dataset.SMART25, Dataset.SMART26]:
-        dataset = get_no2_dataset(d)
+def monthly_summary(dataset, station, chemical):
+    month_results = []
+    for month in pd.date_range('2020-01-01', '2020-12-31', freq='MS'):
+        month_str = month.strftime('%b')
+        month_start = month.strftime('%Y-%m-%d')
+        month_end = (month + MonthEnd(1)).strftime('%Y-%m-%d')
 
-        X = dataset['airqino_no2'].values.reshape((-1, 1))
-        y = dataset['arpat_no2'].values
+        month_dataset = dataset.loc[month_start: month_end]
+        if month_dataset.empty or len(month_dataset.index) < 30:
+            month_results.append({
+                'results': [[0 for _ in get_regressors()], [0 for _ in get_regressors()]],
+                'period': month_str,
+                'values_count': str(len(month_dataset.index))
+            })
+            continue
+
+        X = month_dataset['airqino_{}'.format(chemical)].values.reshape((-1, 1))
+        y = month_dataset['arpat_{}'.format(chemical)].values
+
         results = evaluate(X, y)
-        print_annual_results(regressors, results, title='All year | NO2 | {}'.format(d.name))
+        month_results.append({'results': results, 'period': month_str, 'values_count': str(len(y))})
 
-        month_results = []
-        for month in pd.date_range('2020-01-01', '2020-12-31', freq='MS'):
-            month_str = month.strftime('%b')
-            month_start = month.strftime('%Y-%m-%d')
-            month_end = (month + MonthEnd(1)).strftime('%Y-%m-%d')
+    print_monthly_results(month_results, title='Monthly results | {c} | {d}'.format(c=chemical.upper(), d=station))
 
-            month_dataset = dataset.loc[month_start: month_end]
-            if month_dataset.empty or len(month_dataset.index) < 30:
-                month_results.append({
-                    'results': [[0 for _ in regressors], [0 for _ in regressors]],
-                    'period': month_str,
-                    'values_count': str(len(month_dataset.index))
-                })
-                continue
 
-            X = month_dataset['airqino_no2'].values.reshape((-1, 1))
-            y = month_dataset['arpat_no2'].values
+if __name__ == '__main__':
+    # SMART16 - NO2
+    annual_summary(dataset=get_dataset(Dataset.SMART16_NO2), station='SMART16-CAPANNORI', chemical='no2')
+    monthly_summary(dataset=get_dataset(Dataset.SMART16_NO2), station='SMART16-CAPANNORI', chemical='no2')
 
-            results = evaluate(X, y)
-            month_results.append({'results': results, 'period': month_str, 'values_count': str(len(y))})
+    # SMART16 - PM2.5
+    annual_summary(dataset=get_pm_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm2.5')
+    monthly_summary(dataset=get_pm_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm2.5')
 
-        print_monthly_results(regressors, month_results, title='Monthly results | NO2 | {d}'.format(d=d.name))
+    # SMART16 - PM10
+    annual_summary(dataset=get_pm_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm10')
+    monthly_summary(dataset=get_pm_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm10')
 
-    # todo: add pm2.5 and pm10 too
+    # SMART24 - NO2
+    annual_summary(dataset=get_dataset(Dataset.SMART24), station='SMART24-MICHELETTO', chemical='no2')
+    monthly_summary(dataset=get_dataset(Dataset.SMART24), station='SMART24-MICHELETTO', chemical='no2')
+
+    # SMART25 - NO2
+    annual_summary(dataset=get_dataset(Dataset.SMART25), station='SMART25-SAN CONCORDIO', chemical='no2')
+    monthly_summary(dataset=get_dataset(Dataset.SMART25), station='SMART25-SAN CONCORDIO', chemical='no2')
+
+    # SMART26 - NO2
+    annual_summary(dataset=get_dataset(Dataset.SMART26), station='SMART26-SAN CONCORDIO', chemical='no2')
+    monthly_summary(dataset=get_dataset(Dataset.SMART26), station='SMART26-SAN CONCORDIO', chemical='no2')

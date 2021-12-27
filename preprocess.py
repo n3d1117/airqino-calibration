@@ -1,5 +1,3 @@
-import matplotlib.dates as mdates
-import matplotlib.pyplot as plt
 import pandas as pd
 
 
@@ -22,29 +20,6 @@ def smart_stations_resample(station, columns):
     df = grouped.mean().round(3)
     df['n_data_points'] = grouped[columns[0]].count()
     df.to_csv('generated_data/smart/{}_resampled.csv'.format(station.lower()))
-
-    # Plot count
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    ax.bar(df.index, df['n_data_points'])
-    ax.set_title('{} - Number of data points every hour'.format(station))
-    ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%y'))
-    ax.tick_params(axis='x', which='major', labelsize=9)
-    fig.autofmt_xdate()
-    plt.savefig('generated_data/smart/plot/{}_count.png'.format(station.lower()))
-
-    # Plot average
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    ax.bar(df.index, df['no2'])
-    ax.set_ylabel('counts')
-    ax.set_title('{} - NO2 Average'.format(station))
-    ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%y'))
-    ax.tick_params(axis='x', which='major', labelsize=9)
-    fig.autofmt_xdate()
-    plt.savefig('generated_data/smart/plot/{}_avg.png'.format(station.lower()))
 
 
 def fix_dst_smart16(df):
@@ -224,17 +199,6 @@ def arpat_clean_no2_dataset(name):
 
     # Save
     df.to_csv('generated_data/arpat/{}_cleaned.csv'.format(name.lower()))
-
-    # Plot
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    ax.bar(df.index, df['avg'])
-    ax.set_title('{} - NO2 Average'.format(name))
-    ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%y'))
-    ax.tick_params(axis='x', which='major', labelsize=9)
-    fig.autofmt_xdate()
-    plt.savefig('generated_data/arpat/plot/{}_avg.png'.format(name.lower()))
 
 
 def arpat_clean_pm_dataset(name):
