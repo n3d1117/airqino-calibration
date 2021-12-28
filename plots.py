@@ -1,6 +1,19 @@
 import matplotlib.dates as mdates
 import pandas as pd
 from matplotlib import pyplot as plt
+from pandas.tseries.offsets import MonthEnd
+
+from utils import get_dataset, Dataset
+
+
+def scatterplot(X, y, title, filename):
+    plt.scatter(X, y, color='tab:blue', marker='.', label='Data')
+    plt.legend(loc='upper right')
+    plt.xlabel('AirQino (counts)')
+    plt.ylabel('ARPAT (µg/m³)')
+    plt.title(title)
+    plt.savefig('generated_data/scatterplot/{}.png'.format(filename))
+    plt.show()
 
 
 def plot(df, column, ylabel, title, filename, month_freq=1):
@@ -14,6 +27,19 @@ def plot(df, column, ylabel, title, filename, month_freq=1):
     ax.tick_params(axis='x', which='major', labelsize=9)
     fig.autofmt_xdate()
     plt.savefig('generated_data/plots/{}.png'.format(filename.lower()))
+
+
+def plot_compare(ds1, ds2, label1, label2, title, filename):
+    fig = plt.figure(figsize=(12, 6))
+    ax = fig.add_subplot(111)
+    l1 = ax.plot(ds1, color='tab:red', label=label1)
+    ax.tick_params(axis='y', labelcolor='tab:red')
+    ax2 = ax.twinx()
+    l2 = ax2.plot(ds2, color='tab:blue', label=label2)
+    ax2.tick_params(axis='y', labelcolor='tab:blue')
+    ax2.legend(l1 + l2, [l.get_label() for l in l1 + l2], loc='upper right')
+    plt.title(title)
+    plt.savefig('generated_data/plots/compare/{}.png'.format(filename))
 
 
 def get_smart_dataset(station):
@@ -30,8 +56,7 @@ def get_arpat_dataset(name):
     return df
 
 
-if __name__ == '__main__':
-
+def plot_avg_count():
     # SMART NO2 + Data Points
     for station in ['smart16', 'smart24', 'smart25', 'smart26']:
         df = get_smart_dataset(station)
@@ -65,3 +90,67 @@ if __name__ == '__main__':
              filename='arpat/{}_pm2.5'.format(name), month_freq=6)
         plot(df=df, column='pm10', ylabel='µg/m³', title='{} - PM10'.format(name),
              filename='arpat/{}_pm10'.format(name), month_freq=6)
+
+
+def scatterplots():
+    for dataset in [Dataset.SMART16_NO2, Dataset.SMART24, Dataset.SMART25, Dataset.SMART26]:
+        df = get_dataset(dataset)
+        X = df['airqino_no2'].values.reshape((-1, 1))
+        y = df['arpat_no2'].values
+        scatterplot(X, y, title='{} | NO2'.format(dataset.name), filename='{}'.format(dataset.name.lower()))
+
+    for dataset in [Dataset.SMART16_PM]:
+        df = get_dataset(dataset)
+
+        X = df['airqino_pm2.5'].values.reshape((-1, 1))
+        y = df['arpat_pm2.5'].values
+        scatterplot(X, y, title='{} | PM2.5'.format(dataset.name), filename='{}2.5'.format(dataset.name.lower()))
+
+        X = df['airqino_pm10'].values.reshape((-1, 1))
+        y = df['arpat_pm10'].values
+        scatterplot(X, y, title='{} | PM10'.format(dataset.name), filename='{}10'.format(dataset.name.lower()))
+
+
+def plot_compares():
+    for dataset in [Dataset.SMART16_NO2, Dataset.SMART24, Dataset.SMART25, Dataset.SMART26]:
+        df = get_dataset(dataset)
+        plot_compare(df['airqino_no2'], df['arpat_no2'], label1='AirQino', label2='ARPAT',
+                     title='{} | NO2'.format(dataset.name), filename='{}_no2'.format(dataset.name.lower()))
+
+        for month in pd.date_range('2020-01-01', '2020-12-31', freq='MS'):
+            month_str = month.strftime('%b')
+            month_start = month.strftime('%Y-%m-%d')
+            month_end = (month + MonthEnd(1)).strftime('%Y-%m-%d')
+            month_dataset = df.loc[month_start: month_end]
+            plot_compare(month_dataset['airqino_no2'], month_dataset['arpat_no2'], label1='AirQino', label2='ARPAT',
+                         title='{d} | NO2 | {m}'.format(d=dataset.name, m=month_str),
+                         filename='{d}_no2_{m}'.format(d=dataset.name.lower(), m=month_str.lower()))
+
+    for dataset in [Dataset.SMART16_PM]:
+        df = get_dataset(dataset)
+        plot_compare(df['airqino_pm2.5'], df['arpat_pm2.5'], label1='AirQino', label2='ARPAT',
+                     title='{} | PM2.5'.format(dataset.name), filename='{}2.5'.format(dataset.name.lower()))
+        plot_compare(df['airqino_pm10'], df['arpat_pm2.5'], label1='AirQino', label2='ARPAT',
+                     title='{} | PM10'.format(dataset.name), filename='{}10'.format(dataset.name.lower()))
+        for month in pd.date_range('2020-01-01', '2020-12-31', freq='MS'):
+            month_str = month.strftime('%b')
+            month_start = month.strftime('%Y-%m-%d')
+            month_end = (month + MonthEnd(1)).strftime('%Y-%m-%d')
+            month_dataset = df.loc[month_start: month_end]
+            plot_compare(month_dataset['airqino_pm2.5'], month_dataset['airqino_pm2.5'], label1='AirQino',
+                         label2='ARPAT',
+                         title='{d} | PM2.5 | {m}'.format(d=dataset.name, m=month_str),
+                         filename='{d}_pm2.5_{m}'.format(d=dataset.name.lower(), m=month_str.lower()))
+            plot_compare(month_dataset['airqino_pm10'], month_dataset['airqino_pm10'], label1='AirQino', label2='ARPAT',
+                         title='{d} | PM10 | {m}'.format(d=dataset.name, m=month_str),
+                         filename='{d}_pm10_{m}'.format(d=dataset.name.lower(), m=month_str.lower()))
+
+
+if __name__ == '__main__':
+    plot_avg_count()
+    scatterplots()
+    plot_compares()
+
+    # todo: residuals
+    # todo: put csv structure in sketch
+    # todo qualitative summary
