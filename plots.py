@@ -138,8 +138,7 @@ def plot_compares():
             month_end = (month + MonthEnd(1)).strftime('%Y-%m-%d')
             month_dataset = df.loc[month_start: month_end]
             plot_compare(month_dataset['airqino_pm2.5'], month_dataset['airqino_pm2.5'], label1='AirQino',
-                         label2='ARPAT',
-                         title='{d} | PM2.5 | {m}'.format(d=dataset.name, m=month_str),
+                         label2='ARPAT', title='{d} | PM2.5 | {m}'.format(d=dataset.name, m=month_str),
                          filename='{d}_pm2.5_{m}'.format(d=dataset.name.lower(), m=month_str.lower()))
             plot_compare(month_dataset['airqino_pm10'], month_dataset['airqino_pm10'], label1='AirQino', label2='ARPAT',
                          title='{d} | PM10 | {m}'.format(d=dataset.name, m=month_str),
@@ -152,5 +151,6 @@ if __name__ == '__main__':
     plot_compares()
 
     # todo: residuals
+    # todo n_jobs=-1 a tutti
     # todo: put csv structure in sketch
     # todo qualitative summary

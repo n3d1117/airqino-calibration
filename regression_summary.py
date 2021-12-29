@@ -1,27 +1,23 @@
 import pandas as pd
 from pandas.tseries.offsets import MonthEnd
 from prettytable import PrettyTable
-from sklearn import linear_model
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.svm import SVR
 
-from utils import Dataset, get_dataset, get_pm_dataset
+from regression_models import *
+from utils import Dataset, get_dataset
 
 
 def get_regressors():
     return [
-        'Linear Regression',
-        'Huber Regression',
-        'Polynomial Regression',
-        'Random Forest Regression',
-        'Gradient Boosting Regression',
-        'SVR Regression (Linear Kernel)',
-        'SVR Regression (Polynomial Kernel)',
-        'SVR Regression (RBF Kernel)'
+        'Linear',
+        'Huber',
+        'Polynomial',
+        'Random Forest',
+        'Gradient Boosting',
+        'SVR (Linear Kernel)',
+        'SVR (Polynomial Kernel)',
+        'SVR (RBF Kernel)'
     ]
 
 
@@ -40,45 +36,35 @@ def make_avg(predictor, X, y, n=5):
 
 
 def apply_linear_regression(X, y):
-    lr = linear_model.LinearRegression()
-    return make_avg(lr, X, y)
+    return make_avg(get_linear_model(), X, y)
 
 
 def apply_huber_regression(X, y):
-    huber = linear_model.HuberRegressor(epsilon=3)
-    return make_avg(huber, X, y)
+    return make_avg(get_huber_model(), X, y)
 
 
 def apply_poly_regression(X, y):
-    pipe = make_pipeline(PolynomialFeatures(degree=2), linear_model.LinearRegression())
-    return make_avg(pipe, X, y)
+    return make_avg(get_polynomial_model(), X, y)
 
 
 def apply_random_forest_regression(X, y):
-    rf = RandomForestRegressor(n_estimators=10)
-    return make_avg(rf, X, y)
+    return make_avg(get_random_forest_model(), X, y)
 
 
 def apply_gradient_boosting_regression(X, y):
-    params = {'learning_rate': 0.01, 'loss': 'squared_error', 'max_depth': 3, 'min_samples_split': 10,
-              'n_estimators': 100}
-    gb = GradientBoostingRegressor(**params)
-    return make_avg(gb, X, y)
+    return make_avg(get_gradient_boosting_model(), X, y)
 
 
 def apply_svr_linear_regression(X, y):
-    svr_lin = SVR(kernel='linear', C=10, gamma='scale')
-    return make_avg(svr_lin, X, y)
+    return make_avg(get_svr_linear_model(), X, y)
 
 
 def apply_svr_polynomial_regression(X, y):
-    svr_poly = SVR(kernel='poly', C=10, gamma='scale', degree=2)
-    return make_avg(svr_poly, X, y)
+    return make_avg(get_svr_polynomial_model(), X, y)
 
 
 def apply_rbf_polynomial_regression(X, y):
-    svr_rbf = SVR(kernel='rbf', C=100, gamma='scale', epsilon=0.1)
-    return make_avg(svr_rbf, X, y)
+    return make_avg(get_svr_rbf_model(), X, y)
 
 
 def evaluate(X, y):
@@ -100,7 +86,7 @@ def evaluate(X, y):
 def print_annual_results(results, title):
     table = PrettyTable()
     table.title = title
-    table.add_column('Regressor', get_regressors())
+    table.add_column('Regression Model', get_regressors())
     table.add_column('R²', results[0])
     table.add_column('RMSE', results[1])
     table.align = 'l'
@@ -165,12 +151,12 @@ if __name__ == '__main__':
     monthly_summary(dataset=get_dataset(Dataset.SMART16_NO2), station='SMART16-CAPANNORI', chemical='no2')
 
     # SMART16 - PM2.5
-    annual_summary(dataset=get_pm_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm2.5')
-    monthly_summary(dataset=get_pm_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm2.5')
+    annual_summary(dataset=get_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm2.5')
+    monthly_summary(dataset=get_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm2.5')
 
     # SMART16 - PM10
-    annual_summary(dataset=get_pm_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm10')
-    monthly_summary(dataset=get_pm_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm10')
+    annual_summary(dataset=get_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm10')
+    monthly_summary(dataset=get_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm10')
 
     # SMART24 - NO2
     annual_summary(dataset=get_dataset(Dataset.SMART24), station='SMART24-MICHELETTO', chemical='no2')
