@@ -6,7 +6,7 @@ from sklearn.svm import SVR
 
 
 def get_linear_model():
-    return linear_model.LinearRegression()
+    return linear_model.LinearRegression(n_jobs=-1)
 
 
 def get_huber_model():
@@ -14,11 +14,11 @@ def get_huber_model():
 
 
 def get_polynomial_model():
-    return make_pipeline(PolynomialFeatures(degree=2), linear_model.LinearRegression())
+    return make_pipeline(PolynomialFeatures(degree=2), linear_model.LinearRegression(n_jobs=-1))
 
 
 def get_random_forest_model():
-    return RandomForestRegressor(n_estimators=10)
+    return RandomForestRegressor(n_estimators=10, n_jobs=-1)
 
 
 def get_gradient_boosting_model():

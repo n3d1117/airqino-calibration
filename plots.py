@@ -62,7 +62,8 @@ def plot_avg_count():
         df = get_smart_dataset(station)
         plot(df=df, column='no2', ylabel='counts', title='{} - NO2'.format(station.upper()),
              filename='smart/{}_no2'.format(station))
-        plot(df=df, column='n_data_points', ylabel='# data points', title='Data points',
+        plot(df=df, column='n_data_points', ylabel='# data points / h',
+             title='{} -  Number of data points every hour'.format(station.upper()),
              filename='smart/{}_count'.format(station))
 
     # SMART PM2.5
@@ -149,8 +150,3 @@ if __name__ == '__main__':
     plot_avg_count()
     scatterplots()
     plot_compares()
-
-    # todo: residuals
-    # todo n_jobs=-1 a tutti
-    # todo: put csv structure in sketch
-    # todo qualitative summary
