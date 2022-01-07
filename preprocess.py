@@ -224,13 +224,14 @@ def arpat_clean_pm_dataset(name):
 
 
 if __name__ == '__main__':
-    smart_stations_resample(station='SMART16', columns=['no2', 'pm2_5', 'pm10'])
-    smart_stations_resample(station='SMART24', columns=['no2'])
-    smart_stations_resample(station='SMART25', columns=['no2', 'pm10'])
-    smart_stations_resample(station='SMART26', columns=['no2', 'pm10'])
+    # smart_stations_resample(station='SMART16', columns=['no2', 'pm2_5', 'pm10'])
+    # smart_stations_resample(station='SMART24', columns=['no2'])
+    # smart_stations_resample(station='SMART25', columns=['no2', 'pm10'])
+    # smart_stations_resample(station='SMART26', columns=['no2', 'pm10'])
+    smart_stations_resample(station='SMART16_new', columns=['no2', 'pm2_5', 'pm10'])
 
     arpat_clean_no2_dataset(name='LU-CAPANNORI_NO2_2020')
-    arpat_clean_no2_dataset(name='LU-MICHELETTO_NO2_2020')
-    arpat_clean_no2_dataset(name='LU-SAN-CONCORDIO_NO2_2020')
+    # arpat_clean_no2_dataset(name='LU-MICHELETTO_NO2_2020')
+    # arpat_clean_no2_dataset(name='LU-SAN-CONCORDIO_NO2_2020')
 
     arpat_clean_pm_dataset(name='LU-CAPANNORI_PM_Dati_Orari')
