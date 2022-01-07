@@ -5,7 +5,9 @@ import pandas as pd
 
 class Dataset(Enum):
     SMART16_NO2 = 'smart16-capannori-no2'
-    SMART16_PM = 'smart16-capannori-pm'
+
+    SMART16_NEW_PM = 'smart16_new-capannori-pm'
+
     SMART24 = 'smart24-micheletto-no2'
     SMART25 = 'smart25-san-concordio-no2'
     SMART26 = 'smart26-san-concordio-no2'

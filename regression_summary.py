@@ -121,8 +121,12 @@ def annual_summary(dataset, station, chemical):
 
 
 def monthly_summary(dataset, station, chemical):
+    if chemical == 'no2':
+        date_range = pd.date_range('2020-01-01', '2020-12-31', freq='MS')
+    else:
+        date_range = pd.date_range('2020-09-01', '2021-08-31', freq='MS')
     month_results = []
-    for month in pd.date_range('2020-01-01', '2020-12-31', freq='MS'):
+    for month in date_range:
         month_str = month.strftime('%b')
         month_start = month.strftime('%Y-%m-%d')
         month_end = (month + MonthEnd(1)).strftime('%Y-%m-%d')
@@ -151,21 +155,9 @@ if __name__ == '__main__':
     monthly_summary(dataset=get_dataset(Dataset.SMART16_NO2), station='SMART16-CAPANNORI', chemical='no2')
 
     # SMART16 - PM2.5
-    annual_summary(dataset=get_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm2.5')
-    monthly_summary(dataset=get_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm2.5')
+    annual_summary(dataset=get_dataset(Dataset.SMART16_NEW_PM), station='SMART16_new-CAPANNORI', chemical='pm2.5')
+    monthly_summary(dataset=get_dataset(Dataset.SMART16_NEW_PM), station='SMART16_new-CAPANNORI', chemical='pm2.5')
 
     # SMART16 - PM10
-    annual_summary(dataset=get_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm10')
-    monthly_summary(dataset=get_dataset(Dataset.SMART16_PM), station='SMART16-CAPANNORI', chemical='pm10')
-
-    # SMART24 - NO2
-    annual_summary(dataset=get_dataset(Dataset.SMART24), station='SMART24-MICHELETTO', chemical='no2')
-    monthly_summary(dataset=get_dataset(Dataset.SMART24), station='SMART24-MICHELETTO', chemical='no2')
-
-    # SMART25 - NO2
-    annual_summary(dataset=get_dataset(Dataset.SMART25), station='SMART25-SAN CONCORDIO', chemical='no2')
-    monthly_summary(dataset=get_dataset(Dataset.SMART25), station='SMART25-SAN CONCORDIO', chemical='no2')
-
-    # SMART26 - NO2
-    annual_summary(dataset=get_dataset(Dataset.SMART26), station='SMART26-SAN CONCORDIO', chemical='no2')
-    monthly_summary(dataset=get_dataset(Dataset.SMART26), station='SMART26-SAN CONCORDIO', chemical='no2')
+    annual_summary(dataset=get_dataset(Dataset.SMART16_NEW_PM), station='SMART16_new-CAPANNORI', chemical='pm10')
+    monthly_summary(dataset=get_dataset(Dataset.SMART16_NEW_PM), station='SMART16_new-CAPANNORI', chemical='pm10')

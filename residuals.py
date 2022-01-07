@@ -37,11 +37,16 @@ def execute(ds, chemical):
     y = dataset['arpat_{}'.format(chemical)].values
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
 
+    if chemical == 'no2':
+        date_range = pd.date_range('2020-01-01', '2020-12-31', freq='MS')
+    else:
+        date_range = pd.date_range('2020-09-01', '2021-08-31', freq='MS')
+
     for (name, model) in get_models().items():
         plot_residuals(model, X_train, X_test, y_train, y_test, station=ds.name, chemical=chemical, period='All year',
                        filename='{d}_{c}_{m}'.format(d=ds.name.lower(), c=chemical, m=name))
 
-        for month in pd.date_range('2020-01-01', '2020-12-31', freq='MS'):
+        for month in date_range:
             month_str = month.strftime('%b')
             month_start = month.strftime('%Y-%m-%d')
             month_end = (month + MonthEnd(1)).strftime('%Y-%m-%d')
@@ -60,9 +65,9 @@ def execute(ds, chemical):
 
 if __name__ == '__main__':
 
-    for ds in [Dataset.SMART16_NO2, Dataset.SMART24, Dataset.SMART25, Dataset.SMART26]:
+    for ds in [Dataset.SMART16_NO2]:
         execute(ds, chemical='no2')
 
-    for ds in [Dataset.SMART16_PM]:
+    for ds in [Dataset.SMART16_NEW_PM]:
         execute(ds, chemical='pm2.5')
         execute(ds, chemical='pm10')

@@ -40,12 +40,10 @@ def merge_and_save_pm(df1, df2):
 
 
 if __name__ == '__main__':
-    # merge_and_save_no2(df1='smart16', df2='capannori')
+    merge_and_save_no2(df1='smart16', df2='capannori')
     # merge_and_save_no2(df1='smart24', df2='micheletto')
     # merge_and_save_no2(df1='smart25', df2='san-concordio')
     # merge_and_save_no2(df1='smart26', df2='san-concordio')
 
     # merge_and_save_pm(df1='smart16', df2='capannori')
-
-    merge_and_save_no2(df1='smart16_new', df2='capannori')
     merge_and_save_pm(df1='smart16_new', df2='capannori')
