@@ -106,7 +106,6 @@ def scatterplots():
 
     for dataset in [Dataset.SMART16_NEW_PM]:
         df = get_dataset(dataset)
-        print(df)
         X = df['airqino_pm2.5'].values
         y = df['arpat_pm2.5'].values
         scatterplot(X, y, title='{} | PM2.5'.format(dataset.name), filename='{}2.5'.format(dataset.name.lower()))
