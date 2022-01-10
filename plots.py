@@ -74,13 +74,13 @@ def plot_avg_count():
     # SMART PM2.5
     for station in ['smart16_new']:
         df = get_smart_dataset(station)
-        plot(df=df, column='pm2_5', ylabel='counts', title='{} - PM2.5'.format(station.upper()),
+        plot(df=df, column='pm2_5', ylabel='µg/m³', title='{} - PM2.5'.format(station.upper()),
              filename='smart/{}_pm2.5'.format(station))
 
     # SMART PM10
     for station in ['smart16_new']:
         df = get_smart_dataset(station)
-        plot(df=df, column='pm10', ylabel='counts', title='{} - PM10'.format(station.upper()),
+        plot(df=df, column='pm10', ylabel='µg/m³', title='{} - PM10'.format(station.upper()),
              filename='smart/{}_pm10'.format(station))
 
     # ARPAT NO2
@@ -149,38 +149,7 @@ def plot_compares():
                          filename='{d}_pm10_{m}'.format(d=dataset.name.lower(), m=month_str.lower()))
 
 
-def plot_tair():
-    df = pd.read_csv('data/smart/{}.csv'.format('SMART16_new'))
-    df.set_index('data', inplace=True)
-    df.index = pd.to_datetime(df.index, utc=True)
-
-    def do_plot(dataset, locator, title, filename):
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        ax.plot(dataset.index, dataset['tair'])
-        ax.set_title(title)
-        ax.set_ylabel('Degrees (°C)')
-        ax.xaxis.set_major_locator(locator)
-        ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%y'))
-        ax.tick_params(axis='x', which='major', labelsize=9)
-        fig.autofmt_xdate()
-        plt.savefig('generated_data/plots/tair/{}.png'.format(filename))
-
-    do_plot(df, mdates.MonthLocator(interval=1), 'Temperature (TAIR) | All year', filename='tair')
-
-    date_range = pd.date_range('2020-09-01', '2021-08-31', freq='MS')
-    for month in date_range:
-        month_str = month.strftime('%B')
-        month_start = month.strftime('%Y-%m-%d')
-        month_end = (month + MonthEnd(1)).strftime('%Y-%m-%d')
-
-        month_dataset = df.loc[month_start: month_end]
-        do_plot(month_dataset, mdates.DayLocator(interval=3), 'Temperature (TAIR) | {}'.format(month_str),
-                filename='tair_{}'.format(month_str.lower()))
-
-
 if __name__ == '__main__':
-    # plot_avg_count()
-    # scatterplots()
-    # plot_compares()
-    plot_tair()
+    plot_avg_count()
+    scatterplots()
+    plot_compares()
