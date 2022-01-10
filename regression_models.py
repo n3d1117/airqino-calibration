@@ -14,7 +14,7 @@ def get_huber_model():
 
 
 def get_polynomial_model():
-    return make_pipeline(PolynomialFeatures(degree=2), linear_model.LinearRegression(n_jobs=-1))
+    return make_pipeline(PolynomialFeatures(degree=2, include_bias=False), linear_model.LinearRegression(n_jobs=-1))
 
 
 def get_random_forest_model():

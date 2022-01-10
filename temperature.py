@@ -44,33 +44,33 @@ if __name__ == '__main__':
         Y_pred = linear_regressor.predict(X)
         plt.plot(X, Y_pred)
     ax.legend(loc='upper right')
-    ax.set_xlabel('Temp')
-    ax.set_ylabel('PM2.5')
-    ax.set_title('TAIR vs PM2.5')
+    ax.set_xlabel('Temperature (°C)')
+    ax.set_ylabel('PM2.5 (µg/m³)')
+    ax.set_title('SMART16 | TAIR vs PM2.5')
+    plt.savefig('generated_data/plots/tair/scatterplot.png')
 
 
-    def compare_(df, start, end):
+    def compare_(df, start, end, period):
         fig = plt.figure()
         month_dataset = df.loc[start: end]
         ax = fig.add_subplot(111)
-        l1 = ax.plot(month_dataset['tair'], color='tab:red', label='tair', alpha=.7)
+        l1 = ax.plot(month_dataset['tair'], color='tab:red', label='temp (°C)', alpha=.7)
         ax.tick_params(axis='y', labelcolor='tab:red')
         ax2 = ax.twinx()
-        l2 = ax2.plot(month_dataset['pm2_5'], color='tab:blue', label='pm', alpha=.7)
+        l2 = ax2.plot(month_dataset['pm2_5'], color='tab:blue', label='pm2.5 (µg/m³)', alpha=.7)
         ax2.tick_params(axis='y', labelcolor='tab:blue')
         ax2.legend(l1 + l2, [l.get_label() for l in l1 + l2], loc='best')
         ax.xaxis.set_major_locator(mdates.HourLocator(interval=12))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%y %H:00'))
         fig.autofmt_xdate()
-        plt.title('TAIR vs PM2.5 | Period: {} - {}'.format(start, end))
+        plt.title('SMART16 | TAIR vs PM2.5 | {}'.format(period))
+        plt.savefig('generated_data/plots/tair/tair_pm2.5_compare_{}.png'.format(period.lower()))
 
 
     df = df[['pm2_5', 'pm10', 'tair']]
     grouped = df.groupby(pd.Grouper(freq='60Min'))
     df = grouped.mean().round(3)
-    compare_(df, '2020-11-19', '2020-11-24')
-    compare_(df, '2021-02-19', '2021-02-24')
-    compare_(df, '2021-05-19', '2021-05-24')
-    compare_(df, '2021-08-19', '2021-08-24')
-
-    plt.show()
+    compare_(df, '2020-11-19', '2020-11-24', 'November')
+    compare_(df, '2021-02-19', '2021-02-24', 'February')
+    compare_(df, '2021-05-19', '2021-05-24', 'May')
+    compare_(df, '2021-08-19', '2021-08-24', 'August')
