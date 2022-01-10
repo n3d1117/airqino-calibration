@@ -11,7 +11,7 @@ def scatterplot(X, y, title, filename):
     ax = fig.add_subplot(111)
     ax.scatter(X, y, color='tab:blue', marker='.', label='Data')
     ax.legend(loc='upper right')
-    ax.set_xlabel('AirQino (counts)')
+    ax.set_xlabel('AirQino (µg/m³)')
     ax.set_ylabel('ARPAT (µg/m³)')
     ax.set_title(title)
     plt.savefig('generated_data/plots/scatterplot/{}.png'.format(filename))
@@ -104,7 +104,7 @@ def scatterplots():
         y = df['arpat_no2'].values
         scatterplot(X, y, title='{} | NO2'.format(dataset.name), filename='{}'.format(dataset.name.lower()))
 
-    for dataset in [Dataset.SMART16_NEW_PM]:
+    for dataset in [Dataset.SMART16_NEW_PM_24H]:
         df = get_dataset(dataset)
         X = df['airqino_pm2.5'].values
         y = df['arpat_pm2.5'].values
@@ -149,7 +149,37 @@ def plot_compares():
                          filename='{d}_pm10_{m}'.format(d=dataset.name.lower(), m=month_str.lower()))
 
 
+def plot_tair():
+    df = pd.read_csv('data/smart/{}.csv'.format('SMART16_new'))
+    df.set_index('data', inplace=True)
+    df.index = pd.to_datetime(df.index, utc=True)
+
+    def do_plot(dataset, locator, title):
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        ax.plot(dataset.index, dataset['tair'])
+        ax.set_title(title)
+        ax.set_ylabel('Degrees (°C)')
+        ax.xaxis.set_major_locator(locator)
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%y'))
+        ax.tick_params(axis='x', which='major', labelsize=9)
+        fig.autofmt_xdate()
+        plt.show()
+
+    do_plot(df, mdates.MonthLocator(interval=1), 'Temperature (TAIR) | All year')
+
+    date_range = pd.date_range('2020-09-01', '2021-08-31', freq='MS')
+    for month in date_range:
+        month_str = month.strftime('%B')
+        month_start = month.strftime('%Y-%m-%d')
+        month_end = (month + MonthEnd(1)).strftime('%Y-%m-%d')
+
+        month_dataset = df.loc[month_start: month_end]
+        do_plot(month_dataset, mdates.DayLocator(interval=3), 'Temperature (TAIR) | {}'.format(month_str))
+
+
 if __name__ == '__main__':
-    plot_avg_count()
+    # plot_avg_count()
     scatterplots()
-    plot_compares()
+    # plot_compares()
+    # plot_tair()

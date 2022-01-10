@@ -86,7 +86,7 @@ def evaluate(X, y):
 def print_annual_results(results, title):
     table = PrettyTable()
     table.title = title
-    table.add_column('Regression Model', get_regressors())
+    table.add_column('Regressor', get_regressors())
     table.add_column('R²', results[0])
     table.add_column('RMSE', results[1])
     table.align = 'l'
@@ -117,10 +117,10 @@ def annual_summary(dataset, station, chemical):
     X = dataset['airqino_{}'.format(chemical)].values.reshape((-1, 1))
     y = dataset['arpat_{}'.format(chemical)].values
     results = evaluate(X, y)
-    print_annual_results(results, title='All year | {c} | {n}'.format(c=chemical.upper(), n=station))
+    print_annual_results(results, title='All year | {n} | {c}'.format(c=chemical.upper(), n=station))
 
 
-def monthly_summary(dataset, station, chemical):
+def monthly_summary(dataset, station, chemical, is_24h=False):
     if chemical == 'no2':
         date_range = pd.date_range('2020-01-01', '2020-12-31', freq='MS')
     else:
@@ -132,7 +132,8 @@ def monthly_summary(dataset, station, chemical):
         month_end = (month + MonthEnd(1)).strftime('%Y-%m-%d')
 
         month_dataset = dataset.loc[month_start: month_end]
-        if month_dataset.empty or len(month_dataset.index) < 30:
+        threshold = 5 if is_24h else 30
+        if month_dataset.empty or len(month_dataset.index) < threshold:
             month_results.append({
                 'results': [[0 for _ in get_regressors()], [0 for _ in get_regressors()]],
                 'period': month_str,
@@ -146,18 +147,26 @@ def monthly_summary(dataset, station, chemical):
         results = evaluate(X, y)
         month_results.append({'results': results, 'period': month_str, 'values_count': str(len(y))})
 
-    print_monthly_results(month_results, title='Monthly results | {c} | {d}'.format(c=chemical.upper(), d=station))
+    print_monthly_results(month_results, title='Monthly results | {d} | {c}'.format(c=chemical.upper(), d=station))
 
 
 if __name__ == '__main__':
     # SMART16 - NO2
-    annual_summary(dataset=get_dataset(Dataset.SMART16_NO2), station='SMART16-CAPANNORI', chemical='no2')
-    monthly_summary(dataset=get_dataset(Dataset.SMART16_NO2), station='SMART16-CAPANNORI', chemical='no2')
+    # annual_summary(dataset=get_dataset(Dataset.SMART16_NO2), station='SMART16-CAPANNORI', chemical='no2')
+    # monthly_summary(dataset=get_dataset(Dataset.SMART16_NO2), station='SMART16-CAPANNORI', chemical='no2')
 
-    # SMART16 - PM2.5
+    # SMART16_new - PM2.5
     annual_summary(dataset=get_dataset(Dataset.SMART16_NEW_PM), station='SMART16_new-CAPANNORI', chemical='pm2.5')
     monthly_summary(dataset=get_dataset(Dataset.SMART16_NEW_PM), station='SMART16_new-CAPANNORI', chemical='pm2.5')
 
-    # SMART16 - PM10
+    # SMART16_new - PM10
     annual_summary(dataset=get_dataset(Dataset.SMART16_NEW_PM), station='SMART16_new-CAPANNORI', chemical='pm10')
     monthly_summary(dataset=get_dataset(Dataset.SMART16_NEW_PM), station='SMART16_new-CAPANNORI', chemical='pm10')
+
+    # SMART16_new - PM2.5 - 24H
+    annual_summary(get_dataset(Dataset.SMART16_NEW_PM_24H), 'SMART16_new-CAPANNORI-24h', 'pm2.5')
+    monthly_summary(get_dataset(Dataset.SMART16_NEW_PM_24H), 'SMART16_new-CAPANNORI-24h', 'pm2.5', is_24h=True)
+
+    # SMART16_new - PM10 - 24H
+    annual_summary(get_dataset(Dataset.SMART16_NEW_PM_24H), 'SMART16_new-CAPANNORI-24h', 'pm10')
+    monthly_summary(get_dataset(Dataset.SMART16_NEW_PM_24H), 'SMART16_new-CAPANNORI-24h', 'pm10', is_24h=True)

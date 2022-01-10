@@ -19,9 +19,14 @@ def smart_stations_resample(station, columns):
     # Resample every 60min
     df = df[columns]
     grouped = df[columns].groupby(pd.Grouper(freq='60Min'))
-    df = grouped.mean().round(3)
-    df['n_data_points'] = grouped[columns[0]].count()
-    df.to_csv('generated_data/smart/{}_resampled.csv'.format(station.lower()))
+    df_mean = grouped.mean().round(3)
+    df_mean['n_data_points'] = grouped[columns[0]].count()
+    df_mean.to_csv('generated_data/smart/{}_resampled.csv'.format(station.lower()))
+
+    # Resample every 24h
+    grouped = df[columns].groupby(pd.Grouper(freq='24h'))
+    df_mean = grouped.mean().round(3)
+    df_mean.to_csv('generated_data/smart/{}_resampled_24h.csv'.format(station.lower()))
 
 
 def fix_dst_smart16_new(df):
@@ -271,6 +276,11 @@ def arpat_clean_pm_dataset(name):
 
     # Save
     df.to_csv('generated_data/arpat/{}_cleaned.csv'.format(name.lower()))
+
+    # Resample to 24h
+    grouped = df.groupby(pd.Grouper(freq='24h'))
+    df_mean = grouped.mean().round(3)
+    df_mean.to_csv('generated_data/arpat/{}_cleaned_resampled_24h.csv'.format(name.lower()))
 
 
 if __name__ == '__main__':
