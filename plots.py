@@ -1,19 +1,29 @@
 import matplotlib.dates as mdates
+import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 from pandas.tseries.offsets import MonthEnd
 
+from regression_models import get_polynomial_model
 from utils import get_dataset, Dataset
 
 
-def scatterplot(X, y, title, filename):
+def scatterplot(X, y, u, title, filename):
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.scatter(X, y, color='tab:blue', marker='.', label='Data')
-    ax.legend(loc='upper right')
-    ax.set_xlabel('AirQino (µg/m³)')
+    ax.scatter(X, y, color='tab:blue', marker='.')
+    ax.set_xlabel('AirQino ({})'.format(u))
     ax.set_ylabel('ARPAT (µg/m³)')
     ax.set_title(title)
+
+    if (len(X) > 0):
+        line_x = np.arange(X.min(), X.max())[:, np.newaxis]
+        poly = get_polynomial_model()
+        poly.fit(X.reshape((-1, 1)), y)
+        ax.plot(line_x, poly.predict(line_x), color='tab:red', linewidth=2,
+                label='Poly regressor\n(d=2, R²=%0.3f)' % poly.score(X.reshape((-1, 1)), y), alpha=.3)
+        plt.legend(loc='best')
+
     plt.savefig('generated_data/plots/scatterplot/{}.png'.format(filename))
 
 
@@ -62,7 +72,7 @@ def plot_avg_count():
     for station in ['smart16', 'smart16_new']:
         df = get_smart_dataset(station)
         plot(df=df, column='n_data_points', ylabel='# data points / h',
-             title='{} -  Number of data points every hour'.format(station.upper()),
+             title='{} -  Number of data points / hour'.format(station.upper()),
              filename='smart/{}_count'.format(station))
 
     # SMART NO2
@@ -100,19 +110,48 @@ def plot_avg_count():
 def scatterplots():
     for dataset in [Dataset.SMART16_NO2]:
         df = get_dataset(dataset)
-        X = df['airqino_no2'].values.reshape((-1, 1))
+        X = df['airqino_no2'].values
         y = df['arpat_no2'].values
-        scatterplot(X, y, title='{} | NO2'.format(dataset.name), filename='{}'.format(dataset.name.lower()))
+        scatterplot(X, y, u='counts', title='{} | NO2 ({})'.format(dataset.name, str(len(X))),
+                    filename='{}'.format(dataset.name.lower()))
+        for month in pd.date_range('2020-01-01', '2020-12-31', freq='MS'):
+            month_str = month.strftime('%B').lower()
+            month_start = month.strftime('%Y-%m-%d')
+            month_end = (month + MonthEnd(1)).strftime('%Y-%m-%d')
+            month_dataset = df.loc[month_start: month_end]
+            X = month_dataset['airqino_no2'].values
+            y = month_dataset['arpat_no2'].values
+            scatterplot(X, y, u='counts', title='{} | NO2 | {} ({})'.format(dataset.name, month_str, str(len(X))),
+                        filename='{}_{}'.format(dataset.name.lower(), month_str))
 
     for dataset in [Dataset.SMART16_NEW_PM_24H]:
         df = get_dataset(dataset)
         X = df['airqino_pm2.5'].values
         y = df['arpat_pm2.5'].values
-        scatterplot(X, y, title='{} | PM2.5'.format(dataset.name), filename='{}2.5'.format(dataset.name.lower()))
+        scatterplot(X, y, u='µg/m³', title='{} | PM2.5 ({})'.format(dataset.name, str(len(X))),
+                    filename='{}2.5'.format(dataset.name.lower()))
 
         X = df['airqino_pm10'].values
         y = df['arpat_pm10'].values
-        scatterplot(X, y, title='{} | PM10'.format(dataset.name), filename='{}10'.format(dataset.name.lower()))
+        scatterplot(X, y, u='µg/m³', title='{} | PM10 ({})'.format(dataset.name, str(len(X))),
+                    filename='{}10'.format(dataset.name.lower()))
+
+        for month in pd.date_range('2020-09-01', '2021-08-31', freq='MS'):
+            month_str = month.strftime('%B').lower()
+            month_start = month.strftime('%Y-%m-%d')
+            month_end = (month + MonthEnd(1)).strftime('%Y-%m-%d')
+            month_dataset = df.loc[month_start: month_end]
+            X = month_dataset['airqino_pm2.5'].values
+            y = month_dataset['arpat_pm2.5'].values
+            scatterplot(X, y, u='µg/m³',
+                        title='{} | PM2.5 | {} ({})'.format(dataset.name, month_str, str(len(month_dataset.index))),
+                        filename='{}2.5_{}'.format(dataset.name.lower(), month_str))
+
+            X = month_dataset['airqino_pm10'].values
+            y = month_dataset['arpat_pm10'].values
+            scatterplot(X, y, u='µg/m³',
+                        title='{} | PM10 | {} ({})'.format(dataset.name, month_str, str(len(month_dataset.index))),
+                        filename='{}10_{}'.format(dataset.name.lower(), month_str))
 
 
 def plot_compares():
@@ -150,6 +189,6 @@ def plot_compares():
 
 
 if __name__ == '__main__':
-    plot_avg_count()
+    # plot_avg_count()
     scatterplots()
-    plot_compares()
+    # plot_compares()
