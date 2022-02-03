@@ -1,0 +1,75 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+
+\title[About Beamer] %optional
+{Metodologie e algoritmi per la calibrazione di centraline dedicate al monitoraggio della qualità dell'aria}
+\usetheme{Copenhagen}
+\subtitle{A short story}
+
+\author{Edoardo D'Angelis\\[3mm]Prof. Andrew D. Bagdanov, Prof P. Pala\\[3mm]Walter Nunziati\\[3mm]Alice Cavaliere}
+
+\institute[UNIFI] % (optional)
+{
+  Università degli studi di Firenze\\
+  Dipartimento di Ingegneria
+}
+
+\date{}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Sample frame title}
+This is a text in second frame. 
+For the sake of showing an example.
+
+\begin{itemize}
+ \item<1-> Text visible on slide 1
+ \item<2-> Text visible on slide 2
+ \item<3-> Text visible on slide 3
+ \item<4-> Text visible on slide 4
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Sample frame title}
+
+In this slide, some important text will be
+\alert{highlighted} because it's important.
+Please, don't abuse it.
+
+\begin{block}{Remark}
+Sample text
+\end{block}
+
+\begin{alertblock}{Important theorem}
+Sample text in red box
+\end{alertblock}
+
+\begin{examples}
+Sample text in green box. The title of the block is ``Examples".
+\end{examples}
+\end{frame}
+
+\begin{frame}
+\frametitle{Two-column slide}
+\begin{columns}
+\column{0.5\textwidth}
+This is a text in first column.
+$$E=mc^2$$
+\begin{itemize}
+\item First item
+\item Second item
+\end{itemize}
+
+\column{0.5\textwidth}
+This text will be in the second column
+and on a second thoughts, this is a nice looking
+layout in some cases.
+\end{columns}
+\end{frame}
+
+\end{document}
