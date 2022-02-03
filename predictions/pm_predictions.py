@@ -1,8 +1,8 @@
 import statsmodels.api as sm
 from matplotlib import pyplot as plt
 
-from regression_models import get_linear_model
-from utils import get_dataset, Dataset
+from regression.regression_models import get_linear_model
+from utils.utils import get_dataset, Dataset
 
 
 def execute(dataset, chemical, name):

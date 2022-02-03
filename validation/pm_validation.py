@@ -2,7 +2,7 @@ import matplotlib.dates as mdates
 import statsmodels.api as sm
 from matplotlib import pyplot as plt
 
-from regression_models import get_linear_model
+from regression.regression_models import get_linear_model
 from utils.utils import get_dataset, Dataset
 
 

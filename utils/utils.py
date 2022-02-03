@@ -12,6 +12,10 @@ class Dataset(Enum):
     SMART16_NEW_PM_8H = 'smart16_new_resampled_8h-capannori-pm'
     SMART16_NEW_PM_12H = 'smart16_new_resampled_12h-capannori-pm'
 
+    SMART16_VAL_PM = 'smart16_val-capannori-pm'
+    SMART16_VAL_PM_8H = 'smart16_val_resampled_8h-capannori-pm'
+    SMART16_VAL_PM_12H = 'smart16_val_resampled_12h-capannori-pm'
+
     SMART24 = 'smart24-micheletto-no2'
     SMART25 = 'smart25-san-concordio-no2'
     SMART26 = 'smart26-san-concordio-no2'

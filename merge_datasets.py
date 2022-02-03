@@ -12,7 +12,7 @@ def merge_and_save_no2(df1, df2):
     smart.rename(columns={'no2': 'airqino_no2'}, inplace=True)
     smart_no2 = smart[['airqino_no2']]
 
-    arpat = pd.read_csv('generated_data/arpat/lu-{}_no2_2020_cleaned.csv'.format(df2))
+    arpat = pd.read_csv('generated_data/arpat/lu-{}_cleaned.csv'.format(df2))
     arpat.set_index('data', inplace=True)
     arpat.index = pd.to_datetime(arpat.index, utc=True)
     arpat.rename(columns={'avg': 'arpat_no2'}, inplace=True)
@@ -40,7 +40,8 @@ def merge_and_save_pm(df1, df2, filename):
 
 
 if __name__ == '__main__':
-    merge_and_save_no2(df1='smart16', df2='capannori')
+    merge_and_save_no2(df1='smart16', df2='capannori_no2_2020')
+    merge_and_save_no2(df1='smart16_no2_new', df2='capannori_no2_new')
     # merge_and_save_no2(df1='smart24', df2='micheletto')
     # merge_and_save_no2(df1='smart25', df2='san-concordio')
     # merge_and_save_no2(df1='smart26', df2='san-concordio')
@@ -48,5 +49,14 @@ if __name__ == '__main__':
     # merge_and_save_pm(df1='smart16', df2='capannori')
     merge_and_save_pm(df1='smart16_new_resampled', df2='capannori_pm_dati_orari_cleaned',
                       filename='smart16_new-capannori')
-    merge_and_save_pm(df1='smart16_new_resampled_24h', df2='capannori_pm_dati_orari_cleaned_resampled_24h',
-                      filename='smart16_new_resampled_24h-capannori')
+    merge_and_save_pm(df1='smart16_new_resampled_8h', df2='capannori_pm_dati_orari_cleaned_resampled_8h',
+                      filename='smart16_new_resampled_8h-capannori')
+    merge_and_save_pm(df1='smart16_new_resampled_12h', df2='capannori_pm_dati_orari_cleaned_resampled_12h',
+                      filename='smart16_new_resampled_12h-capannori')
+
+    merge_and_save_pm(df1='smart16_val_resampled', df2='capannori_pm_dati_orari_cleaned',
+                      filename='smart16_val-capannori')
+    merge_and_save_pm(df1='smart16_val_resampled_8h', df2='capannori_pm_dati_orari_cleaned_resampled_8h',
+                      filename='smart16_val_resampled_8h-capannori')
+    merge_and_save_pm(df1='smart16_val_resampled_12h', df2='capannori_pm_dati_orari_cleaned_resampled_12h',
+                      filename='smart16_val_resampled_12h-capannori')

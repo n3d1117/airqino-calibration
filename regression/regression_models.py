@@ -23,7 +23,7 @@ def get_random_forest_model():
 
 def get_gradient_boosting_model():
     params = {'learning_rate': 0.01, 'loss': 'squared_error', 'max_depth': 3, 'min_samples_split': 10,
-              'n_estimators': 100}
+              'n_estimators': 20}
     return GradientBoostingRegressor(**params)
 
 

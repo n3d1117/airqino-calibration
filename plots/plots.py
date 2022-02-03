@@ -4,8 +4,8 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from pandas.tseries.offsets import MonthEnd
 
-from regression_models import get_polynomial_model
-from utils import get_dataset, Dataset
+from regression.regression_models import get_polynomial_model
+from utils.utils import get_dataset, Dataset
 
 
 def scatterplot(X, y, u, title, filename):
@@ -16,7 +16,7 @@ def scatterplot(X, y, u, title, filename):
     ax.set_ylabel('ARPAT (µg/m³)')
     ax.set_title(title)
 
-    if (len(X) > 0):
+    if len(X) > 0:
         line_x = np.arange(X.min(), X.max())[:, np.newaxis]
         poly = get_polynomial_model()
         poly.fit(X.reshape((-1, 1)), y)
@@ -69,14 +69,14 @@ def get_arpat_dataset(name):
 
 def plot_avg_count():
     # Data points
-    for station in ['smart16', 'smart16_new']:
+    for station in ['smart16', 'smart16_new', 'smart16_no2_new']:
         df = get_smart_dataset(station)
         plot(df=df, column='n_data_points', ylabel='# data points / h',
              title='{} -  Number of data points / hour'.format(station.upper()),
              filename='smart/{}_count'.format(station))
 
     # SMART NO2
-    for station in ['smart16']:
+    for station in ['smart16', 'smart16_no2_new']:
         df = get_smart_dataset(station)
         plot(df=df, column='no2', ylabel='counts', title='{} - NO2'.format(station.upper()),
              filename='smart/{}_no2'.format(station))
@@ -94,12 +94,12 @@ def plot_avg_count():
              filename='smart/{}_pm10'.format(station))
 
     # ARPAT NO2
-    for name in ['lu-capannori_no2_2020_cleaned']:
+    for name in ['lu-capannori_no2_2020_cleaned', 'lu-capannori_no2_new_cleaned']:
         df = get_arpat_dataset(name)
         plot(df=df, column='avg', ylabel='µg/m³', title='{} - NO2'.format(name), filename='arpat/{}_no2'.format(name))
 
     # ARPAT PM
-    for name in ['lu-capannori_pm_dati_orari_cleaned']:
+    for name in ['lu-capannori_pm_dati_orari_cleaned', 'lu-capannori_pm_dati_orari_cleaned_resampled_8h']:
         df = get_arpat_dataset(name)
         plot(df=df, column='pm2.5', ylabel='µg/m³', title='{} - PM2.5'.format(name),
              filename='arpat/{}_pm2.5'.format(name), month_freq=6)
@@ -108,13 +108,15 @@ def plot_avg_count():
 
 
 def scatterplots():
-    for dataset in [Dataset.SMART16_NO2]:
+    for dataset in [Dataset.SMART16_NO2, Dataset.SMART16_NO2_NEW]:
         df = get_dataset(dataset)
         X = df['airqino_no2'].values
         y = df['arpat_no2'].values
         scatterplot(X, y, u='counts', title='{} | NO2 ({})'.format(dataset.name, str(len(X))),
                     filename='{}'.format(dataset.name.lower()))
-        for month in pd.date_range('2020-01-01', '2020-12-31', freq='MS'):
+        date_range = pd.date_range('2020-01-01', '2020-12-31', freq='MS') \
+            if dataset == Dataset.SMART16_NO2 else pd.date_range('2021-10-01', '2022-01-17', freq='MS')
+        for month in date_range:
             month_str = month.strftime('%B').lower()
             month_start = month.strftime('%Y-%m-%d')
             month_end = (month + MonthEnd(1)).strftime('%Y-%m-%d')
@@ -124,7 +126,7 @@ def scatterplots():
             scatterplot(X, y, u='counts', title='{} | NO2 | {} ({})'.format(dataset.name, month_str, str(len(X))),
                         filename='{}_{}'.format(dataset.name.lower(), month_str))
 
-    for dataset in [Dataset.SMART16_NEW_PM_24H]:
+    for dataset in [Dataset.SMART16_NEW_PM_8H]:
         df = get_dataset(dataset)
         X = df['airqino_pm2.5'].values
         y = df['arpat_pm2.5'].values
@@ -155,12 +157,14 @@ def scatterplots():
 
 
 def plot_compares():
-    for dataset in [Dataset.SMART16_NO2]:
+    for dataset in [Dataset.SMART16_NO2, Dataset.SMART16_NO2_NEW]:
         df = get_dataset(dataset)
         plot_compare(df['airqino_no2'], df['arpat_no2'], label1='AirQino', label2='ARPAT',
                      title='{} | NO2'.format(dataset.name), filename='{}_no2'.format(dataset.name.lower()))
+        date_range = pd.date_range('2020-01-01', '2020-12-31', freq='MS') \
+            if dataset == Dataset.SMART16_NO2 else pd.date_range('2021-10-01', '2022-01-17', freq='MS')
 
-        for month in pd.date_range('2020-01-01', '2020-12-31', freq='MS'):
+        for month in date_range:
             month_str = month.strftime('%b')
             month_start = month.strftime('%Y-%m-%d')
             month_end = (month + MonthEnd(1)).strftime('%Y-%m-%d')
@@ -189,6 +193,6 @@ def plot_compares():
 
 
 if __name__ == '__main__':
-    # plot_avg_count()
+    plot_avg_count()
     scatterplots()
-    # plot_compares()
+    plot_compares()

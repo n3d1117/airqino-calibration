@@ -4,8 +4,8 @@ from pandas.tseries.offsets import MonthEnd
 from sklearn.model_selection import train_test_split
 from yellowbrick.regressor import ResidualsPlot
 
-from regression_models import *
-from utils import get_dataset, Dataset
+from regression.regression_models import *
+from utils.utils import get_dataset, Dataset
 
 
 def plot_residuals(model, X_train, X_test, y_train, y_test, station, chemical, period, filename):
@@ -64,10 +64,9 @@ def execute(ds, chemical):
 
 
 if __name__ == '__main__':
-
     for ds in [Dataset.SMART16_NO2]:
         execute(ds, chemical='no2')
 
-    for ds in [Dataset.SMART16_NEW_PM]:
+    for ds in [Dataset.SMART16_NEW_PM_8H]:
         execute(ds, chemical='pm2.5')
         execute(ds, chemical='pm10')

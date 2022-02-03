@@ -23,10 +23,15 @@ def smart_stations_resample(station, columns):
     df_mean['n_data_points'] = grouped[columns[0]].count()
     df_mean.to_csv('generated_data/smart/{}_resampled.csv'.format(station.lower()))
 
-    # Resample every 24h
-    grouped = df[columns].groupby(pd.Grouper(freq='24h'))
+    # Resample every 8h
+    grouped = df[columns].groupby(pd.Grouper(freq='8h', offset='5h'))
     df_mean = grouped.mean().round(3)
-    df_mean.to_csv('generated_data/smart/{}_resampled_24h.csv'.format(station.lower()))
+    df_mean.to_csv('generated_data/smart/{}_resampled_8h.csv'.format(station.lower()))
+
+    # Resample every 12h
+    grouped = df[columns].groupby(pd.Grouper(freq='12h'))
+    df_mean = grouped.mean().round(3)
+    df_mean.to_csv('generated_data/smart/{}_resampled_12h.csv'.format(station.lower()))
 
 
 def fix_dst_smart16_new(df):
@@ -256,6 +261,25 @@ def arpat_clean_no2_dataset(name):
     df.to_csv('generated_data/arpat/{}_cleaned.csv'.format(name.lower()))
 
 
+def arpat_clean_new_no2_dataset(name):
+    csv = 'data/arpat_lucca/{}.csv'.format(name)
+    df = pd.read_csv(csv)
+
+    # Rename columns
+    df.columns = ['data', 'avg']
+
+    # Localize date and convert to UTC
+    df['data'] = pd.to_datetime(df.data)
+    df.set_index('data', inplace=True)
+    df.index = df.index.tz_localize('Europe/Rome', ambiguous='NaT', nonexistent='NaT').tz_convert('utc')
+
+    # Drop NaN/NaT
+    df.dropna(inplace=True)
+
+    # Save
+    df.to_csv('generated_data/arpat/{}_cleaned.csv'.format(name.lower()))
+
+
 def arpat_clean_pm_dataset(name):
     csv = 'data/arpat_lucca/{}.csv'.format(name)
     df = pd.read_csv(csv)
@@ -277,20 +301,28 @@ def arpat_clean_pm_dataset(name):
     # Save
     df.to_csv('generated_data/arpat/{}_cleaned.csv'.format(name.lower()))
 
-    # Resample to 24h
-    grouped = df.groupby(pd.Grouper(freq='24h'))
+    # Resample to 8h
+    grouped = df.groupby(pd.Grouper(freq='8h', offset='5h'))
     df_mean = grouped.mean().round(3)
-    df_mean.to_csv('generated_data/arpat/{}_cleaned_resampled_24h.csv'.format(name.lower()))
+    df_mean.to_csv('generated_data/arpat/{}_cleaned_resampled_8h.csv'.format(name.lower()))
+
+    # Resample to 12h
+    grouped = df.groupby(pd.Grouper(freq='12h'))
+    df_mean = grouped.mean().round(3)
+    df_mean.to_csv('generated_data/arpat/{}_cleaned_resampled_12h.csv'.format(name.lower()))
 
 
 if __name__ == '__main__':
     smart_stations_resample(station='SMART16', columns=['no2', 'pm2_5', 'pm10'])
+    smart_stations_resample(station='SMART16_NO2_new', columns=['no2'])
     # smart_stations_resample(station='SMART24', columns=['no2'])
     # smart_stations_resample(station='SMART25', columns=['no2', 'pm10'])
     # smart_stations_resample(station='SMART26', columns=['no2', 'pm10'])
     smart_stations_resample(station='SMART16_new', columns=['no2', 'pm2_5', 'pm10'])
+    smart_stations_resample(station='SMART16_val', columns=['pm2_5', 'pm10'])
 
     arpat_clean_no2_dataset(name='LU-CAPANNORI_NO2_2020')
+    arpat_clean_new_no2_dataset(name='LU-CAPANNORI_NO2_NEW')
     # arpat_clean_no2_dataset(name='LU-MICHELETTO_NO2_2020')
     # arpat_clean_no2_dataset(name='LU-SAN-CONCORDIO_NO2_2020')
 
