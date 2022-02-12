@@ -8,7 +8,7 @@
 
 \mode<presentation>
 
-\usetheme{Copenhagen}
+\usetheme{Frankfurt}
 \setbeamercovered{transparent}
 \setbeamertemplate{blocks}[rounded][shadow=true]
 \setbeamertemplate{items}[default]
@@ -16,6 +16,25 @@
 
 \usepackage[italian]{babel}
 \usepackage[utf8]{inputenc}
+
+\makeatother
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.42\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.42\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.16\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\makeatletter
+
 
 \usetitlepagetemplate{
   \begin{center}
@@ -45,7 +64,7 @@
 \begin{column}{0.25\textwidth}
 \vskip -3em
 	\begin{figure}
-   	\includegraphics[width=2cm]{images/unifi-logo.pdf}
+   	\includegraphics[width=1.7cm]{images/unifi-logo.pdf}
    	\vskip 1em
    	\includegraphics[width=2cm]{images/magenta.png}
    	\vskip 1em
@@ -58,11 +77,11 @@
 	Prof. Pietro Pala\\
  \vskip 0.7em
 	\emph{Correlatori}\\
-	Dott. Walter Nunziati\\
-	Dott. Alice Cavaliere\\
+	Walter Nunziati\\
+	Alice Cavaliere\\
 \end{column}
 \end{columns}
-      \vskip 4ex
+      \vskip 2ex
       \rule{15em}{0.4pt}
       \vskip 0.2ex
       Anno Accademico 2021/2022
@@ -76,11 +95,6 @@
 
 \date{\today}
 
-\newcommand*\oldmacro{}%
-\let\oldmacro\insertshorttitle%
-\renewcommand*\insertshorttitle{%
-  \oldmacro\hfill%
-  \insertframenumber\,/\,\inserttotalframenumber}
 
 \begin{document}
 
@@ -88,5 +102,36 @@
 \frame{\titlepage}
 
 % TODO
+\stepcounter{subsection}
+
+\section{Introduzione}
+\begin{frame}{Forgery detection approaches (1/2)}
+\end{frame}
+\begin{frame}{Forgery detection approaches (2/2)}
+\end{frame}
+
+\section{Sviluppi tecnologici}
+\begin{frame}{Forgery detection approaches (1/2)}
+\end{frame}
+\begin{frame}{Forgery detection approaches (2/2)}
+\end{frame}
+
+\section{Calibrazione}
+\begin{frame}{Forgery detection approaches (1/2)}
+\end{frame}
+\begin{frame}{Forgery detection approaches (2/2)}
+\end{frame}
+
+\section{Interfaccia}
+\begin{frame}{Forgery detection approaches (1/2)}
+\end{frame}
+\begin{frame}{Forgery detection approaches (2/2)}
+\end{frame}
+
+\section{Conclusione}
+\begin{frame}{Forgery detection approaches (1/2)}
+\end{frame}
+\begin{frame}{Forgery detection approaches (2/2)}
+\end{frame}
 
 \end{document}
