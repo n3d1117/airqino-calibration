@@ -32,7 +32,7 @@ def execute(dataset, chemical, name):
     ax.plot(y_pred, color='tab:red', label='AirQino (Calibrated)', alpha=.8, linewidth=1)
     ax.set_title('SMART16 | {} | Reference vs Raw vs Calibrated'.format(chemical.upper()))
     ax.set_ylabel('µg/m³')
-    limit = 25 if chemical == 'pm2.5' else 40
+    limit = 25 if chemical == 'pm2.5' else 50
     ax.axhline(y=limit, color='tab:purple', linestyle='dashed', alpha=.6,
                label='Limite di riferimento\n({}µg/m³, D.Lgs.155/2010)'.format(limit))
 
@@ -45,7 +45,7 @@ def execute(dataset, chemical, name):
     fig.autofmt_xdate()
 
     ax.legend()
-    plt.savefig('generated_data/new/predictions/' + name + '.svg')
+    plt.savefig('../generated_data/new/predictions/' + name + '.svg')
 
 
 if __name__ == '__main__':

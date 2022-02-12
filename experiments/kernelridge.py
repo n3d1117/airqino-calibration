@@ -14,7 +14,6 @@ from utils.utils import get_dataset, Dataset
 
 if __name__ == '__main__':
     d = get_dataset(Dataset.SMART16_NEW_PM_8H)
-    print(d)
 
     X = d['airqino_pm2.5'].values.reshape((-1, 1))
     y = d['arpat_pm2.5'].values
@@ -26,12 +25,6 @@ if __name__ == '__main__':
         linreg = make_pipeline(StandardScaler(with_mean=False), LinearRegression())
         linreg.fit(X_train, y_train)
         y_pred = linreg.predict(X_test)
-        print()
-        print('Linear Regression:')
-        # print(" COEFF: ", linreg.coef_)
-        # print(" INTERCEPT: ", linreg.intercept_)
-        # print(" R-Squared", r2_score(y_test, y_pred))
-        # print(" root_mean_squared_error", np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
         aa.append(r2_score(y_test, y_pred))
 
         cook_model_result = sm.OLS(y_train, sm.add_constant(X_train)).fit()
@@ -43,20 +36,12 @@ if __name__ == '__main__':
         linreg = make_pipeline(StandardScaler(with_mean=False), LinearRegression())
         linreg.fit(X_train_new, y_train_new)
         y_pred = linreg.predict(X_test_new)
-        print()
-        print('Cook Robust Linear Regression:')
         b.append(r2_score(y_test_new, y_pred))
 
         polreg = make_pipeline(StandardScaler(with_mean=False), get_polynomial_model())
         polreg.fit(X_train, y_train)
         y_pred = polreg.predict(X_test)
-        print()
-        print('Polynomial Regression:')
-        # print(" COEFF: ", linreg.coef_)
-        # print(" INTERCEPT: ", linreg.intercept_)
-        # print(" R-Squared", r2_score(y_test, y_pred))
         c.append(r2_score(y_test, y_pred))
-        # print(" root_mean_squared_error", np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
 
         polreg = make_pipeline(StandardScaler(with_mean=False), PolynomialFeatures(degree=3, include_bias=False),
                                linear_model.LinearRegression(n_jobs=-1))
@@ -68,10 +53,7 @@ if __name__ == '__main__':
                            KernelRidge(alpha=1, kernel='poly', degree=2, gamma=1, coef0=1))
         kr.fit(X_train, y_train)
         y_pred = kr.predict(X_test)
-        # print(" COEFF: ", kr.dual_coef_)
-        # print(" R-Squared", r2_score(y_test, y_pred))
         d.append(r2_score(y_test, y_pred))
-        # print(" root_mean_squared_error", np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
 
         kr = make_pipeline(StandardScaler(with_mean=False),
                            KernelRidge(alpha=1, kernel='poly', degree=3, gamma=1, coef0=1))

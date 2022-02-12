@@ -22,7 +22,7 @@ class Dataset(Enum):
 
 
 def get_dataset(dataset: Dataset):
-    df = pd.read_csv('generated_data/merged/{}.csv'.format(dataset.value))
+    df = pd.read_csv('../generated_data/merged/{}.csv'.format(dataset.value))
     df.set_index('data', inplace=True)
     df.index = pd.to_datetime(df.index, utc=True)
     return df

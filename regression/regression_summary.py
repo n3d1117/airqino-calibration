@@ -5,7 +5,7 @@ from prettytable import PrettyTable
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 
-from regression_models import *
+from regression.regression_models import *
 from utils.utils import Dataset, get_dataset
 
 

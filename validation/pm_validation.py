@@ -1,6 +1,7 @@
 import matplotlib.dates as mdates
 import statsmodels.api as sm
 from matplotlib import pyplot as plt
+from sklearn.metrics import r2_score
 
 from regression.regression_models import get_linear_model
 from utils.utils import get_dataset, Dataset
@@ -29,15 +30,17 @@ def execute(dataset, validation_dataset, chemical, name):
     X_val = val_dataset['airqino_{}'.format(chemical)].values.reshape((-1, 1))
     y_val = val_dataset['arpat_{}'.format(chemical)].values
     y_pred = model.predict(X_val)
-    r2 = model.score(X_val, y_val)
-    print(r2)
+    r2 = r2_score(y_val, y_pred)
+    limit = 25 if chemical == 'pm2.5' else 50
 
     # Plot
-    fig = plt.figure(figsize=(8, 5))
+    fig = plt.figure(figsize=(12, 5))
     ax = fig.add_subplot(111)
     ax.plot(val_dataset.index, y_val, color='tab:blue', label='ARPAT (Reference)', alpha=.8, linewidth=1.2)
     ax.plot(val_dataset.index, X_val, color='tab:gray', label='AirQino (Raw)', alpha=.4, linewidth=1)
     ax.plot(val_dataset.index, y_pred, color='tab:red', label='AirQino (Calibrated)', alpha=.6, linewidth=1)
+    ax.axhline(y=limit, color='tab:purple', linestyle='dashed', alpha=.6,
+               label='Limite di riferimento\n({}µg/m³, D.Lgs.155/2010)'.format(limit))
     ax.set_title(
         'SMART16 Validation | {} | Reference vs Raw vs Calibrated (R² = {})'.format(chemical.upper(), round(r2, 2)))
     ax.set_ylabel('µg/m³')
@@ -47,7 +50,7 @@ def execute(dataset, validation_dataset, chemical, name):
     fig.autofmt_xdate()
 
     ax.legend()
-    plt.savefig('generated_data/new/validation/' + name + '.svg')
+    plt.savefig('../generated_data/new/validation/' + name + '.svg')
 
 
 if __name__ == '__main__':
