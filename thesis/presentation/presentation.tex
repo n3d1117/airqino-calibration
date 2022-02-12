@@ -1,0 +1,92 @@
+%% LaTeX Beamer presentation template (requires beamer package)
+%% see http://bitbucket.org/rivanvx/beamer/wiki/Home
+%% idea contributed by H. Turgut Uyar
+%% template based on a template by Till Tantau
+%% this template is still evolving - it might differ in future releases!
+
+\documentclass{beamer}
+
+\mode<presentation>
+
+\usetheme{Copenhagen}
+\setbeamercovered{transparent}
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamertemplate{items}[default]
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage[italian]{babel}
+\usepackage[utf8]{inputenc}
+
+\usetitlepagetemplate{
+  \begin{center}
+    \textsc{Università degli Studi di Firenze}
+    \vskip1ex
+    \scriptsize{\textsc{Dipartimento di Ingegneria dell'Informazione} }\\
+    \scriptsize{\textsc{Tesi di Laurea Magistrale in Ingegneria Informatica } }
+    \vskip4ex
+    \begin{beamerboxesrounded}{}
+     \begin{center}
+    \normalsize{Progettazione e sviluppo di componenti per la piattaforma \textbf{AirQino} dedicata al monitoraggio della qualità dell’aria}
+     \end{center}
+    \end{beamerboxesrounded}
+
+    \vskip4ex
+    \begin{footnotesize}
+\begin{columns}[t]
+\begin{column}{0.4\textwidth}
+\begin{flushright}
+      \begin{minipage}[t]{20ex}
+	\raggedright
+	\emph{Candidato}\\
+	Edoardo D'Angelis
+      \end{minipage}
+\end{flushright}
+\end{column}
+\begin{column}{0.25\textwidth}
+\vskip -3em
+	\begin{figure}
+   	\includegraphics[width=2cm]{images/unifi-logo.pdf}
+   	\vskip 1em
+   	\includegraphics[width=2cm]{images/magenta.png}
+   	\vskip 1em
+   \includegraphics[width=2cm]{images/ibe.jpg}
+\end{figure}
+\end{column}
+\begin{column}{0.4\textwidth}
+	\emph{Relatori}\\
+	Prof. Andrew D. Bagdanov\\
+	Prof. Pietro Pala\\
+ \vskip 0.7em
+	\emph{Correlatori}\\
+	Dott. Walter Nunziati\\
+	Dott. Alice Cavaliere\\
+\end{column}
+\end{columns}
+      \vskip 4ex
+      \rule{15em}{0.4pt}
+      \vskip 0.2ex
+      Anno Accademico 2021/2022
+\vskip 0.3em
+\end{footnotesize}
+\end{center}
+}
+
+\title[\today]{}
+\author{Edoardo D'Angelis}
+
+\date{\today}
+
+\newcommand*\oldmacro{}%
+\let\oldmacro\insertshorttitle%
+\renewcommand*\insertshorttitle{%
+  \oldmacro\hfill%
+  \insertframenumber\,/\,\inserttotalframenumber}
+
+\begin{document}
+
+% Title page
+\frame{\titlepage}
+
+% TODO
+
+\end{document}
