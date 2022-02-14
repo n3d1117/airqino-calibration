@@ -8,7 +8,7 @@
 
 \mode<presentation>
 
-\usetheme{Frankfurt}
+\usetheme{Berlin}
 \setbeamercovered{transparent}
 \setbeamertemplate{blocks}[rounded][shadow=true]
 \setbeamertemplate{items}[default]
@@ -17,9 +17,19 @@
 \usepackage[italian]{babel}
 \usepackage[utf8]{inputenc}
 
-\makeatother
-\setbeamertemplate{footline}
-{
+% Headline
+\setbeamertemplate{headline}{%
+  \begin{beamercolorbox}[colsep=1.5pt]{upper separation line head}
+  \end{beamercolorbox}
+  \begin{beamercolorbox}{section in head/foot}
+    \vskip2pt\insertnavigation{\paperwidth}\vskip2pt
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[colsep=1.5pt]{lower separation line head}
+  \end{beamercolorbox}
+}
+
+% Headline
+\setbeamertemplate{footline}{
   \leavevmode%
   \hbox{%
   \begin{beamercolorbox}[wd=.42\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
@@ -33,9 +43,8 @@
   \end{beamercolorbox}}%
   \vskip0pt%
 }
-\makeatletter
 
-
+% Title page
 \usetitlepagetemplate{
   \begin{center}
     \textsc{Università degli Studi di Firenze}
@@ -90,48 +99,16 @@
 \end{center}
 }
 
-\title[\today]{}
+% Footline contents
 \author{Edoardo D'Angelis}
+\title[14 Aprile 2022]{}
 
-\date{\today}
-
-
+% BEGIN DOCUMENT
 \begin{document}
 
-% Title page
 \frame{\titlepage}
 
-% TODO
-\stepcounter{subsection}
+\input{contents}
 
-\section{Introduzione}
-\begin{frame}{Forgery detection approaches (1/2)}
-\end{frame}
-\begin{frame}{Forgery detection approaches (2/2)}
-\end{frame}
-
-\section{Sviluppi tecnologici}
-\begin{frame}{Forgery detection approaches (1/2)}
-\end{frame}
-\begin{frame}{Forgery detection approaches (2/2)}
-\end{frame}
-
-\section{Calibrazione}
-\begin{frame}{Forgery detection approaches (1/2)}
-\end{frame}
-\begin{frame}{Forgery detection approaches (2/2)}
-\end{frame}
-
-\section{Interfaccia}
-\begin{frame}{Forgery detection approaches (1/2)}
-\end{frame}
-\begin{frame}{Forgery detection approaches (2/2)}
-\end{frame}
-
-\section{Conclusione}
-\begin{frame}{Forgery detection approaches (1/2)}
-\end{frame}
-\begin{frame}{Forgery detection approaches (2/2)}
-\end{frame}
-
+% END DOCUMENT
 \end{document}
