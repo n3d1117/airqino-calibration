@@ -48,12 +48,12 @@
 % Fuzz ---------------------------------------------------------------------------
 %\hfuzz10cm %Non scassare linee che escono dal bordo
 % Frontespizio -------------------------------------------------------------------
-       \title{insert title\ldots}
+       \title{Progettazione e sviluppo di componenti per la piattaforma AirQino dedicata al monitoraggio della qualità dell’aria}
        \author{Edoardo D'Angelis}
        \titolocorso{Ingegneria Informatica}
        \chair{Prof. Andrew D. Bagdanov\\Prof. Pietro Pala}
        \numberofmembers{2} %numero dei relatori
-       \degreeyear{2020/2021}
+       \degreeyear{2021/2022}
        \numerocorrelatori{2} %numero dei correlatori
        \correlatori{Walter Nunziati\\Alice Cavaliere} % i correlatori separati da \\
 
@@ -85,6 +85,9 @@
 %
 %
 %\pagenumbering{roman}
+
+\include{files/abstract}
+
 \tableofcontents % inserisce indice generale
 \cleardoublepage
 %\addcontentsline{toc}{chapter}{Elenco delle figure}
@@ -101,17 +104,17 @@
 %\pagenumbering{arabic}
 %\input{files/ringraziamenti}
 \frontmatter
-\include{files/introduction}
+\include{files/introduzione}
 
 \mainmatter
-\include{files/chapter1}
-% \include{files/chapter2}
-\include{files/conclusions}
+\include{files/sviluppi/sviluppi}
+\include{files/calibrazione/calibrazione}
+\include{files/interfaccia/interfaccia}
+\include{files/conclusione}
 
 \addcontentsline{toc}{chapter}{Bibliografia}
-\bibliographystyle{plain}
-\bibliography{files/biblio}
-\bibliographystyle{unsrt}
+\bibliographystyle{ieeetr}
+\bibliography{files/bibliografia}
 %\bibliography{sp,xml}
 
 \end{document} 

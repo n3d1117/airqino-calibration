@@ -207,7 +207,7 @@
     {\@chair}  \vspace{5mm}
   \vspace{5mm}\par
   \ifnum \@numerocorrelatori > 1
-    {\it Relatori esterni}\newline
+    {\it Correlatori}\newline
   \else
     {\it Correlatore}\newline
   \fi
