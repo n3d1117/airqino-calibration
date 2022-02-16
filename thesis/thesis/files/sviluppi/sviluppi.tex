@@ -8,7 +8,15 @@
 \ldots
 
 \subsection{Streaming Replication}\label{ssec:streaming-replication}
-\ldots
+La streaming replication di PostgreSQL è una funzionalità che consente di replicare i dati in tempo reale da una istanza di PostgreSQL a un'altra. Questo significa che, se si modificano i dati in una delle istanze, questi saranno immediatamente replicati anche nell'altra istanza. La streaming replication di PostgreSQL offre diversi vantaggi:
+
+- maggiore disponibilità dei dati: se una delle istanze di PostgreSQL viene a mancare, i dati saranno comunque disponibili nell'altra istanza;
+
+- maggiore velocità di replica: i dati vengono replicati in tempo reale, senza dover attendere il completamento delle operazioni di replica;
+
+- riduzione del carico sulle risorse: la replica in tempo reale riduce il carico sulle risorse della infrastruttura di storage.
+
+La replica si basa sulle transazioni WAL (Write Ahead Log) e utilizza il protocollo TCP per garantire una connessione sicura tra i server.
 
 % Ottimizzazione di query temporali
 \section{Ottimizzazione di query temporali}\label{sec:cont-aggr}
@@ -18,7 +26,17 @@
 \ldots
 
 \subsection{Continuous Aggregates}\label{ssec:cont-aggr}
-\ldots
+I continuous aggregate sono una funzionalità integrata in TimescaleDB che consente di aggregare i dati in tempo reale, senza la necessità di eseguire query aggiuntive. Questa funzionalità utilizza i contatori per tenere traccia dei dati aggregati in tempo reale e fornisce una rappresentazione dei dati aggregati in tempo reale.
+
+I continuous aggregate offrono numerosi vantaggi, tra cui:
+
+- Flessibilità: è possibile aggregare dati in tempo reale in base a qualsiasi criterio desiderato.
+
+- Risparmio di tempo: non è necessario eseguire query aggiuntive per ottenere informazioni aggregate in tempo reale.
+
+- Risparmio di spazio: i dati aggregati in tempo reale occupano meno spazio rispetto ai dati non aggregati.
+
+- Maggiore efficienza: i continuous aggregate sono più efficienti dei query batch per l'aggregazione dei dati in tempo reale.
 
 \subsection{Risultati ottenuti}\label{ssec:cont-aggr-risultati}
 \ldots

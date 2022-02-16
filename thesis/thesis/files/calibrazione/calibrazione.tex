@@ -15,13 +15,49 @@
 
 % Regressione
 \section{Regressione}\label{sec:regressione}
-\ldots
+La regressione è una tecnica statistica che serve a stimare la relazione esistente tra due o più variabili. In particolare, la regressione permette di individuare il coefficiente di correlazione tra due variabili e di determinare se questa relazione è casuale o no.
+
+Tra le applicazioni principali della regressione ci sono:
+
+- Stima della relazione tra due variabili
+
+- Analisi della relazione tra variabili
+
+- Valutazione dell'influenza di una variabile sulle altre
+
+- Predicting
 
 \subsection{Regressione lineare}\label{ssec:regressione-lineare}
+Per stimare la relazione tra due variabili, la regressione lineare utilizza una formula matematica che calcola la media dei valori della prima variabile (Y) in funzione dei valori della seconda variabile (X). La formula della regressione lineare è:
+
+Y = a + bX
+
+In questa formula, a è la costante di regressione e b è la coefficiente di regressione. La costante di regressione a indica la media dei valori di Y in funzione dei valori di X. Il coefficiente di regressione b indica la relazione tra le due variabili: più è vicino a 1, più le due variabili sono correlate in modo lineare.
+
+Utilizzando la regressione lineare, è possibile stimare la relazione tra due variabili anche in presenza di deviazioni dalla linea.
+
+\subsection{Regressione lineare robusta (Huber)}\label{ssec:regressione-huber}
+La regressione Huber (in inglese Huber regression, anche detta regressione robusta) è una metodologia statistica per la stima dei parametri di un modello lineare, in presenza di outliers.
+
+Il metodo Huber si basa sul principio della massima verosimiglianza, e si propone di ridurre la sensibilità dei parametri alla presenza di outliers. In particolare, la regressione Huber utilizza una funzione di peso, detta funzione di Huber, che tiene conto della variabilità dei dati intorno ai valori centrali.
+
+\subsection{Regressione lineare avanzata (con rimozione di outlier)}\label{ssec:regressione-cook}
+La regressione con rimozione outlier tramite distanza di Cook è una tecnica statistica per ridurre l'influenza degli outliers nei dati di una regressione lineare.
+
+Si basa sul concetto di distanza di Cook, che misura la distanza tra un dato e il valore medio dei dati della stessa variabile. In presenza di outliers, la distanza di Cook aumenta, e quindi questi dati hanno un maggiore impatto sulle stime dei parametri della regressione.
+
+La regressione con rimozione outlier tramite distanza di Cook si basa sull'utilizzo di una funzione di peso, detta funzione di Cook, che tiene conto della distanza di Cook dei dati. La funzione di peso viene utilizzata per ridurre l'influenza degli outliers nei dati della regressione.
+
+\subsection{Regressione Lasso}\label{ssec:regressione-lasso}
+La regressione Lasso (in inglese Lasso regression) è una metodologia statistica per la stima dei parametri di un modello lineare, in presenza di outliers.
+
+Il metodo Lasso si basa sul principio della massima verosimiglianza, e si propone di ridurre la sensibilità dei parametri alla presenza di outliers. In particolare, la regressione Lasso utilizza una funzione di peso, detta funzione di Lasso, che tiene conto della variabilità dei dati intorno ai valori centrali.
+
+\subsection{Regressione Ridge}\label{ssec:regressione-ridge}
 \ldots
 
-\subsection{Regressione non lineare}\label{ssec:regressione-non-lineare}
-\ldots
+\subsection{Regressione polinomiale}\label{ssec:regressione-polinomiale}
+La regressione polinomiale è una generalizzazione della regressione lineare, in cui il rapporto tra Y e X non è più una linea retta.
 
 % Esperimenti e risultati ottenuti
 \section{Esperimenti e risultati ottenuti}\label{sec:esperimenti}
