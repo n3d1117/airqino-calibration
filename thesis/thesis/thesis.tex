@@ -11,6 +11,8 @@
 \usepackage{framed}
 \usepackage{rotating}
 \usepackage{cite}
+\usepackage{color}
+\usepackage{listings}
 
 % Packages -----------------------------------------------------------------------
 %\usepackage{amsthm}
@@ -53,7 +55,7 @@
        \titolocorso{Ingegneria Informatica}
        \chair{Prof. Andrew D. Bagdanov\\Prof. Pietro Pala}
        \numberofmembers{2} %numero dei relatori
-       \degreeyear{2021/2022}
+       \degreeyear{2020/2021}
        \numerocorrelatori{2} %numero dei correlatori
        \correlatori{Walter Nunziati\\Alice Cavaliere} % i correlatori separati da \\
 
@@ -72,6 +74,39 @@
   pdfsubject={},%
   pdfkeywords={},%
   colorlinks=false}
+
+\definecolor{GrayCodeBlock}{RGB}{241,241,241}
+\definecolor{BlackText}{RGB}{110,107,94}
+\definecolor{RedTypename}{RGB}{182,86,17}
+\definecolor{GreenString}{RGB}{96,172,57}
+\definecolor{PurpleKeyword}{RGB}{184,84,212}
+\definecolor{GrayComment}{RGB}{170,170,170}
+\definecolor{GoldDocumentation}{RGB}{180,165,45}
+
+\lstset{ 
+  columns=fullflexible,
+  keepspaces=true,
+  breaklines=true, 
+  frame=single,
+  framesep=0pt,
+  framerule=0pt,
+  framexleftmargin=6pt,
+  framexrightmargin=6pt,
+  framextopmargin=5pt,
+  framexbottommargin=3pt,
+  xleftmargin=4pt,
+  xrightmargin=4pt,
+  backgroundcolor=\color{GrayCodeBlock},
+  basicstyle=\footnotesize\color{BlackText},
+  numbers=left,
+  numbersep=8pt,
+  captionpos=b,
+  numbersep=10pt,
+  numberstyle=\scriptsize\color{BlackText}, 
+  keywordstyle=\color{PurpleKeyword},
+  ndkeywordstyle=\color{RedTypename},
+  stringstyle=\color{GreenString}
+}
 
 \begin{document}
 

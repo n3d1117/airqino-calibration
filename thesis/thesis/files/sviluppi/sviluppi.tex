@@ -17,6 +17,26 @@ La streaming replication di PostgreSQL è una funzionalità che consente di repl
 - riduzione del carico sulle risorse: la replica in tempo reale riduce il carico sulle risorse della infrastruttura di storage.
 
 La replica si basa sulle transazioni WAL (Write Ahead Log) e utilizza il protocollo TCP per garantire una connessione sicura tra i server.
+---
+
+TimescaleDB può gestire la replica utilizzando la streaming replication integrata di PostgreSQL (vedi docs ufficiali: \url{https://docs.timescale.com/timescaledb/latest/how-to-guides/replication-and-ha/replication/}).
+
+\subsubsection{Preparazione del database primario}
+
+\begin{itemize}
+  \item Creare un utente PostgreSQL con un ruolo adatto ad avviare la streaming replication:
+   \begin{lstlisting}[language=sql, caption=Python example]
+SET password_encryption = 'scram-sha-256'; 
+CREATE ROLE repuser WITH REPLICATION PASSWORD 'SOME_SECURE_PASSWORD' LOGIN;\end{lstlisting}
+  \item Aggiungere i seguenti parametri al file /var/lib/postgresql/data/postgresql.conf:
+  \begin{lstlisting}[caption=Python example]
+listen_addresses= '*'
+wal_level = replica
+max_wal_senders = 2
+max_replication_slots = 2
+synchronous_commit = off
+\end{lstlisting}
+\end{itemize}
 
 % Ottimizzazione di query temporali
 \section{Ottimizzazione di query temporali}\label{sec:cont-aggr}

@@ -15,17 +15,53 @@
 
 % Regressione
 \section{Regressione}\label{sec:regressione}
-La regressione è una tecnica statistica che serve a stimare la relazione esistente tra due o più variabili. In particolare, la regressione permette di individuare il coefficiente di correlazione tra due variabili e di determinare se questa relazione è casuale o no.
+Nella statistica applicata come nelle scienze sperimentali si osserva (o si ipotizza) l’esistenza di relazioni fra due o più grandezze.
 
-Tra le applicazioni principali della regressione ci sono:
+Sorge allora il problema di determinare una funzione che, in base ai dati ricavati mediante esperimenti o rilevazioni statistiche, rappresenti questi relazioni permettendo, in questo modo, di analizzare meglio i fenomeni osservati.
 
-- Stima della relazione tra due variabili
+Limitando lo studio a problemi che stabiliscono relazioni fra due sole variabili, si tratta, partendo dalle coppie $(x_i, y_i)$ di dati corrispondenti rilevati, di determinare una funzione $y=f(x)$ che rappresenti il fenomeno.
 
-- Analisi della relazione tra variabili
+Per trovare una funzione che rappresenti il fenomeno si può procedere in due modi:
 
-- Valutazione dell'influenza di una variabile sulle altre
+\begin{itemize}
+  \item determinare una funzione che assuma esattamente i valori $(x_i, y_i)$ rilevati; questo procedimento viene detto interpolazione per punti noti;
+  \item determinare una funzione che si accosti il più possibile ai punti $(x_i, y_i)$; questo procedimento viene detto interpolazione fra punti noti.
+\end{itemize}
 
-- Predicting
+La ricerca di una funzione, generalmente espressa da un polinomio, che passi esattamente per i punti $(x_i, y_i)$ è piuttosto laboriosa; nelle applicazioni statistiche si preferisce determinare una funzione il cui grafico si avvicini ai punti rilevati.
+
+Osservando l’andamento del fenomeno si sceglie il tipo di funzione interpolatrice: lineare, quadratica, esponenziale, ecc. e quindi si procede alla determinazione dei parametri, ossia delle costanti che compaiono nella funzione scelta in modo che sia soddisfatta una condizione di accostamento prefissata.
+
+Per conseguire questo scopo il metodo più utilizzato è il metodo dei \textbf{minimi quadrati} che costituisce un’applicazione della ricerca del minimo di una funzione di più variabili mediante gli strumenti dell’analisi infinitesimale.
+
+Si considerino due variabili $X$ e $Y$ sulle quali si sono effettuate $n$ rilevazioni: $\left(x_{1}, y_{1}\right),\left(x_{2}, y_{2}\right), \ldots,\left(x_{i}, y_{i}\right), \ldots,\left(x_{n}, y_{n}\right)$
+
+Sia $y=f(x; a, b, c, ..., k)$ la funzione interpolatrice scelta. Siano inoltre $\hat{y}_{i}$ valori teorici sulla curva corrispondenti ai valori $x_i$ rilevati.
+
+La condizione di accostamento data dal metodo dei minimi quadrati è quella di determinare i valori dei parametri in modo che sia minima la somma dei quadrati delle differenze fra i valori osservati $y_i$ e i valori teorici $y_i$ (figura \ref{fig:minimi_quadrati}), ovvero:
+
+$\varphi(a, b, c, \ldots, k)=\sum_{i=1}^{n}\left[y_{i}-f\left(x_{i} ; a, b, c, \ldots, k\right)\right]^{2}$
+
+dove i valori $x_i$ e $y_i$ sono noti, mentre sono incogniti i parametri $a , b , c , … , k$ della funzione. \cite{excel_per_statistica_belluco}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/minimi_quadrati.png}
+\caption{Condizione dei \textit{minimi quadrati} \cite{excel_per_statistica_belluco}}
+\label{fig:minimi_quadrati}
+\end{figure}
+
+%La regressione è una tecnica statistica che serve a stimare la relazione esistente tra due o più variabili. In particolare, la regressione permette di individuare il coefficiente di correlazione tra due variabili e di determinare se questa relazione è casuale o no.
+%
+%Tra le applicazioni principali della regressione ci sono:
+%
+%- Stima della relazione tra due variabili
+%
+%- Analisi della relazione tra variabili
+%
+%- Valutazione dell'influenza di una variabile sulle altre
+%
+%- Predicting
 
 \subsection{Regressione lineare}\label{ssec:regressione-lineare}
 Per stimare la relazione tra due variabili, la regressione lineare utilizza una formula matematica che calcola la media dei valori della prima variabile (Y) in funzione dei valori della seconda variabile (X). La formula della regressione lineare è:

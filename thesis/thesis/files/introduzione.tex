@@ -1,6 +1,5 @@
 \chapter{Introduzione}\label{ch:introduzione}
 \ldots
-%\cite{gruntzig1978transluminal}
 
 % Contesto
 \section{Contesto}\label{sec:contesto}
@@ -12,17 +11,31 @@ Il monitoraggio della qualità dell'aria è una delle attività più importanti 
 \subsection{Progetti simili}\label{ssec:competitor}
 
 \begin{itemize}
-	\item \textbf{Airly} (https://airly.org/) è una piattaforma che consente di condividere informazioni ambientali in tempo reale, grazie alla quale è possibile monitorare la qualità dell'aria e i livelli di inquinamento;
+	\item \textbf{Airly} (\url{https://airly.org/}) è una piattaforma che consente di condividere informazioni ambientali in tempo reale, grazie alla quale è possibile monitorare la qualità dell'aria e i livelli di inquinamento;
+	\item \textbf{Aqicn} (\url{https://aqicn.org}) è un progetto open source lanciato nel 2010 che consente di monitorare l'inquinamento atmosferico in tempo reale;
+	\item \textbf{IQAir} (\url{https://aqicn.org}) è una società svizzera che produce e vende purificatori d'aria per uso residenziale e commerciale. La loro applicazione fornisce un rapporto in tempo reale sulla qualità dell'aria e previsione dell'inquinamento atmosferico;
+	\item \textbf{Decentlab} (\url{https://decentlab.com}) è un'azienda svizzera che fornisce dispositivi e servizi di sensori wireless per soluzioni di monitoraggio distribuite ed economiche;
+	\item \textbf{SMART Treedom} (\url{https://smart.treedom.net}) è il frutto dalla collaborazione tra Treedom e l’Istituto di Biometeorologia del Consiglio Nazionale delle Ricerche. La finalità del progetto è stata quella di prototipare un sistema integrato che possa essere modulato con diversi sensori in base al tipo di grandezza fisica che si vuole misurare e una tecnologia laser per la misura delle polveri sottili;
+	\item \textbf{PlanetWatch} (\url{https://planetwatch.io}) è una piattaforma decentralizzata che consente di monitorare e proteggere il pianeta attraverso la condivisione di informazioni. Gli utenti possono condividere informazioni sull'ambiente, la sostenibilità e la responsabilità sociale;
+	\item \textbf{HackAIR} (\url{https://hackair.eu}) è una piattaforma open source che consente ai cittadini di monitorare la qualità dell'aria nei propri quartieri. Gli utenti possono interagire con la piattaforma per segnalare la qualità dell'aria nel proprio quartiere, visualizzare i dati relativi alla qualità dell'aria e condividere informazioni e dati con altri utenti.
 \end{itemize}
-
-%Airly, Aqicn, IQAir, Decentlab, SMART Treedom, PlanetWatch, HackAIR
 
 % La piattaforma AirQino
 \section{La piattaforma AirQino}\label{sec:airqino}
-\ldots
+AirQino è una piattaforma di monitoraggio ambientale ad alta precisione, realizzata dal Consiglio Nazionale delle Ricerche (CNR) in collaborazione con TEA Group e Quanta Srl.
+Il progetto nasce dall’esigenza di realizzare una rete di stazioni mobile per un monitoraggio piu’ completo della qualità dell’aria in ambito urbano, in linea con la Direttiva 2008/50/EC, che riconosce e regolamenta l’importanza di misure aggiuntive rispetto a quelle delle stazioni fisse.
+
+Nonostante infatti l’attività svolta da ARPA, a causa del numero limitato di stazioni e/o di sorgenti monitorate, ad oggi, la conoscenza sullo stato dell’inquinamento dell’aria da parte degli Enti Locali rimane molto limitata.
 
 \subsection{Hardware dei sensori}\label{ssec:hardware}
-\ldots
+Per quanto riguarda la caratteristiche dei sensori, i sensori di tipo MOS sono costituiti da un film (credo allumina? Per  fabbricare  gli  strati  sensibili  del  film,  si  prepara  una  pasta  viscosa:  al  materiale funzionale,  sotto  forma  di  polvere,  viene  aggiunta  una  miscela  di  agenti  reologici  in  solventi  volatili) depositato su una piastra di elementi riscaldanti la cui temperatura operativa è generalmente compresa tra 300 e 500°C. Di solito il  materiale funzionale del film più  adatto per  la  rilevazione di  biossido  di  azoto è l’ossido  di  ferro  e lantanio (LaFeO3) che oltre ad avere una buona sensibilità agli ossidi di azoto ha una  bassa  sensibilità  al  monossido  di  carbonio. Per la rilevazione dell’ozono viene invece utilizzato  triossido di tungsteno (WO3). Questo tipo  di  materiale  funzionale risulta  molto  sensibile  ai  gas  ossidanti  come  O3 e  NO2. Qualsiasi sia il materiale funzionale, il principio di funzionamento per tutti i MOS nella rilevazione di gas è quello di interagire con il gas presente all’interno dell’atmosfera tramite reazioni di ossidoriduzione, portando a un cambiamento di conduttività, che viene rilevato da un circuito apposito. Le variazioni della conduttività dei sensori è fortemente influenzata dalle variazioni di umidità e temperatura, come rilevato dalla letteratura sull'argomento [ref]. Nel caso dei sensori Mics che noi utilizziamo, il produttore non rilascia informazioni sull'influenza nella lettura dovuto alla temperatura/umidità  ma che queste influiscono può essere ipotizzato come può essere ipotizzato che ci sia una influenza introdotta dalla temperatura nel circuito ADC del microcontrollore.
+
+Questo segnale viene passato al convertitore analogico digitale del controllore che lo trasforma in counts (10 bit da 0 a 2 alla 10).
+
+ossidoriduzione → piastra che si scalda a seconda dell'inquinante genera corrente
+
+il segnale viene passato attraverso un convertitore analogico digitale e l’uscita è a 10 bit (questa unità la chiamo counts)
+
 
 \subsection{Architettura e tecnologie}\label{ssec:airqino-architettura}
 \ldots
