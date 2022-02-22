@@ -25,11 +25,11 @@ TimescaleDB può gestire la replica utilizzando la streaming replication integra
 
 \begin{itemize}
   \item Creare un utente PostgreSQL con un ruolo adatto ad avviare la streaming replication:
-   \begin{lstlisting}[language=sql, caption=Python example]
+   \begin{lstlisting}[language=sql, caption=TODO]
 SET password_encryption = 'scram-sha-256'; 
 CREATE ROLE repuser WITH REPLICATION PASSWORD 'SOME_SECURE_PASSWORD' LOGIN;\end{lstlisting}
-  \item Aggiungere i seguenti parametri al file /var/lib/postgresql/data/postgresql.conf:
-  \begin{lstlisting}[caption=Python example]
+  \item Aggiungere i seguenti parametri al file \url{/var/lib/postgresql/data/postgresql.conf}:
+  \begin{lstlisting}[caption=TODO]
 listen_addresses= '*'
 wal_level = replica
 max_wal_senders = 2
