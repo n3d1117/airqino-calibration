@@ -19,6 +19,7 @@ Nella statistica applicata come nelle scienze sperimentali si osserva (o si ipot
 
 Sorge allora il problema di determinare una funzione che, in base ai dati ricavati mediante esperimenti o rilevazioni statistiche, rappresenti questi relazioni permettendo, in questo modo, di analizzare meglio i fenomeni osservati.
 
+\subsection{Introduzione}\label{ssec:regressione-introduzione}
 Limitando lo studio a problemi che stabiliscono relazioni fra due sole variabili, si tratta, partendo dalle coppie $(x_i, y_i)$ di dati corrispondenti rilevati, di determinare una funzione $y=f(x)$ che rappresenti il fenomeno.
 
 Per trovare una funzione che rappresenti il fenomeno si può procedere in due modi:
@@ -38,7 +39,7 @@ Si considerino due variabili $X$ e $Y$ sulle quali si sono effettuate $n$ rileva
 
 Sia $y=f(x; a, b, c, ..., k)$ la funzione interpolatrice scelta. Siano inoltre $\hat{y}_{i}$ valori teorici sulla curva corrispondenti ai valori $x_i$ rilevati.
 
-La condizione di accostamento data dal metodo dei minimi quadrati è quella di determinare i valori dei parametri in modo che sia minima la somma dei quadrati delle differenze fra i valori osservati $y_i$ e i valori teorici $y_i$ (figura \ref{fig:minimi_quadrati}), ovvero:
+La condizione di accostamento data dal metodo dei minimi quadrati è quella di determinare i valori dei parametri in modo che sia minima la somma dei quadrati delle differenze fra i valori osservati $y_i$ e i valori teorici $\hat{y}_i$ (figura \ref{fig:minimi_quadrati}), ovvero:
 
 $$\varphi(a, b, c, \ldots, k)=\sum_{i=1}^{n}\left[y_{i}-f\left(x_{i} ; a, b, c, \ldots, k\right)\right]^{2}$$
 
@@ -51,7 +52,7 @@ dove i valori $x_i$ e $y_i$ sono noti, mentre sono incogniti i parametri $a , b 
 \label{fig:minimi_quadrati}
 \end{figure}
 
-\subsection{Correlazione e analisi}\label{ssec:regressione-analisi}
+\subsection{Correlazione e coefficiente di determinazione}\label{ssec:regressione-correlazione}
 
 Quando la dipendenza tra le due variabili è lineare, si parla di correlazione lineare, che può essere valutata mediante il coefficiente di correlazione lineare ($r$):
 
@@ -103,7 +104,9 @@ $$r^{2}=\frac{\sigma_{\hat{y}}^{2}}{\sigma_{\hat{y}}^{2}+\sigma_{e}^{2}}$$\small
 
 è evidente, quindi, che se la variabilità non spiegata è trascurabile, $\sigma_{e}^{2}$ tende ad annullarsi ed $r^{2}$ avrà un valore prossimo ad 1, mentre diverrà via via minore di 1 al diminuire dell’accordo tra la funzione calcolata e le osservazioni sperimentali.
 
-Minore è la somma residua rispetto alla somma totale dei quadrati, maggiore sarà il valore del coefficiente di determinazione, $r^2$, il quale è un indicatore del livello di precisione con cui l'equazione ottenuta dall'analisi di regressione spiega la relazione tra le variabili.
+Minore è la somma residua rispetto alla somma totale dei quadrati, maggiore sarà il valore del coefficiente di determinazione, $r^2$, il quale è un indicatore del livello di precisione con cui l'equazione ottenuta dall'analisi di regressione spiega la relazione tra le variabili. \cite{linear_models}
+
+% TODO aggiungi rmse come metrica
 
 %La regressione è una tecnica statistica che serve a stimare la relazione esistente tra due o più variabili. In particolare, la regressione permette di individuare il coefficiente di correlazione tra due variabili e di determinare se questa relazione è casuale o no.
 %
@@ -117,8 +120,64 @@ Minore è la somma residua rispetto alla somma totale dei quadrati, maggiore sar
 %
 %- Predicting
 
+\subsection{Analisi dei residui}\label{ssec:regressione-residui}
+Esistono metodi utili per diagnosticare le violazioni delle ipotesi di regressione di base: questi si basano principalmente sullo studio dei residui del modello. Spesso infatti la retta di regressione è infatti una semplificazione della realtà e non coglie tutta la variabilità presente in un insieme di dati. \cite{residui_pozzolo}
+
+Si definiscono i residui come:
+
+$$e_{i}=y_{i}-\hat{y}_{i}, \quad i=1,2, \ldots, n$$\smallskip
+
+dove $y_{i}$ è il valore osservato e $\hat{y}_{i}$ è il valore teorico.
+
+Poiché un residuo può essere visto come la deviazione tra i dati e l'adattamento, è anche una misura della variabilità nella variabile di risposta non spiegata dal modello di regressione. \cite{introduction_to_lr}
+
+Eventuali scostamenti dalle ipotesi sugli errori dovrebbero quindi manifestarsi nei residui. L'analisi grafica dei residui è un modo efficace per scoprire diversi tipi di inadeguatezze del modello, tra cui: 
+\begin{itemize}
+  \item se i residui hanno distribuzione normale (\ref{ssec:distr-errori});
+  \item se le varibabili indipendenti sono correlate con l'errore (\ref{ssec:correlazione-errore-variabili});
+  \item se la varianza dei residui è omogenea (\ref{ssec:omogeneita-varianza});
+  \item se ci sono degli outliers che influenzano la pendenza della retta (\ref{ssec:influenza-outliers}).
+\end{itemize}
+
+\subsubsection{Distribuzione degli errori}\label{ssec:distr-errori}
+La distribuzione normale degli errori può essere verificata attraverso un grafico dei quantili, detto anche q-q plot.
+In questa tipologia di grafico, i quantili teorici di una distribuzione Normale sono riportati sull’asse orizzontale. I quantili dei residui standardizzati sono invece riportati sull’asse verticale.
+L’idea è che se i residui hanno una distribuzione normale, i loro quantili dovrebbero coincidere con quelli della distribuzione normale. A livello visivo, questo significa che i punti dovrebbero disporsi lungo la \textit{bisettrice}, indicata dalla retta presente nel grafico (figura TODO).
+
+%TODO figura + ref
+
+Nella pratica, non capita quasi mai che i punti si dispongano esattamente lungo la bisettrice. Per poter dire che gli errori hanno una distribuzione normale ci si accontenta quindi che i punti siano vicino alla linea presente nel grafico.
+Tuttavia in generale le stime sui coefficienti di regressione sono abbastanza robuste a violazioni della normalità distributiva dei residui.
+
+\subsubsection{Correlazione tra errore e variabili}\label{ssec:correlazione-errore-variabili}
+Se una variabile esplicativa è correlata con il termine d’errore, è possibile utilizzare questa variabile esplicativa per predire quale sarà l’errore del modello di regressione. Questo in generale non è un buon segno, perché la componente di errore di un modello di previsione deve essere imprevedibile.
+
+Per verificare la non correlazione tra la variabile indipendente (x) e i residui è utile osservare un grafico di dispersione come quello riportato in figura TODO, in sull’asse orizzontale si mettono i valori della x, mentre sull’asse verticale i valori dei residui.
+
+%TODO figura + ref
+
+L’ipotesi è confermata se non è individuabile nessuna relazione tra le due variabili.
+
+\subsubsection{Omogeneità della varianza dei residui}\label{ssec:omogeneita-varianza}
+Per verificare l’ipotesi di omogeneità delle varianze dei residui, è necessario creare un grafico a dispersione.  I valori stimati della y si riportano sull’asse orizzontale delle x. Sull’asse verticale delle y invece si indicano i valori dei residui (figura \ref{fig:distr_residui}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth,height=\textheight,keepaspectratio]{img/distr_residui.png}
+\caption{Esempio di distribuzione dei residui}
+\label{fig:distr_residui}
+\end{figure}
+
+Se c’è omogeneità della varianza dei residui, i punti saranno dispersi in modo simile sia nella parte sinistra che in quella destra del grafico. Questa proprietà se verificata prende il nome di \textbf{omoschedasticità}.
+
+\subsubsection{Influenza di outliers}\label{ssec:influenza-outliers}
+Il grafico a dispersione tra valori predetti e residui permette di individuare anche i possibili outliers, ovvero i punti isolati nel grafico (quelli con residui maggiori).
+Tuttavia, per verificare se ci sono outliers in un modello di regressione, spesso si utilizzano altre tecniche (ad esempio eliminando i punti problematici tramite la distanza di Cook, descritta in \ref{sssec:regressione-cook}, oppure applicando stime robuste meno sensibili alle le osservazioni problematiche, ad esempio con la funzione peso di Huber  descritta in \ref{sssec:regressione-huber}). Nel primo caso è utile anche provare a rifare le analisi di regressione escludendo le osservazioni potenzialmente problematiche e vedere se ci sono differenze nei coefficienti del modello.
+
+Nei modelli di regressione infatti anche un singolo outlier può influenzare in maniera sostanziale la capacità di adattamento del modello ai dati, soprattutto se il campione non è molto numeroso.
+
 \subsection{Modelli di regressione}\label{ssec:regressione-modelli}
-\ldots
+I modelli di regressione sono ampiamente utilizzati sia per la previsione o la descrizione dei dati che la stima e il controllo dei parametri.
 
 \subsubsection{Regressione lineare}\label{sssec:regressione-lineare}
 Si considera una funzione lineare a due variabili:
@@ -150,6 +209,13 @@ $$\hat{b}=\frac{\sum_{i=1}^{n} \frac{\left(x_{i}-\bar{x}\right)\left(y_{i}-\bar{
 
 dove il denominatore è la \textit{varianza} di $X$ ($\sigma_{X}^{2}$), mentre il numeratore è detto \textit{covarianza} di X e Y ($\sigma_{XY}$) e misura la variabilità congiunta delle coppie ($x_i$, $y_i$) di valori corrispondenti rispetto al proprio valor medio; quindi, il coefficiente $b$ della retta interpolante esprime la variabilità congiunta di $X$ e $Y$ rapportata alla variabilità della sola $X$.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth,height=\textheight,keepaspectratio]{img/lin_reg_example.png}
+\caption{Esempio di regressione lineare}
+\label{fig:reg_lin}
+\end{figure}
+
 La precisione della retta calcolata dalla regressione lineare dipende dal grado di dispersione nei dati. Più i dati sono lineari, più il modello risulterà accurato.
 
 %Per stimare la relazione tra due variabili, la regressione lineare utilizza una formula matematica che calcola la media dei valori della prima variabile (Y) in funzione dei valori della seconda variabile (X). La formula della regressione lineare è:
@@ -161,18 +227,81 @@ La precisione della retta calcolata dalla regressione lineare dipende dal grado 
 %Utilizzando la regressione lineare, è possibile stimare la relazione tra due variabili anche in presenza di deviazioni dalla linea.
 
 \subsubsection{Regressione lineare robusta (Huber)}\label{sssec:regressione-huber}
-La regressione Huber (in inglese Huber regression, anche detta regressione robusta) è una metodologia statistica per la stima dei parametri di un modello lineare, in presenza di outliers.
+La regressione Huber (in inglese Huber regression, anche detta regressione robusta) è una metodologia statistica per la stima dei parametri di un modello lineare in presenza di \textit{outliers}.
 
-Il metodo Huber si basa sul principio della massima verosimiglianza, e si propone di ridurre la sensibilità dei parametri alla presenza di outliers. In particolare, la regressione Huber utilizza una funzione di peso, detta funzione di Huber, che tiene conto della variabilità dei dati intorno ai valori centrali.
+Ci sono situazioni in cui si verifica presenza di valori anomali che influiscono sul modello di regressione, nel senso che possono avere una forte influenza sul metodo dei minimi quadrati, di fatto \textit{deviando} troppo l'equazione di regressione nella loro direzione. Il metodo dei minimi quadrati, infatti, in questi casi ha lo svantaggio di avere la tenedenza a essere dominato da questi valori — infatti sommando il quadrato dei residui ($\sum_{i=1}^{n} a_i^2$ dove $a_i$ è il residuo i-esimo), la media risulta troppo influenzata da pochi valori $a_i$ particolarmente grandi.
+
+Ci sono due modi per affrontare questa situazione:
+
+\begin{itemize}
+  \item Scartare le osservazioni \textit{scomode} (vedi regressione lineare avanzata \ref{sssec:regressione-cook});
+  \item Applicare procedure di stime robuste in modo che siano meno sensibili alle osservazioni troppo influenti (figura \ref{fig:reg_rob}).
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth,height=\textheight,keepaspectratio]{img/robust.png}
+\caption{Comportamento di modelli di regressione robusta in presenza di outliers}
+\label{fig:reg_rob}
+\end{figure}
+
+Una delle funzioni di stima robusta, comunemente usata in diversi metodi di regressione per ridurre la sensibilità dei parametri alla presenza di outliers, è la \textbf{funzione di Huber}, che risulta quadratica per piccoli valori di $x$, e lineare per valori più grandi. È definita come:
+
+$$L_{\delta}(a)= \begin{cases}\frac{1}{2} a^{2} & \text { per }|a| \leq \delta \\ \delta\left(|a|-\frac{1}{2} \delta\right), & \text { altrimenti }\end{cases}$$\smallskip
+
+Dove la variabile $a$ fa riferimento al residuo, cioè la differenza tra valore osservato e valore predetto ($a = y - f(x)$).
+
 
 \subsubsection{Regressione lineare avanzata (con rimozione di outlier)}\label{sssec:regressione-cook}
-La regressione con rimozione outlier tramite distanza di Cook è una tecnica statistica per ridurre l'influenza degli outliers nei dati di una regressione lineare.
+Esistono molte tecniche per rimuovere i valori anomali da un set di dati. Un metodo che viene spesso utilizzato nelle impostazioni di regressione è la \textbf{distanza di Cook}.
 
-Si basa sul concetto di distanza di Cook, che misura la distanza tra un dato e il valore medio dei dati della stessa variabile. In presenza di outliers, la distanza di Cook aumenta, e quindi questi dati hanno un maggiore impatto sulle stime dei parametri della regressione.
+La distanza di Cook è una stima dell'\textit{influenza} di una osservazione in un dataset, in termini di residuo (outlier) o di elevato \textit{leverage}: è un riepilogo di quanto cambierebbe un modello di regressione nel caso in cui venga rimossa l'i-esima osservazione.
 
-La regressione con rimozione outlier tramite distanza di Cook si basa sull'utilizzo di una funzione di peso, detta funzione di Cook, che tiene conto della distanza di Cook dei dati. La funzione di peso viene utilizzata per ridurre l'influenza degli outliers nei dati della regressione.
+In presenza di outliers la distanza di Cook aumenta, e quindi questi dati ad alta influenza hanno un maggiore impatto sulle stime dei parametri della regressione. La distanza di Cook può anche essere utilizzata per individuare regioni dello spazio nelle quali sarebbe necessario effettuare una validazione acquisendo più dati.
+
+La distanza di Cook \cite{cook_def} dell'osservazione $i$ ($\forall i=1, \ldots, n$) è definita come:
+
+$$D_{i}=\frac{\sum_{j=1}^{n}\left(\hat{y}_{j}-\hat{y}_{j(i)}\right)^{2}}{p s^{2}}$$\smallskip
+
+dove:
+
+\begin{itemize}
+  \item $n$ è il numero di osservazioni;
+  \item $\hat{y}_{j}$ è il valore predetto;
+  \item $\hat{y}_{j(i)}$ è la risposta ottenuta escludendo l'i-esima osservazione;
+\end{itemize}
+
+Oppure, in modo equivalente:
+
+$$D_{i}=\frac{e_{i}^2}{p s^{2}}\left[\frac{h_{i}}{\left(1-h_{i}\right)^{2}}\right]$$\smallskip
+
+dove:
+
+\begin{itemize}
+  \item $e_{i} = y_i - \hat{y_i}$  è l'i-esimo residuo;
+  \item $p$ è il numero di coefficienti della regressione;
+  \item $s^2$ è l'errore quadratico medio (MSE);
+  \item $h_i$ è il peso che l'i-esimo osservazione ha sul valore della regressione (\textit{leverage}).
+\end{itemize}
+
+Un esempio di rilevazione grafica di outlier tramite distanza di Cook è riportato in figura \ref{fig:cook}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth,height=\textheight,keepaspectratio]{img/cook.png}
+\caption{Riconoscimento di outlier tramite distanza di Cook}
+\label{fig:cook}
+\end{figure}
+
+Vi sono diverse opinioni riguardo al valore di soglia di \textit{cut-off}, oltre la quale un dato può essere considerato un outlier. In \cite{applied_regression} viene proposta:
+
+$$D_{i}>\frac{4}{n}$$\smallskip
+
+dove $n$ è il numero di osservazioni.
 
 \subsubsection{Regressione Lasso}\label{sssec:regressione-lasso}
+% TODO vedi tesi polito pag. 23
+
 La regressione Lasso (in inglese Lasso regression) è una metodologia statistica per la stima dei parametri di un modello lineare, in presenza di outliers.
 
 Il metodo Lasso si basa sul principio della massima verosimiglianza, e si propone di ridurre la sensibilità dei parametri alla presenza di outliers. In particolare, la regressione Lasso utilizza una funzione di peso, detta funzione di Lasso, che tiene conto della variabilità dei dati intorno ai valori centrali.
@@ -182,9 +311,38 @@ Il metodo Lasso si basa sul principio della massima verosimiglianza, e si propon
 
 \subsubsection{Regressione con KernelRidge}\label{sssec:regressione-kridge}
 \ldots
+% TODO cita libro che c'è in fondo a https://scikit-learn.org/stable/modules/kernel_ridge.html#id1
 
 \subsubsection{Regressione polinomiale}\label{sssec:regressione-polinomiale}
-La regressione polinomiale è una generalizzazione della regressione lineare, in cui il rapporto tra Y e X non è più una linea retta.
+La regressione polinomiale è una generalizzazione della regressione lineare. In questo caso il metodo dei minimi quadrati può essere utilizzato anche per adattare una funzione polinomiale a un insieme di dati. Considerato un polinomio di grado $k$:
+
+$$y=a_{0}+a_{1} x+a_{2} x^{2}+a_{3} x^{3}+\ldots+a_{k} x^{k}$$\smallskip
+
+In questo caso il sistema di equazioni da risolvere è:
+
+$$\left\{\begin{array}{l}
+n a_{0}+a_{1} \sum_{i=1}^{n} x_{i}+a_{2} \sum_{i=1}^{n} x_{i}^{2}+\cdots+a_{k} \sum_{i=1}^{n} x_{i}^{k}=\sum_{i=1}^{n} y_{i} \\
+a_{1} \sum_{i=1}^{n} x_{i}+a_{2} \sum_{i=1}^{n} x_{i}^{2}+\cdots+a_{k} \sum_{i=1}^{n} x_{i}^{k}=\sum_{i=1}^{n} x_{i} y_{i} \\
+\cdots \\
+a_{1} \sum_{i=1}^{n} x_{i}^{k}+a_{2} \sum_{i=1}^{n} x_{i}^{k+1}+\cdots+a_{k} \sum_{i=1}^{n} x_{i}^{2 k}=\sum_{i=1}^{n} x_{i}^{k} y_{i}
+\end{array}\right.$$\smallskip
+
+che, risolto, permette di ricavare i parametri $a_0$, $a_1$, $a_2$, ..., $a_k$.
+
+I polinomi sono ampiamente utilizzati in situazioni in cui la risposta è curvilinea, poiché anche relazioni non lineari complesse possono essere adeguatamente modellate da polinomi su intervalli ragionevolmente piccoli delle $x$.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth,height=\textheight,keepaspectratio]{img/poly_reg_example.png}
+\caption{Esempio di regressione polinomiale}
+\label{fig:poly_reg}
+\end{figure}
+
+Ci sono diverse considerazioni importanti che emergono quando si adatta un polinomio in una variabile: una di queste riguarda la scelta dell'ordine del modello.
+Come regola generale, l'uso di polinomi di ordine elevato ($k > 2$) dovrebbe essere evitato: un modello di ordine basso è quasi sempre preferibile a un modello di ordine elevato per ragioni di minore complessità, di coerenza con i dati e per evitare \textit{overfitting}.
+
+Come caso estremo, è sempre possibile trovare un polinomio di grado $n-1$ ad $n$ punti che risulti in un buon adattamento dei dati.
+Nella maggior parte dei casi, però, questo non farebbe nulla per migliorare la comprensione della funzione sconosciuta, né sarà probabilmente un buon predittore.
 
 \subsubsection{Regressione con Random Forest}\label{sssec:regressione-rf}
 \ldots
@@ -210,7 +368,13 @@ La regressione polinomiale è una generalizzazione della regressione lineare, in
 
 % Validazione
 \section{Validazione}\label{sec:validazione}
-\ldots
+%TODO vedi capitolo 11 di douglas
+
+Poiché l'adattamento del modello ai dati disponibili costituisce la base per molte delle tecniche utilizzate nel processo di sviluppo del modello (come la selezione delle variabili), si è tentati di concludere che un modello che si adatta bene ai dati avrà successo anche nel applicazione finale. Non é necessariamente così. Ad esempio, un modello potrebbe essere stato sviluppato principalmente per prevedere nuove osservazioni.
+
+Non vi è alcuna garanzia che l'equazione che fornisce il miglior adattamento ai dati esistenti sarà un predittore di successo. Fattori influenti che erano sconosciuti durante la fase di costruzione del modello possono influenzare in modo significativo le nuove osservazioni, rendendo le previsioni quasi inutili.
+
+La corretta convalida di un modello sviluppato per prevedere nuove osservazioni dovrebbe implicare una fase di validazione fatta sul campo prima di rilasciare il modello.
 
 \subsection{PM2.5}\label{ssec:validazione-pm2.5}
 \ldots
