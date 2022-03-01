@@ -37,11 +37,11 @@ Per conseguire questo scopo il metodo più utilizzato è il metodo dei \textbf{m
 
 Si considerino due variabili $X$ e $Y$ sulle quali si sono effettuate $n$ rilevazioni: $$\left(x_{1}, y_{1}\right),\left(x_{2}, y_{2}\right), \ldots,\left(x_{i}, y_{i}\right), \ldots,\left(x_{n}, y_{n}\right)$$
 
-Sia $y=f(x; a, b, c, ..., k)$ la funzione interpolatrice scelta. Siano inoltre $\hat{y}_{i}$ valori teorici sulla curva corrispondenti ai valori $x_i$ rilevati.
+Sia $y=f(x; a, b, c, ..., k)$ la funzione interpolatrice scelta. Siano inoltre $\hat{y}_{i}$ valori predetti sulla curva corrispondenti ai valori $x_i$ rilevati.
 
-La condizione di accostamento data dal metodo dei minimi quadrati è quella di determinare i valori dei parametri in modo che sia minima la somma dei quadrati delle differenze fra i valori osservati $y_i$ e i valori teorici $\hat{y}_i$ (figura \ref{fig:minimi_quadrati}), ovvero:
+La condizione di accostamento data dal metodo dei minimi quadrati è quella di determinare i valori dei parametri in modo che sia minima la somma dei quadrati delle differenze fra i valori osservati $y_i$ e i valori predetti $\hat{y}_i$ (figura \ref{fig:minimi_quadrati}), ovvero:
 
-$$\varphi(a, b, c, \ldots, k)=\sum_{i=1}^{n}\left[y_{i}-f\left(x_{i} ; a, b, c, \ldots, k\right)\right]^{2}$$
+$$\varphi(a, b, c, \ldots, k)=\sum_{i=1}^{n}\left[y_{i}-f\left(x_{i} ; a, b, c, \ldots, k\right)\right]^{2}$$\smallskip
 
 dove i valori $x_i$ e $y_i$ sono noti, mentre sono incogniti i parametri $a , b , c , … , k$ della funzione. \cite{excel_per_statistica_belluco}
 
@@ -127,7 +127,7 @@ Si definiscono i residui come:
 
 $$e_{i}=y_{i}-\hat{y}_{i}, \quad i=1,2, \ldots, n$$\smallskip
 
-dove $y_{i}$ è il valore osservato e $\hat{y}_{i}$ è il valore teorico.
+dove $y_{i}$ è il valore osservato e $\hat{y}_{i}$ è il valore predetto.
 
 Poiché un residuo può essere visto come la deviazione tra i dati e l'adattamento, è anche una misura della variabilità nella variabile di risposta non spiegata dal modello di regressione. \cite{introduction_to_lr}
 
@@ -252,12 +252,12 @@ $$L_{\delta}(a)= \begin{cases}\frac{1}{2} a^{2} & \text { per }|a| \leq \delta \
 Dove la variabile $a$ fa riferimento al residuo, cioè la differenza tra valore osservato e valore predetto ($a = y - f(x)$).
 
 
-\subsubsection{Regressione lineare avanzata (con rimozione di outlier)}\label{sssec:regressione-cook}
-Esistono molte tecniche per rimuovere i valori anomali da un set di dati. Un metodo che viene spesso utilizzato nelle impostazioni di regressione è la \textbf{distanza di Cook}.
+\subsubsection{Regressione lineare avanzata}\label{sssec:regressione-cook}
+Come accennato in \ref{sssec:regressione-huber}, un'altra tecnica per la gestione di outlier è quella di applicare il modello sul dataset dopo aver rimosso i valori anomali. Esistono molte metriche su cui basarsi per rimuovere gli outlier da un set di dati: un metodo che viene spesso utilizzato nella regressione è la \textbf{distanza di Cook}.
 
 La distanza di Cook è una stima dell'\textit{influenza} di una osservazione in un dataset, in termini di residuo (outlier) o di elevato \textit{leverage}: è un riepilogo di quanto cambierebbe un modello di regressione nel caso in cui venga rimossa l'i-esima osservazione.
 
-In presenza di outliers la distanza di Cook aumenta, e quindi questi dati ad alta influenza hanno un maggiore impatto sulle stime dei parametri della regressione. La distanza di Cook può anche essere utilizzata per individuare regioni dello spazio nelle quali sarebbe necessario effettuare una validazione acquisendo più dati.
+In presenza di outliers la distanza di Cook aumenta, e quindi questi dati ad alta influenza hanno un maggiore impatto sulle stime dei parametri della regressione.
 
 La distanza di Cook \cite{cook_def} dell'osservazione $i$ ($\forall i=1, \ldots, n$) è definita come:
 
@@ -268,7 +268,7 @@ dove:
 \begin{itemize}
   \item $n$ è il numero di osservazioni;
   \item $\hat{y}_{j}$ è il valore predetto;
-  \item $\hat{y}_{j(i)}$ è la risposta ottenuta escludendo l'i-esima osservazione;
+  \item $\hat{y}_{j(i)}$ è la risposta ottenuta escludendo l'i-esima osservazione.
 \end{itemize}
 
 Oppure, in modo equivalente:
@@ -297,24 +297,48 @@ Vi sono diverse opinioni riguardo al valore di soglia di \textit{cut-off}, oltre
 
 $$D_{i}>\frac{4}{n}$$\smallskip
 
-dove $n$ è il numero di osservazioni.
-
-\subsubsection{Regressione Lasso}\label{sssec:regressione-lasso}
-% TODO vedi tesi polito pag. 23
-
-La regressione Lasso (in inglese Lasso regression) è una metodologia statistica per la stima dei parametri di un modello lineare, in presenza di outliers.
-
-Il metodo Lasso si basa sul principio della massima verosimiglianza, e si propone di ridurre la sensibilità dei parametri alla presenza di outliers. In particolare, la regressione Lasso utilizza una funzione di peso, detta funzione di Lasso, che tiene conto della variabilità dei dati intorno ai valori centrali.
+dove $n$ è il numero di osservazioni. La distanza di Cook può anche essere utilizzata per individuare regioni dello spazio nelle quali sarebbe necessario effettuare una validazione, ad esempio acquisendo più dati.
 
 \subsubsection{Regressione Ridge}\label{sssec:regressione-ridge}
-\ldots
+Nella statistica e nel Machine Learning, la regressione Ridge è un metodo di analisi di regressione che applica una fase di \textbf{regolarizzazione} al fine di migliorare l'accuratezza della previsione, prevenire l'\textit{overfitting} e penalizzare la complessità del modello.
+Insieme al LASSO (vedi \ref{sssec:regressione-lasso}) è un modello di regressione che viene ripreso anche da tecniche di Boosting di Machine Learning.
 
-\subsubsection{Regressione con KernelRidge}\label{sssec:regressione-kridge}
-\ldots
-% TODO cita libro che c'è in fondo a https://scikit-learn.org/stable/modules/kernel_ridge.html#id1
+Parlando di regolarizzazione in generale esistono due tipi di penalizzazione:
+\begin{itemize}
+  \item \textbf{L1}: penalizza il valore assoluto dei coefficienti del modello (es. Lasso); 
+  \item \textbf{L2}: penalizza il quadrato del valore dei coefficienti del modello (es. Ridge).
+\end{itemize}
+
+La regressione Ridge usa la penalità L2: in pratica questo produce coefficienti piccoli, ma nessuno di loro è mai annullato (\textit{feature shrinkage}).
+
+Richiamando il metodo dei minimi quadrati (\ref{ssec:regressione-introduzione}) si deve minimizzare la somma dei quadrati dei residui (RSS):
+
+$$\mathrm{RSS}=\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} x_{i j}\right)^{2}$$\smallskip
+
+Nella regressione Ridge si aggiunge anche un termine di penalità, ottenendo quindi:
+
+$$\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} x_{i j}\right)^{2}+\lambda \sum_{j=1}^{p} \beta_{j}^{2}=R S S+\lambda \sum_{j=1}^{p} \beta_{j}^{2}$$\smallskip
+
+Dove $\lambda$ è un parametro di \textit{tuning} che serve proprio a controllare l’effetto della penalità: un valore $\lambda=0$ infatti non avrà effetto sul risultato finale (l’equazione viene ricondotta a quella dei minimi quadrati), al contrario per $\lambda \to \infty$ invece i coefficienti di regressione stimati tenderanno a zero poiché si darà molto peso alla penalità del modello. \cite{lasso_vs_ridge}
+
+Il modello di Ridge Regression presenta dei vantaggi rispetto a quello dei minimi quadrati, soprattutto per quanto riguarda il \textit{bias-variance trade-off}: in generale, quando c’è una relazione lineare tra i predittori e la variabile risposta, il modello dei minimi quadrati comporta poco bias ma alta varianza. Questo si traduce nel fatto che una piccola variazione nel training data può generare un cambiamento notevole nei coefficienti stimati; di contro la Ridge regressione lavora bene nelle situazioni dove il modello dei minimi quadrati genera ampia varianza nelle stime.\cite{tesi_polito}
+
+\subsubsection{Regressione Lasso}\label{sssec:regressione-lasso}
+Lo svantaggio della regressione Ridge è il fatto di considerare tutte le variabili per la predizione nel modello finale. Il termine di regolarizzazione $\lambda \sum_{j=1}^{p} \beta_{j}^{2}$ tende ad assegnare ai coefficienti valori vicini allo zero, ma non perfettamente zero, a meno che $\lambda = 0$.
+Questo non crea problemi per l’ accuratezza della predizione quanto per l’interpretazione delle varabili, soprattutto quando il numero delle variabili diventa alto.
+
+La regressione Lasso (acronimo di \textit{least absolute shrinkage and selection operator}, ovvero operatore di restringimento e selezione minimo assoluto) è un’alternativa alla regressione ridge utilizzata proprio per superare questo problema. L'unica differenza sta nel termine di regolarizzazione, ovvero:
+
+$$\lambda \sum_{j=1}^{p}\left|\beta_{j}\right|$$\smallskip
+
+Per cui l'equazione del modello diventa:
+
+$$\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} x_{i j}\right)^{2}+\lambda \sum_{j=1}^{p}\left|\beta_{j}\right|=R S S+\lambda \sum_{j=1}^{p}\left|\beta_{j}\right|$$\smallskip
+
+Anche nel caso di Lasso regression il parametro di regolarizzazione tende a stimare i valori dei coefficienti verso lo zero ma, a differenza della regressione ridge, la penalità $\lambda \sum_{j=1}^{p}\left|\beta_{j}\right|$ costringe uno o più coefficienti ad essere esattamente zero per certi valori di $\lambda$. \cite{tesi_polito}
 
 \subsubsection{Regressione polinomiale}\label{sssec:regressione-polinomiale}
-La regressione polinomiale è una generalizzazione della regressione lineare. In questo caso il metodo dei minimi quadrati può essere utilizzato anche per adattare una funzione polinomiale a un insieme di dati. Considerato un polinomio di grado $k$:
+La regressione polinomiale è una generalizzazione della regressione lineare, infatti utilizza lo stesso metodo matematico della variante lineare, ma assume che la relazione di funzione che caratterizza i dati sia meglio descritta, anzichè da una retta, da un polinomio. In questo caso il metodo dei minimi quadrati può essere utilizzato anche per adattare una funzione polinomiale a un insieme di dati. Considerato un polinomio di grado $k$:
 
 $$y=a_{0}+a_{1} x+a_{2} x^{2}+a_{3} x^{3}+\ldots+a_{k} x^{k}$$\smallskip
 
@@ -345,13 +369,40 @@ Come caso estremo, è sempre possibile trovare un polinomio di grado $n-1$ ad $n
 Nella maggior parte dei casi, però, questo non farebbe nulla per migliorare la comprensione della funzione sconosciuta, né sarà probabilmente un buon predittore.
 
 \subsubsection{Regressione con Random Forest}\label{sssec:regressione-rf}
-\ldots
+La regressione Random Forest è un algoritmo di apprendimento supervisionato che utilizza il metodo di apprendimento \textit{ensemble} per la regressione tramite alberi di decisione. Il metodo di apprendimento ensemble è una tecnica che combina le previsioni di più algoritmi di apprendimento automatico per effettuare una previsione più accurata rispetto a un singolo modello. \cite{random_forest}
+
+In particolare, una foresta casuale (random forest) opera adattando una serie di alberi decisionali su vari sottocampioni del set di dati e utilizza la media dei risultati per migliorare l'accuratezza predittiva e controllare l'overfitting.
+In breve, l'algoritmo funziona esegue i seguenti passi:
+
+\begin{enumerate}
+  \item Sceglie a caso $k$ osservazioni dati dal training set;
+  \item Costruisce un albero decisionale associato a queste $k$ osservazioni;
+  \item Sceglie il numero $N$ di alberi da costruire e ripete i passaggi 1 e 2 per ciascuno;
+  \item Per una nuova osservazione, fa in modo che ciascuno degli $N$ alberi preveda il valore di $y$, e assegna il nuovo punto alla media su tutti i valori $y$ previsti.
+\end{enumerate}
+
+Uno dei principali svantaggi degli alberi decisionali è che sono molto inclini a fare \textit{overfitting}: funzionano bene sui dati di training, ma non sono così flessibili per fare previsioni su campioni invisibili. Sebbene ci siano soluzioni alternative per questo, come ad esempio ridurre gli alberi, questo riduce il loro potere predittivo. Generalmente sono modelli con bias medio e varianza alta, ma sono semplici e di facile interpretazione.
 
 \subsubsection{Regressione con Gradient Boosting}\label{sssec:regressione-gb}
-\ldots
+Il Gradient Boosting è una tecnica di Machine Learning che ha alla base la stima iterativa di alberi sui residui ottenuti ad ogni passo e l’aggiornamento in maniera adattiva delle stime. Questa tecnica riprende il concetto matematico del \textit{Gradient Descent}, per cui lo split scelto sarà quello che favorisce l’avvicinamento al punto di minimo della funzione obiettivo.
+
+Il Gradient Descent è un algoritmo di ottimizzazione che consente di individuare il valore minimo di una funzione di costo per sviluppare un modello con una previsione accurata.
+
+L’algoritmo Gradient Boosting applicato a problemi di regressione può essere descritto nei seguenti passi:
+
+\begin{enumerate}
+  \item Si inizializza il modello con un valore noto;
+  \item Si considera sul training set una \textit{loss function}, ovvero una funzione differenziabile che esprima una valutazione della predizione (es. $\frac{1}{2} (y_i - \hat{y}_{i})$ dove $y_i$ è l'osservazione e $\hat{y}_{i}$ è la predizione);
+  \item Scelto il numero massimo di alberi, per ciascuno si modella un albero di regressione seguendo na procedura di discesa del gradiente in modo da minimizzare la perdita. L'albero ottenuto viene aggiunto alla sequenza di alberi già esistente, nel tentativo di correggere o migliorare l'output finale del modello.
+\end{enumerate}
+
 
 \subsubsection{Regressione con SVR}\label{sssec:regressione-svr}
 \ldots
+
+\subsubsection{Regressione con KernelRidge}\label{sssec:regressione-kridge}
+\ldots
+% TODO cita libro che c'è in fondo a https://scikit-learn.org/stable/modules/kernel_ridge.html#id1
 
 % Esperimenti e risultati ottenuti
 \section{Esperimenti e risultati ottenuti}\label{sec:esperimenti}
@@ -369,6 +420,7 @@ Nella maggior parte dei casi, però, questo non farebbe nulla per migliorare la 
 % Validazione
 \section{Validazione}\label{sec:validazione}
 %TODO vedi capitolo 11 di douglas
+%TODO vedi anche https://en.wikipedia.org/wiki/Regression_validation
 
 Poiché l'adattamento del modello ai dati disponibili costituisce la base per molte delle tecniche utilizzate nel processo di sviluppo del modello (come la selezione delle variabili), si è tentati di concludere che un modello che si adatta bene ai dati avrà successo anche nel applicazione finale. Non é necessariamente così. Ad esempio, un modello potrebbe essere stato sviluppato principalmente per prevedere nuove osservazioni.
 
