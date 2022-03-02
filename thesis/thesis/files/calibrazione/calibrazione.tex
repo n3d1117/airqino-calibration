@@ -1,4 +1,9 @@
 \chapter{Calibrazione}\label{ch:calibrazione}
+% TODO meglio
+Questo capitolo riguarda la parte di regressione. Nella sezione \ref{sec:dati} vengono presentati i dataset a disposizione, la loro struttura e il lavoro di preprocessamento.
+La sezione \ref{sec:regressione} racchiude una breve panoramica teorica sui concetti di regressione, correlazione, metriche (coefficiente di correlazione, coefficiente di determinazione, scarto quadratico medio), analisi dei residui, modelli di regressione (sia lineare che non lineari).
+La sezione \ref{sec:esperimenti} presenta i risultati ottenuti, mentre la sezione \ref{sec:validazione} riassume la parte di validazione.
+Infine, la sezione \ref{sec:discussione} riassume 
 
 % I dati a disposizione
 \section{I dati a disposizione}\label{sec:dati}
@@ -15,6 +20,20 @@
 
 % Regressione
 \section{Regressione}\label{sec:regressione}
+
+%La regressione è una tecnica statistica che serve a stimare la relazione esistente tra due o più variabili. In particolare, la regressione permette di individuare il coefficiente di correlazione tra due variabili e di determinare se questa relazione è casuale o no.
+%
+%Tra le applicazioni principali della regressione ci sono:
+%
+%- Stima della relazione tra due variabili
+%
+%- Analisi della relazione tra variabili
+%
+%- Valutazione dell'influenza di una variabile sulle altre
+%
+%- Predicting
+
+
 Nella statistica applicata come nelle scienze sperimentali si osserva (o si ipotizza) l’esistenza di relazioni fra due o più grandezze.
 
 Sorge allora il problema di determinare una funzione che, in base ai dati ricavati mediante esperimenti o rilevazioni statistiche, rappresenti questi relazioni permettendo, in questo modo, di analizzare meglio i fenomeni osservati.
@@ -88,7 +107,7 @@ Il coefficiente di correlazione lineare gode di importanti proprietà:
 \end{figure}
 \end{itemize}
 
-Sapendo che la varianza ($\sigma_{y}^{2}$) della variabile $Y$ si può scomporre in una parte ($\sigma_{\hat{y}}^{2}$), detta varianza spiegata, in quanto la variabilità della $Y$ è dovuta alla dipendenza di $Y$ dalla variabile $X$, e in una parte ($\sigma_{e}^{2}$), detta varianza non spiegata, in quanto la variabilità della $Y$ non dipende dalla variabile $X$, ma da altri fattori; si può introdurre un secondo indicatore, dato dal rapporto tra la varianza spiegata e la varianza totale, chiamato coefficiente di determinazione:
+Sapendo che la varianza ($\sigma_{y}^{2}$) della variabile $Y$ si può scomporre in una parte ($\sigma_{\hat{y}}^{2}$), detta varianza spiegata, in quanto la variabilità della $Y$ è dovuta alla dipendenza di $Y$ dalla variabile $X$, e in una parte ($\sigma_{e}^{2}$), detta varianza non spiegata, in quanto la variabilità della $Y$ non dipende dalla variabile $X$, ma da altri fattori; si può introdurre un secondo indicatore, dato dal rapporto tra la varianza spiegata e la varianza totale, chiamato \textbf{coefficiente di determinazione}:
 
 $$r^{2}=\frac{\sigma_{\hat{y}}^{2}}{\sigma_{y}^{2}}$$\smallskip
 
@@ -104,21 +123,13 @@ $$r^{2}=\frac{\sigma_{\hat{y}}^{2}}{\sigma_{\hat{y}}^{2}+\sigma_{e}^{2}}$$\small
 
 è evidente, quindi, che se la variabilità non spiegata è trascurabile, $\sigma_{e}^{2}$ tende ad annullarsi ed $r^{2}$ avrà un valore prossimo ad 1, mentre diverrà via via minore di 1 al diminuire dell’accordo tra la funzione calcolata e le osservazioni sperimentali.
 
-Minore è la somma residua rispetto alla somma totale dei quadrati, maggiore sarà il valore del coefficiente di determinazione, $r^2$, il quale è un indicatore del livello di precisione con cui l'equazione ottenuta dall'analisi di regressione spiega la relazione tra le variabili. \cite{linear_models}
+Minore è la somma residua rispetto alla somma totale dei quadrati, maggiore sarà il valore del coefficiente di determinazione, $r^2$, il quale è un indicatore del livello di precisione con cui l'equazione ottenuta dall'analisi di regressione spiega la relazione tra le variabili. \cite{linear_models}\\
 
-% TODO aggiungi rmse come metrica
+Un'altra metrica utile in ambito delle regressioni è l'errore quadratico medio (in inglese \textit{Mean Squared Error}, MSE) che indica la discrepanza quadratica media fra i valori dei dati osservati ed i valori dei dati stimati:
 
-%La regressione è una tecnica statistica che serve a stimare la relazione esistente tra due o più variabili. In particolare, la regressione permette di individuare il coefficiente di correlazione tra due variabili e di determinare se questa relazione è casuale o no.
-%
-%Tra le applicazioni principali della regressione ci sono:
-%
-%- Stima della relazione tra due variabili
-%
-%- Analisi della relazione tra variabili
-%
-%- Valutazione dell'influenza di una variabile sulle altre
-%
-%- Predicting
+$$MSE=\frac{\sum_{i=1}^{n}\left(x_{i}-\widehat{x}_{i}\right)^{2}}{n}$$\smallskip
+
+La sua radice quadrata fornisce un ulteriore indice statistico, la cosiddetta radice dell'errore quadratico medio (in inglese \textit{root-mean-square error}, RMSE). L'RMSE può essere anche calcolato come deviazione standard degli scarti. Da notare che l'MSE ed RMSE non sono quantità a-dimensionali, bensì assumono l'unità di misura della grandezza considerata (RMSE) ed il suo quadrato (MSE). 
 
 \subsection{Analisi dei residui}\label{ssec:regressione-residui}
 Esistono metodi utili per diagnosticare le violazioni delle ipotesi di regressione di base: questi si basano principalmente sullo studio dei residui del modello. Spesso infatti la retta di regressione è infatti una semplificazione della realtà e non coglie tutta la variabilità presente in un insieme di dati. \cite{residui_pozzolo}
@@ -393,16 +404,33 @@ L’algoritmo Gradient Boosting applicato a problemi di regressione può essere 
 \begin{enumerate}
   \item Si inizializza il modello con un valore noto;
   \item Si considera sul training set una \textit{loss function}, ovvero una funzione differenziabile che esprima una valutazione della predizione (es. $\frac{1}{2} (y_i - \hat{y}_{i})$ dove $y_i$ è l'osservazione e $\hat{y}_{i}$ è la predizione);
-  \item Scelto il numero massimo di alberi, per ciascuno si modella un albero di regressione seguendo na procedura di discesa del gradiente in modo da minimizzare la perdita. L'albero ottenuto viene aggiunto alla sequenza di alberi già esistente, nel tentativo di correggere o migliorare l'output finale del modello.
+  \item Scelto un numero massimo, si itera modellando un albero di regressione seguendo una procedura di discesa del gradiente, in modo da minimizzare la \textit{loss function}. L'albero ottenuto viene aggiunto alla sequenza di alberi già esistente, nel tentativo di correggere o migliorare l'output finale del modello.
 \end{enumerate}
 
 
 \subsubsection{Regressione con SVR}\label{sssec:regressione-svr}
-\ldots
+Un altro modello per la regressione è SVR (\textit{support-vector regression}), basato sui modelli SVM (support-vector machines) di apprendimento supervisionato spesso utilizzati per il problema della classificazione. \cite{svm}
+
+Rispetto alla regressione lineare e al metodo dei minimi quadrati, SVR presenta più flessibilità perchè consente di definire una soglia di accettazione dell'errore nel modello. Infatti l'agoritmo SVR si propone di minimizzare non l'errore quadratico, come nel metodo dei minimi quadrati, ma i coefficienti (nello specifico, la norma al quadrato del vettore dei coefficienti). La funzione obiettivo quindi diventa:
+
+$$min \frac{1}{2}\|\mathbf{w}\|^{2}$$\smallskip
+
+ Il termine di errore invece è gestito nei vincoli, dove si imposta l'errore assoluto minore o uguale a un margine specificato, chiamato errore massimo ($\varepsilon$):
+ 
+ $$\left|y_{i}-w_{i} x_{i}\right| \leq \varepsilon$$\smallskip
+ 
+ Il tuning del parametro $\varepsilon$ consente di ottenere la precisione desiderata del modello di regressione. Solitamente alla funzione obiettivo si aggiunge anche delle variabili di \textit{slack} ($\xi_{i}$), che indicano la deviazione dal margine di ciascun valore che supera la soglia $\varepsilon$ (lo scopo è di minimizzarle il più possibile). La funzione obiettivo in questo caso diventa:
+ 
+ $$min \frac{1}{2}\|\mathbf{w}\|^{2} + C \sum_{i=1}^{n}\left|\xi_{i}\right|$$\smallskip
+
+dove $C$ è un altro iperparametro regolabile: all'aumentare di $C$, aumenta anche la tolleranza per i punti al di fuori di $\varepsilon$. Quando invece $C$ si avvicina a 0, la tolleranza si avvicina a 0 e l'equazione ricade nel caso semplificato.
+
+I modelli di regressione SVM possono anche eseguire una regressione non lineare, applicando il \textit{kernel trick} per mappare i dati in uno spazio di caratteristiche multidimensionale. Il tipo di kernel da usare nell'algoritmo è un altro parametro da definire nel modello. I kernel più comuni sono quello lineare, polinomiale (di grado $n$) o rbf (basato su \textit{funzione di base radiale}).
 
 \subsubsection{Regressione con KernelRidge}\label{sssec:regressione-kridge}
-\ldots
-% TODO cita libro che c'è in fondo a https://scikit-learn.org/stable/modules/kernel_ridge.html#id1
+La regressione Kernel Ridge (o KRR, \textit{Kernel Ridge Regression}) è un altro modello che combina la regressione Ridge (descritta in \ref{sssec:regressione-ridge}) con il \textit{kernel trick}, imparando così una funzione lineare nello spazio indotto dal rispettivo kernel e dai dati. Per i kernel non lineari, questo corrisponde a una funzione non lineare nello spazio originale. \cite{krr}
+
+La forma del modello di regressione KRR è identica a quello basato su SVR (descritto in \ref{sssec:regressione-svr}), ma vengono utilizzate diverse funzioni di \textit{loss}: KRR minimizza l'errore quadratico mentre SVR minimizza i coefficienti in base alla soglia $\varepsilon$. Il modello KRR in genere risulta più veloce per dataset di medie dimensioni.
 
 % Esperimenti e risultati ottenuti
 \section{Esperimenti e risultati ottenuti}\label{sec:esperimenti}
