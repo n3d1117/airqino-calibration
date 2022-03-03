@@ -27,17 +27,17 @@ def scatterplot(X, y, u, title, filename):
     plt.savefig('generated_data/plots/scatterplot/{}.png'.format(filename))
 
 
-def plot(df, column, ylabel, title, filename, month_freq=1):
+def plot(df, column, ylabel, title, filename, color=(0.2, 0.4, 0.6, 0.6), month_freq=1):
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.bar(df.index, df[column])
+    ax.bar(df.index, df[column], color=color)
     ax.set_title(title)
     ax.set_ylabel(ylabel)
     ax.xaxis.set_major_locator(mdates.MonthLocator(interval=month_freq))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%y'))
     ax.tick_params(axis='x', which='major', labelsize=9)
     fig.autofmt_xdate()
-    plt.savefig('generated_data/plots/{}.png'.format(filename.lower()))
+    plt.savefig('generated_data/plots/{}.png'.format(filename.lower()), dpi=300)
 
 
 def plot_compare(ds1, ds2, label1, label2, title, filename):
@@ -96,15 +96,18 @@ def plot_avg_count():
     # ARPAT NO2
     for name in ['lu-capannori_no2_2020_cleaned', 'lu-capannori_no2_new_cleaned']:
         df = get_arpat_dataset(name)
-        plot(df=df, column='avg', ylabel='µg/m³', title='{} - NO2'.format(name), filename='arpat/{}_no2'.format(name))
+        plot(df=df, column='avg', ylabel='µg/m³', title='ARPAT - NO2'.format(name),
+             filename='arpat/{}_no2'.format(name), color='#fe7b7c')
 
     # ARPAT PM
     for name in ['lu-capannori_pm_dati_orari_cleaned', 'lu-capannori_pm_dati_orari_cleaned_resampled_8h']:
         df = get_arpat_dataset(name)
-        plot(df=df, column='pm2.5', ylabel='µg/m³', title='{} - PM2.5'.format(name),
-             filename='arpat/{}_pm2.5'.format(name), month_freq=6)
-        plot(df=df, column='pm10', ylabel='µg/m³', title='{} - PM10'.format(name),
-             filename='arpat/{}_pm10'.format(name), month_freq=6)
+        df = df.loc['2020-08-01':'2021-09-01']
+        print(df)
+        plot(df=df, column='pm2.5', ylabel='µg/m³', title='ARPAT - PM2.5'.format(name),
+             filename='arpat/{}_pm2.5'.format(name), month_freq=1, color='#fe7b7c')
+        plot(df=df, column='pm10', ylabel='µg/m³', title='ARPAT - PM10'.format(name),
+             filename='arpat/{}_pm10'.format(name), month_freq=1, color='#fe7b7c')
 
 
 def scatterplots():

@@ -1,19 +1,132 @@
 \chapter{Calibrazione}\label{ch:calibrazione}
-% TODO meglio
-Questo capitolo riguarda la parte di regressione. Nella sezione \ref{sec:dati} vengono presentati i dataset a disposizione, la loro struttura e il lavoro di preprocessamento.
-La sezione \ref{sec:regressione} racchiude una breve panoramica teorica sui concetti di regressione, correlazione, metriche (coefficiente di correlazione, coefficiente di determinazione, scarto quadratico medio), analisi dei residui, modelli di regressione (sia lineare che non lineari).
-La sezione \ref{sec:esperimenti} presenta i risultati ottenuti, mentre la sezione \ref{sec:validazione} riassume la parte di validazione.
-Infine, la sezione \ref{sec:discussione} riassume 
+Questo capitolo riguarda la parte di tesi incentrata sulla calibrazione delle centraline AirQino (\ref{sec:airqino}). Nella sezione \ref{sec:dati} vengono presentati i dataset a disposizione, la loro struttura e il lavoro di preprocessamento fatto.
+
+La sezione \ref{sec:regressione} racchiude una breve panoramica teorica sui concetti di regressione, correlazione, metriche (coefficiente di correlazione, coefficiente di determinazione, scarto quadratico medio), analisi dei residui e modelli di regressione (sia lineare che non lineari).
+
+La sezione \ref{sec:esperimenti} presenta i risultati ottenuti, mentre in \ref{sec:validazione} sono elencati gli esperimenti svolti in fase di validazione.
+
+Infine, la sezione \ref{sec:discussione} viene riassunto tutto il lavoro svolto e fornita un'analisi qualitativa dei risultati ottenuti.
 
 % I dati a disposizione
+\clearpage
 \section{I dati a disposizione}\label{sec:dati}
-\ldots
+I dataset messi a disposizione sono due:
 
-\subsection{Dataset NO2}\label{ssec:dataset-no2}
-\ldots
+\begin{itemize}
+  \item Dataset delle misurazioni di concentrazione di \ce{NO2} nell'aria relative alla centralina SMART16 AirQino, da confrontare con i dati \ce{NO2} ARPAT\footnote{Agenzia regionale per la protezione ambientale della Toscana} della stazione Capannori (Lucca);
+  \item Dataset delle misurazioni di concentrazione di \ce{PM_{2.5}} e \ce{PM10} nell'aria relative alla centralina SMART16 AirQino, da confrontare con i dati \ce{PM_{2.5}} e \ce{PM10} ARPAT della stazione Capannori (Lucca).
+\end{itemize}
 
-\subsection{Dataset PM2.5 e PM10}\label{ssec:dataset-pm}
-\ldots
+In entrambi i casi la centralina SMART16 è stata in co-locazione con la stazione ARPAT Capannori per tutto periodo di interesse.\\
+
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/smart72.jpg}
+\caption{Una centralina AirQino\\Fonte: \url{airqino.magentalab.it}}
+\label{fig:smart72}
+\end{figure}
+
+\clearpage
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/lu-capannori.jpg}
+\caption{Centralina ARPAT in sede Capannori (provincia di Lucca)\\Fonte: \url{arpat.toscana.it}}
+\label{fig:capannori}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/capannori_gps.png}
+\caption{Posizione della centralina SMART16 (AirQino)\\e ARPAT (Capannori) a Lucca}
+\label{fig:capannori-gps}
+\end{figure}
+\clearpage
+
+\subsection{Dataset \ce{NO2}}\label{ssec:dataset-no2}
+Il dataset di misurazioni \ce{NO2}, comprende sia i dati della centralina AirQino SMART16 che i dati di ARPAT (Capannori). Ci sono però delle differenze sostaziali tra i due set di dati:\\
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+ & \textbf{Periodo} & \textbf{Unità} & \textbf{Frequenza dati} \\ \hline
+\textbf{SMART16} & 01/01/2020 - 31/12/2020 & \textit{counts} & ogni 1/2 minuti \\ \hline
+\textbf{ARPAT} & 01/01/2020 - 31/12/2020 & µg/m³ & medie giornaliere \\ \hline
+\end{tabular}
+\caption{Differenze tra i dati di SMART16 e ARPAT (per \ce{NO2})}
+\label{tab:dataset-no2-tabella}
+\end{table}
+
+Da notare che le centraline AirQino misurano la concentrazione di \ce{NO2} con il sensore \textbf{MiCS-2714} (come già accennato in \ref{ssec:hardware}) che fornisce output in \textit{counts} (unità di misura del segnale convertito da analogico a digitale, con uscita a 10 bit). Questo significa che sarà compito della fase di calibrazione convertire l'output direttamente in unità ingegneristica (in questo caso µg/m³).\\
+
+Nella figura \ref{fig:smart16-no2} sono riportate la frequenza di misurazione (inteso come il numero di misurazioni effettuate ogni ora) e l'andamento della concentrazione di \ce{NO2} nell'aria (in \textit{counts}) per come sono state misurate dalla centralina SMART16 nel periodo di interesse (01/01/2020 - 31/12/2020).
+
+La figura \ref{fig:arpat-no2} invece riporta l'andamento della concentrazione di \ce{NO2} nell'aria (in µg/m³) misurato dalla stazione ARPAT di Capannori nello stesso periodo.
+
+\clearpage
+\begin{figure}[H]%
+    \centering
+    \captionsetup{justification=centering}
+    \subfloat[\centering Frequenza di misurazione]{{\includegraphics[width=7.3cm]{img/smart16_count} }}%
+    \subfloat[\centering Andamento (in \textit{counts})]{{\includegraphics[width=7.3cm]{img/smart16_no2} }}%
+    \caption{Frequenza di misurazione e andamento \ce{NO2} (SMART16)\\nel periodo 01/01/2020 - 31/12/2020}%
+    \label{fig:smart16-no2}%
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.85\textwidth,height=\textheight,keepaspectratio]{img/lu-capannori_no2_2020_cleaned_no2.png}
+\caption{Andamento \ce{NO2} (in µg/m³) misurato dalla stazione ARPAT di Capannori nel periodo 01/01/2020 - 31/12/2020}
+\label{fig:arpat-no2}
+\end{figure}
+\clearpage
+
+\subsection{Dataset \ce{PM_{2.5}} e \ce{PM10}}\label{ssec:dataset-pm}
+Il dataset di misurazioni \ce{PM_{2.5}} e \ce{PM10}, che mette a confronto i dati della centralina AirQino SMART16 e i dati di ARPAT (Capannori), risulta invece così strutturato:\\
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+ & \textbf{Periodo} & \textbf{Unità} & \textbf{Frequenza dati} \\ \hline
+\textbf{SMART16} & 01/09/2020 - 31/08/2021 & µg/m³ & ogni 1/2 minuti \\ \hline
+\textbf{ARPAT} & 01/09/2020 - 31/08/2021 & µg/m³ & medie ogni 8h \\ \hline
+\end{tabular}
+\caption{Differenze tra i dati di SMART16 e ARPAT (per \ce{PM_{2.5}} e \ce{PM10})}
+\label{tab:dataset-no2-tabella}
+\end{table}
+
+Il sensore utilizzato dalle centraline SMART è il \textbf{SDS011} (vedi \ref{ssec:hardware}) che ha la caratteristica di fornire l'uscita direttamente in unità ingegneristica (µg/m³), quindi in questo caso non c'è bisogno di convertire l'unità di misura nella fase di calibrazione (a differenza di quanto accade con \ce{NO2}).\\
+
+Nella figura \ref{fig:smart16-pm} sono riportati gli andamenti della concentrazione di \ce{PM_{2.5}} e \ce{PM10} nell'aria (in µg/m³) per come sono state misurate dalla centralina SMART16 nel periodo di interesse (01/09/2020 - 31/08/2021).
+
+La figura \ref{fig:arpat-pm} invece riporta gli andamenti della concentrazione di \ce{PM_{2.5}} e \ce{PM10} nell'aria (in µg/m³) misurato dalla stazione ARPAT di Capannori nello stesso periodo.
+
+\clearpage
+
+\begin{figure}[H]%
+    \centering
+    \captionsetup{justification=centering}
+    \subfloat[\centering Andamento \ce{PM_{2.5}} (in µg/m³)]{{\includegraphics[width=7.3cm]{img/smart16_new_pm2.5} }}%
+    \subfloat[\centering Andamento \ce{PM_{10}} (in µg/m³)]{{\includegraphics[width=7.3cm]{img/smart16_new_pm10} }}%
+    \caption{Andamento \ce{PM_{2.5}} e \ce{PM10} (SMART16)\\nel periodo 01/09/2020 - 31/08/2021}%
+    \label{fig:smart16-pm}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \captionsetup{justification=centering}
+    \subfloat[\centering Andamento \ce{PM_{2.5}} (in µg/m³)]{{\includegraphics[width=7.3cm]{img/lu-capannori_pm_dati_orari_cleaned_pm2.5} }}%
+    \subfloat[\centering Andamento \ce{PM_{10}} (in µg/m³)]{{\includegraphics[width=7.3cm]{img/lu-capannori_pm_dati_orari_cleaned_pm10} }}%
+    \caption{Andamento \ce{PM_{2.5}} e \ce{PM10} (ARPAT)\\nel periodo 01/09/2020 - 31/08/2021}%
+    \label{fig:arpat-pm}%
+\end{figure}
+
+\clearpage
 
 \subsection{Preprocessamento}\label{ssec:preprocessamento}
 \ldots
@@ -436,13 +549,13 @@ La forma del modello di regressione KRR è identica a quello basato su SVR (desc
 \section{Esperimenti e risultati ottenuti}\label{sec:esperimenti}
 \ldots
 
-\subsection{NO2}\label{ssec:risultati-no2}
+\subsection{\ce{NO2}}\label{ssec:risultati-no2}
 \ldots
 
-\subsection{PM2.5}\label{ssec:risultati-pm2.5}
+\subsection{\ce{PM_{2.5}}}\label{ssec:risultati-pm2.5}
 \ldots
 
-\subsection{PM10}\label{ssec:risultati-pm10}
+\subsection{\ce{PM10}}\label{ssec:risultati-pm10}
 \ldots
 
 % Validazione
@@ -456,10 +569,10 @@ Non vi è alcuna garanzia che l'equazione che fornisce il miglior adattamento ai
 
 La corretta convalida di un modello sviluppato per prevedere nuove osservazioni dovrebbe implicare una fase di validazione fatta sul campo prima di rilasciare il modello.
 
-\subsection{PM2.5}\label{ssec:validazione-pm2.5}
+\subsection{\ce{PM_{2.5}}}\label{ssec:validazione-pm2.5}
 \ldots
 
-\subsection{PM10}\label{ssec:validazione-pm10}
+\subsection{\ce{PM10}}\label{ssec:validazione-pm10}
 \ldots
 
 % Discussione
