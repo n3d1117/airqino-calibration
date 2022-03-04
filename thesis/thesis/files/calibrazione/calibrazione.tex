@@ -23,7 +23,7 @@ In entrambi i casi la centralina SMART16 è stata in co-locazione con la stazion
 \centering
 \captionsetup{justification=centering}
 \includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/smart72.jpg}
-\caption{Una centralina AirQino\\Fonte: \url{airqino.magentalab.it}}
+\caption{Una centralina AirQino\\Fonte: \url{https://airqino.magentalab.it}}
 \label{fig:smart72}
 \end{figure}
 
@@ -32,7 +32,7 @@ In entrambi i casi la centralina SMART16 è stata in co-locazione con la stazion
 \centering
 \captionsetup{justification=centering}
 \includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/lu-capannori.jpg}
-\caption{Centralina ARPAT in sede Capannori (provincia di Lucca)\\Fonte: \url{arpat.toscana.it}}
+\caption{Centralina ARPAT in sede Capannori (provincia di Lucca)\\Fonte: \url{http://arpat.toscana.it}}
 \label{fig:capannori}
 \end{figure}
 
@@ -46,7 +46,7 @@ In entrambi i casi la centralina SMART16 è stata in co-locazione con la stazion
 \clearpage
 
 \subsection{Dataset \ce{NO2}}\label{ssec:dataset-no2}
-Il dataset di misurazioni \ce{NO2}, comprende sia i dati della centralina AirQino SMART16 che i dati di ARPAT (Capannori). Ci sono però delle differenze sostaziali tra i due set di dati:\\
+Il dataset di misurazioni \ce{NO2}, comprende sia i dati della centralina AirQino SMART16 che i dati di ARPAT (Capannori). Ci sono però delle differenze sostanziali tra i due set di dati:\\
 
 \begin{table}[H]
 \centering
@@ -62,7 +62,7 @@ Il dataset di misurazioni \ce{NO2}, comprende sia i dati della centralina AirQin
 
 Da notare che le centraline AirQino misurano la concentrazione di \ce{NO2} con il sensore \textbf{MiCS-2714} (come già accennato in \ref{ssec:hardware}) che fornisce output in \textit{counts} (unità di misura del segnale convertito da analogico a digitale, con uscita a 10 bit). Questo significa che sarà compito della fase di calibrazione convertire l'output direttamente in unità ingegneristica (in questo caso µg/m³).\\
 
-Nella figura \ref{fig:smart16-no2} sono riportate la frequenza di misurazione (inteso come il numero di misurazioni effettuate ogni ora) e l'andamento della concentrazione di \ce{NO2} nell'aria (in \textit{counts}) per come sono state misurate dalla centralina SMART16 nel periodo di interesse (01/01/2020 - 31/12/2020).
+Nella figura \ref{fig:smart16-no2} sono riportate la frequenza di misurazione (intesa come il numero di misurazioni effettuate ogni ora) e l'andamento della concentrazione di \ce{NO2} nell'aria (in \textit{counts}) per come sono state misurate dalla centralina SMART16 nel periodo di interesse (01/01/2020 - 31/12/2020).
 
 La figura \ref{fig:arpat-no2} invece riporta l'andamento della concentrazione di \ce{NO2} nell'aria (in µg/m³) misurato dalla stazione ARPAT di Capannori nello stesso periodo.
 
@@ -70,8 +70,8 @@ La figura \ref{fig:arpat-no2} invece riporta l'andamento della concentrazione di
 \begin{figure}[H]%
     \centering
     \captionsetup{justification=centering}
-    \subfloat[\centering Frequenza di misurazione]{{\includegraphics[width=7.3cm]{img/smart16_count} }}%
-    \subfloat[\centering Andamento (in \textit{counts})]{{\includegraphics[width=7.3cm]{img/smart16_no2} }}%
+    \subfloat[\centering Frequenza di misurazione]{{\includegraphics[width=7.4cm]{img/smart16_count} }}%
+    \subfloat[\centering Andamento (in \textit{counts})]{{\includegraphics[width=7.4cm]{img/smart16_no2} }}%
     \caption{Frequenza di misurazione e andamento \ce{NO2} (SMART16)\\nel periodo 01/01/2020 - 31/12/2020}%
     \label{fig:smart16-no2}%
 \end{figure}
@@ -100,19 +100,27 @@ Il dataset di misurazioni \ce{PM_{2.5}} e \ce{PM10}, che mette a confronto i dat
 \label{tab:dataset-no2-tabella}
 \end{table}
 
-Il sensore utilizzato dalle centraline SMART è il \textbf{SDS011} (vedi \ref{ssec:hardware}) che ha la caratteristica di fornire l'uscita direttamente in unità ingegneristica (µg/m³), quindi in questo caso non c'è bisogno di convertire l'unità di misura nella fase di calibrazione (a differenza di quanto accade con \ce{NO2}).\\
+Il sensore utilizzato dalle centraline SMART è il \textbf{SDS011} (vedi \ref{ssec:hardware}) che ha la caratteristica di fornire l'uscita direttamente in unità ingegneristica (µg/m³), quindi in questo caso non c'è bisogno di convertire l'unità di misura nella fase di calibrazione (a differenza di quanto accade con \ce{NO2}).
+
+Nella figura \ref{fig:arpat-pm-freq} è riportata la frequenza di misurazione (numero di misurazioni effettuate ogni ora) di \ce{PM_{2.5}} e \ce{PM10} nell'aria (in µg/m³) per la centralina SMART16 nel periodo di interesse (01/09/2020 - 31/08/2021).
+
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.58\textwidth,height=\textheight,keepaspectratio]{img/smart16_new_count.png}
+\caption{Frequenza di misurazione \ce{PM_{2.5}} e \ce{PM10} (SMART16)}
+\label{fig:arpat-pm-freq}
+\end{figure}
 
 Nella figura \ref{fig:smart16-pm} sono riportati gli andamenti della concentrazione di \ce{PM_{2.5}} e \ce{PM10} nell'aria (in µg/m³) per come sono state misurate dalla centralina SMART16 nel periodo di interesse (01/09/2020 - 31/08/2021).
 
 La figura \ref{fig:arpat-pm} invece riporta gli andamenti della concentrazione di \ce{PM_{2.5}} e \ce{PM10} nell'aria (in µg/m³) misurato dalla stazione ARPAT di Capannori nello stesso periodo.
 
-\clearpage
-
 \begin{figure}[H]%
     \centering
     \captionsetup{justification=centering}
-    \subfloat[\centering Andamento \ce{PM_{2.5}} (in µg/m³)]{{\includegraphics[width=7.3cm]{img/smart16_new_pm2.5} }}%
-    \subfloat[\centering Andamento \ce{PM_{10}} (in µg/m³)]{{\includegraphics[width=7.3cm]{img/smart16_new_pm10} }}%
+    \subfloat[\centering Andamento \ce{PM_{2.5}} (in µg/m³)]{{\includegraphics[width=6.7cm]{img/smart16_new_pm2.5} }}%
+    \subfloat[\centering Andamento \ce{PM_{10}} (in µg/m³)]{{\includegraphics[width=6.7cm]{img/smart16_new_pm10} }}%
     \caption{Andamento \ce{PM_{2.5}} e \ce{PM10} (SMART16)\\nel periodo 01/09/2020 - 31/08/2021}%
     \label{fig:smart16-pm}%
 \end{figure}
@@ -120,16 +128,155 @@ La figura \ref{fig:arpat-pm} invece riporta gli andamenti della concentrazione d
 \begin{figure}[H]%
     \centering
     \captionsetup{justification=centering}
-    \subfloat[\centering Andamento \ce{PM_{2.5}} (in µg/m³)]{{\includegraphics[width=7.3cm]{img/lu-capannori_pm_dati_orari_cleaned_pm2.5} }}%
-    \subfloat[\centering Andamento \ce{PM_{10}} (in µg/m³)]{{\includegraphics[width=7.3cm]{img/lu-capannori_pm_dati_orari_cleaned_pm10} }}%
-    \caption{Andamento \ce{PM_{2.5}} e \ce{PM10} (ARPAT)\\nel periodo 01/09/2020 - 31/08/2021}%
+    \subfloat[\centering Andamento \ce{PM_{2.5}} (in µg/m³)]{{\includegraphics[width=6.7cm]{img/lu-capannori_pm_dati_orari_cleaned_pm2.5} }}%
+    \subfloat[\centering Andamento \ce{PM_{10}} (in µg/m³)]{{\includegraphics[width=6.7cm]{img/lu-capannori_pm_dati_orari_cleaned_pm10} }}%
+    \caption{Andamento \ce{PM_{2.5}} e \ce{PM10} (ARPAT) nello stesso periodo}%
     \label{fig:arpat-pm}%
 \end{figure}
 
+\subsection{Preprocessamento}\label{ssec:preprocessamento}
+Per facilitare il caricamento e l'elaborazione, si è resa necessaria una fase inziale di preprocessamento dei dati, descritta di seguito.
+
+\subsubsection{Dataset ARPAT \ce{NO2}}
+Il dataset originale \ce{NO2}, fornito da ARPAT, consiste in un file csv da 8785 righe, con encoding ISO-8859-1, valori separati da punto e virgola (;), e strutturato come in figura \ref{fig:ds-arpat}. In particolare:
+\begin{itemize}
+  \item La data è in formato AAAAMMGG (colonna 'DATA');
+  \item L'ora è in formato intero (colonna 'ORA FINE MISURA', con valori da 1 a 24, dove 24 indica le 00:00);
+  \item Data e ora sono da considerarsi con fuso orario locale;
+  \item La colonna VALIDITÀ indica se la misurazione è valida oppure no;
+  \item La media oraria è riportata in µg/m³.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/dataset_arpat_no2_prima.png}
+\caption{Struttura del dataset originale \ce{NO2} fornito da ARPAT}
+\label{fig:ds-arpat}
+\end{figure}
+
+In questa fase sono state effettuate le seguenti modifiche:
+\begin{itemize}
+  \item Data e ora sono state unite in una singola colonna;
+  \item Data e ora sono state convertite in formato standard UTC\footnote{Il tempo coordinato universale o tempo civile, abbreviato con la sigla UTC, è il fuso orario scelto come riferimento globale, a partire dal quale sono calcolati tutti i fusi orari del mondo.} per conformarsi al dataset di AirQino;
+  \item I dati non validi sono stati scartati;
+  \item Le colonne sono state rinominate per semplicità ('data' per la data e 'avg' per il valore di \ce{NO2}).
+\end{itemize}
+
+Il risultato è un file csv di dimensioni ridotte che si presenta come riportato in figura \ref{fig:ds-arpat-dopo}:
+
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.60\textwidth,height=\textheight,keepaspectratio]{img/dataset_arpat_no2_dopo.png}
+\caption{Struttura del dataset ARPAT \ce{NO2} processato}
+\label{fig:ds-arpat-dopo}
+\end{figure}
 \clearpage
 
-\subsection{Preprocessamento}\label{ssec:preprocessamento}
-\ldots
+\subsubsection{Dataset ARPAT \ce{PM_{2.5}} e \ce{PM10}}
+Il dataset originale \ce{PM_{2.5}} e \ce{PM10}, fornito da ARPAT, consiste in un singolo file csv da 33.674 righe con encoding UTF-8, valori separati da virgola (,), e strutturato come in figura \ref{fig:pm-arpat}. In particolare:
+\begin{itemize}
+  \item Ci sono dati dal 18/01/2018 al 20/11/2021, ma per questo lavoro è stato considerato solo il periodo 01/09/2020 - 31/08/2021.
+  \item La data è in formato gg/mm/aaaa (colonna 'DATA');
+  \item L'ora è in formato intero (colonna 'ORA' con valori da 1 a 24, dove 24 indica le 00:00);
+  \item Data e ora sono da considerarsi con fuso orario locale;
+  \item I valori di \ce{PM_{2.5}} e \ce{PM10} sono riportati rispettivamente nelle colonne 'PM2.5\_LU-CAPANNORI' e 'PM10\_LU-CAPANNORI';
+  \item I dati sono riportati come medie orarie, ma di fatto rappresentano medie ogni 8 ore.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.7\textwidth,height=\textheight,keepaspectratio]{img/dataset_arpat_pm_prima.png}
+\caption{Struttura del dataset originale ARPAT \ce{PM_{2.5}} e \ce{PM10}}
+\label{fig:pm-arpat}
+\end{figure}
+
+Per questo dataset sono state effettuate le seguenti modifiche:
+\begin{itemize}
+  \item Data e ora sono state unite in una singola colonna;
+  \item Data e ora sono state convertite in formato standard UTC per conformarsi al dataset di AirQino;
+  \item I dati non validi sono stati scartati;
+  \item Le colonne sono state rinominate per semplicità ('data' per la data, 'pm2.5' per i valori di \ce{PM_{2.5}} e 'pm10' per i valori di \ce{PM10});
+  \item I dati sono stati ricampionati e salvati come medie ogni otto ore.\\
+\end{itemize}
+
+Il risultato è un file csv di 4211 righe e che si presenta come riportato in figura \ref{fig:ds-arpat-pm-dopo}:
+
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.65\textwidth,height=\textheight,keepaspectratio]{img/dataset_arpat_pm_dopo.png}
+\caption{Struttura del dataset ARPAT \ce{PM_{2.5}} e \ce{PM10} processato\\con ricampionamento a 8 ore}
+\label{fig:ds-arpat-pm-dopo}
+\end{figure}
+
+
+\subsubsection{Dataset SMART16}
+Il dataset originale per la centralina SMART16 di AirQino consiste in due file csv (uno di 201.279 righe per \ce{NO2}, e l'altro di 324.431 righe per \ce{PM_{2.5}} e \ce{PM10}), strutturati rispettivamente come in figura \ref{fig:no2-smart-ds} e \ref{fig:pm-smart-ds}. In particolare:
+
+\begin{itemize}
+  \item Nel primo ci sono dati dal 01/01/2020 al 31/12/2020, nel secondo invece dal 18/08/2020 al 30/08/2021.
+  \item Data e ora sono già in formato standard UTC;
+  \item I valori di \ce{NO2} sono riportati nella colonna 'no2';
+  \item I valori di \ce{PM_{2.5}} e \ce{PM10} sono riportati rispettivamente nelle colonne 'pm2\_5' e 'pm10';
+  \item In entrambi i file sono riportate anche le coordinate inviate dalla centralina al momento della misurazione (colonne 'long' e 'lat');
+  \item In entrambi i file i dati sono riportati con frequenza di 1/2 minuti.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.7\textwidth,height=\textheight,keepaspectratio]{img/no2_smart_ds}
+\caption{Struttura del dataset originale SMART16 per \ce{NO2}}
+\label{fig:no2-smart-ds}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.7\textwidth,height=\textheight,keepaspectratio]{img/pm_smart_ds}
+\caption{Struttura del dataset originale SMART16 per \ce{PM_{2.5}} e \ce{PM10}}
+\label{fig:pm-smart-ds}
+\end{figure}
+
+Per questi due dataset sono state effettuate le seguenti modifiche:
+\begin{itemize}
+  \item I dati del dataset \ce{NO2} sono stati ricampionati a medie orarie;
+  \item I dati del dataset \ce{PM_{2.5}} e \ce{PM10} sono stati ricampionati a otto ore;
+  \item I dati non validi sono stati scartati.
+\end{itemize}
+Di seguito sono riportati i risultati del preprocessamento dei due dataset:
+
+\begin{figure}[H]%
+    \centering
+    \captionsetup{justification=centering}
+    \subfloat[\centering Dataset \ce{NO2} processato]{{\includegraphics[width=6.7cm]{img/no2_smart_ds_dopo} }}%
+    \subfloat[\centering Dataset \ce{PM_{2.5}} e \ce{PM10} processato]{{\includegraphics[width=6.4cm]{img/pm_smart_ds_dopo} }}%
+    \caption{Struttura dei dataset SMART16 processati\\con ricampionamento a una e otto ore}%
+    \label{fig:arpat-pm}%
+\end{figure}
+
+\subsubsection{Unione dei dataset}
+In seguito, per facilitare l'elaborazione dei dati e le tecniche di regressione (\ref{sec:regressione}), i dataset SMART e ARPAT (sia \ce{NO2} che \ce{PM_{2.5}} e \ce{PM10}) sono stati uniti in un unico dataset basandosi sulla colonna 'data'.
+I risultati di questa unione sono riportati di seguito (figure \ref{fig:no2-ds-final} e \ref{fig:pm-ds-final}) e rappresentano i dataset finali utilizzati nella parte di regressione.
+
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.6\textwidth,height=\textheight,keepaspectratio]{img/no2_ds_final}
+\caption{Struttura del dataset finale per \ce{NO2} (SMART16 vs ARPAT)}
+\label{fig:no2-ds-final}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.6\textwidth,height=\textheight,keepaspectratio]{img/pm_ds_final}
+\caption{Struttura del dataset finale per PM (SMART16 vs ARPAT)}
+\label{fig:pm-ds-final}
+\end{figure}
 
 % Regressione
 \section{Regressione}\label{sec:regressione}
