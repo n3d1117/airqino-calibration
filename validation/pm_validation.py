@@ -41,8 +41,9 @@ def execute(dataset, validation_dataset, chemical, name):
     ax.plot(val_dataset.index, y_pred, color='tab:red', label='AirQino (Calibrated)', alpha=.6, linewidth=1)
     ax.axhline(y=limit, color='tab:purple', linestyle='dashed', alpha=.6,
                label='Limite di riferimento\n({}µg/m³, D.Lgs.155/2010)'.format(limit))
+    c = 'PM₂.₅' if chemical == 'pm2.5' else 'PM₁₀'
     ax.set_title(
-        'SMART16 Validation | {} | Reference vs Raw vs Calibrated (R² = {})'.format(chemical.upper(), round(r2, 2)))
+        'SMART16 Validation | {} | Reference vs Raw vs Calibrated (R² = {})'.format(c, round(r2, 2)))
     ax.set_ylabel('µg/m³')
     ax.xaxis.set_major_locator(mdates.WeekdayLocator(interval=1))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%y'))
