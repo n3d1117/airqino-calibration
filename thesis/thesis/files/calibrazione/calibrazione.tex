@@ -3,13 +3,13 @@ Questo capitolo riguarda la parte di tesi incentrata sulla calibrazione delle ce
 
 La sezione \ref{sec:regressione} racchiude una breve panoramica teorica sui concetti di regressione, correlazione, metriche (coefficiente di correlazione, coefficiente di determinazione, scarto quadratico medio), analisi dei residui e modelli di regressione (sia lineare che non lineari).
 
-La sezione \ref{sec:esperimenti} presenta i risultati ottenuti, mentre in \ref{sec:validazione} sono elencati gli esperimenti svolti in fase di validazione.
+La sezione \ref{sec:esperimenti} elenca gli esperimenti svolti per ciascun inquinante (\ce{NO2}, \ce{PM_{2.5}} e \ce{PM_{10}}) e presenta i risultati ottenuti (con analisi dei residui e confrontando i vari modelli, sia su tutto l'anno che mese per mese), mentre in \ref{sec:validazione} viene presentato il lavoro svolto per la validazione del modello di regressione migliore su un set di dati non visto in precedenza.
 
-Infine, la sezione \ref{sec:discussione} viene riassunto tutto il lavoro svolto e fornita un'analisi qualitativa dei risultati ottenuti.
+Infine, la sezione \ref{sec:discussione} riassume tutto il lavoro svolto e fornisce un'analisi qualitativa dei risultati ottenuti.
 
 % I dati a disposizione
 \clearpage
-\section{I dati a disposizione}\label{sec:dati}
+\section{Dati a disposizione}\label{sec:dati}
 I dataset messi a disposizione sono due:
 
 \begin{itemize}
@@ -71,8 +71,8 @@ La figura \ref{fig:arpat-no2} invece riporta l'andamento della concentrazione di
 \begin{figure}[H]%
     \centering
     \captionsetup{justification=centering}
-    \subfloat[\centering Frequenza di misurazione]{{\includegraphics[width=7.4cm]{img/smart16_count} }}%
-    \subfloat[\centering Andamento (in \textit{counts})]{{\includegraphics[width=7.4cm]{img/smart16_no2} }}%
+    \subfloat[\centering Frequenza di misurazione]{{\includegraphics[width=7cm]{img/smart16_count} }}%
+    \subfloat[\centering Andamento (in \textit{counts})]{{\includegraphics[width=7cm]{img/smart16_no2} }}%
     \caption{Frequenza di misurazione e andamento \ce{NO2} (SMART16)\\nel periodo 01/01/2020 - 31/12/2020}%
     \label{fig:smart16-no2}%
 \end{figure}
@@ -407,7 +407,7 @@ Poiché un residuo può essere visto come la deviazione tra i dati e l'adattamen
 Eventuali scostamenti dalle ipotesi sugli errori dovrebbero quindi manifestarsi nei residui. L'analisi grafica dei residui è un modo efficace per scoprire diversi tipi di inadeguatezze del modello, tra cui: 
 \begin{itemize}
   \item se i residui hanno distribuzione normale (\ref{ssec:distr-errori});
-  \item se le varibabili indipendenti sono correlate con l'errore (\ref{ssec:correlazione-errore-variabili});
+  \item se gli errori non sono indipendenti rispetto ai valori di $X$ (\ref{ssec:correlazione-errore-variabili});
   \item se la varianza dei residui è omogenea (\ref{ssec:omogeneita-varianza});
   \item se ci sono degli outliers che influenzano la pendenza della retta (\ref{ssec:influenza-outliers}).
 \end{itemize}
@@ -415,24 +415,34 @@ Eventuali scostamenti dalle ipotesi sugli errori dovrebbero quindi manifestarsi 
 \subsubsection{Distribuzione degli errori}\label{ssec:distr-errori}
 La distribuzione normale degli errori può essere verificata attraverso un grafico dei quantili, detto anche q-q plot.
 In questa tipologia di grafico, i quantili teorici di una distribuzione Normale sono riportati sull’asse orizzontale. I quantili dei residui standardizzati sono invece riportati sull’asse verticale.
-L’idea è che se i residui hanno una distribuzione normale, i loro quantili dovrebbero coincidere con quelli della distribuzione normale. A livello visivo, questo significa che i punti dovrebbero disporsi lungo la \textit{bisettrice}, indicata dalla retta presente nel grafico (figura TODO).
+L’idea è che se i residui hanno una distribuzione normale, i loro quantili dovrebbero coincidere con quelli della distribuzione normale. A livello visivo, questo significa che i punti dovrebbero disporsi lungo la \textit{bisettrice}, indicata dalla retta presente nel grafico (figura \ref{fig:distr_errori}).
 
-%TODO figura + ref
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth,height=\textheight,keepaspectratio]{img/res_no2_qq}
+\caption{Esempio di grafico distribuzione degli errori (q-q plot)}
+\label{fig:distr_errori}
+\end{figure}
 
 Nella pratica, non capita quasi mai che i punti si dispongano esattamente lungo la bisettrice. Per poter dire che gli errori hanno una distribuzione normale ci si accontenta quindi che i punti siano vicino alla linea presente nel grafico.
 Tuttavia in generale le stime sui coefficienti di regressione sono abbastanza robuste a violazioni della normalità distributiva dei residui.
 
-\subsubsection{Correlazione tra errore e variabili}\label{ssec:correlazione-errore-variabili}
-Se una variabile esplicativa è correlata con il termine d’errore, è possibile utilizzare questa variabile esplicativa per predire quale sarà l’errore del modello di regressione. Questo in generale non è un buon segno, perché la componente di errore di un modello di previsione deve essere imprevedibile.
+\subsubsection{Indipendenza degli errori}\label{ssec:correlazione-errore-variabili}
+Se una variabile indipendente ($X$) risulta correlata con il termine d’errore, è possibile utilizzare questa variabile per predire quale sarà l’errore del modello di regressione. Questo in generale non è un buon segno, perché la componente di errore di un modello di previsione deve essere sempre imprevedibile.
 
-Per verificare la non correlazione tra la variabile indipendente (x) e i residui è utile osservare un grafico di dispersione come quello riportato in figura TODO, in sull’asse orizzontale si mettono i valori della x, mentre sull’asse verticale i valori dei residui.
+Per verificare l'indipendenza tra la variabile indipendente e i residui è utile osservare un grafico come quello riportato in figura \ref{fig:residui-plot}, dove sull’asse orizzontale si riportano i valori della $x$ nell'ordine in cui sono stati raccolti, mentre sull’asse verticale i valori dei residui.
 
-%TODO figura + ref
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth,height=\textheight,keepaspectratio]{img/residual_plot}
+\caption{Esempio di plot dei residui}
+\label{fig:residui-plot}
+\end{figure}
 
-L’ipotesi è confermata se non è individuabile nessuna relazione tra le due variabili.
+L’ipotesi è confermata se non è individuabile nessuna relazione tra le due variabili (trend o strutture cicliche).
 
 \subsubsection{Omogeneità della varianza dei residui}\label{ssec:omogeneita-varianza}
-Per verificare l’ipotesi di omogeneità delle varianze dei residui, è necessario creare un grafico a dispersione.  I valori stimati della y si riportano sull’asse orizzontale delle x. Sull’asse verticale delle y invece si indicano i valori dei residui (figura \ref{fig:distr_residui}).
+Per verificare l’ipotesi di omogeneità delle varianze dei residui, è necessario creare un grafico a dispersione (\textit{scatterplot}). I valori stimati della y si riportano sull’asse orizzontale delle $x$. Sull’asse verticale delle $y$ invece si indicano i valori dei residui (figura \ref{fig:distr_residui}).
 
 \begin{figure}[H]
 \centering
@@ -513,12 +523,12 @@ Ci sono due modi per affrontare questa situazione:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.65\textwidth,height=\textheight,keepaspectratio]{img/robust.png}
+\includegraphics[width=0.55\textwidth,height=\textheight,keepaspectratio]{img/robust.png}
 \caption{Comportamento di modelli di regressione robusta in presenza di outliers}
 \label{fig:reg_rob}
 \end{figure}
 
-Una delle funzioni di stima robusta, comunemente usata in diversi metodi di regressione per ridurre la sensibilità dei parametri alla presenza di outliers, è la \textbf{funzione di Huber}, che risulta quadratica per piccoli valori di $x$, e lineare per valori più grandi. È definita come:
+Una delle funzioni di stima robusta, comunemente usata in diversi metodi di regressione per ridurre la sensibilità dei parametri alla presenza di outliers, è la \textbf{funzione di Huber}, appartenente ad una classe di estimatori denominata \textbf{M-estimator}, e che risulta quadratica per piccoli valori di $x$, e lineare per valori più grandi. È definita come:
 
 $$L_{\delta}(a)= \begin{cases}\frac{1}{2} a^{2} & \text { per }|a| \leq \delta \\ \delta\left(|a|-\frac{1}{2} \delta\right), & \text { altrimenti }\end{cases}$$\smallskip
 
@@ -528,9 +538,9 @@ Dove la variabile $a$ fa riferimento al residuo, cioè la differenza tra valore 
 \subsubsection{Regressione lineare avanzata}\label{sssec:regressione-cook}
 Come accennato in \ref{sssec:regressione-huber}, un'altra tecnica per la gestione di outlier è quella di applicare il modello sul dataset dopo aver rimosso i valori anomali. Esistono molte metriche su cui basarsi per rimuovere gli outlier da un set di dati: un metodo che viene spesso utilizzato nella regressione è la \textbf{distanza di Cook}.
 
-La distanza di Cook è una stima dell'\textit{influenza} di una osservazione in un dataset, in termini di residuo (outlier) o di elevato \textit{leverage}: è un riepilogo di quanto cambierebbe un modello di regressione nel caso in cui venga rimossa l'i-esima osservazione.
+La distanza di Cook è una stima dell'\textit{influenza} di una osservazione in un dataset, in termini di residuo (outlier) o di elevato \textit{leverage}: è un riepilogo di quanto cambierebbe un modello di regressione nel caso in cui venga rimossa l'i-esima osservazione.\\
 
-In presenza di outliers la distanza di Cook aumenta, e quindi questi dati ad alta influenza hanno un maggiore impatto sulle stime dei parametri della regressione.
+In presenza di outliers la distanza di Cook aumenta, e quindi questi dati ad alta influenza hanno un maggiore impatto sulle stime dei parametri della regressione.\\
 
 La distanza di Cook \cite{cook_def} dell'osservazione $i$ ($\forall i=1, \ldots, n$) è definita come:
 
@@ -695,55 +705,74 @@ La regressione Kernel Ridge (o KRR, \textit{Kernel Ridge Regression}) è un altr
 La forma del modello di regressione KRR è identica a quello basato su SVR (descritto in \ref{sssec:regressione-svr}), ma vengono utilizzate diverse funzioni di \textit{loss}: KRR minimizza l'errore quadratico mentre SVR minimizza i coefficienti in base alla soglia $\varepsilon$. Il modello KRR in genere risulta più veloce per dataset di medie dimensioni.
 
 % Esperimenti e risultati ottenuti
+\clearpage
 \section{Esperimenti e risultati ottenuti}\label{sec:esperimenti}
+Una volta collezionati i dati sia dalle centraline AirQino che ARPAT è stata avviata la fase di calibrazione, con le seguenti attività per ciascun inquinante (\ce{NO2}, \ce{PM_{2.5}} e \ce{PM10}):
 
+\begin{itemize}
+  \item Scatterplot preliminare delle misurazioni AirQino confrontate con le misurazioni di riferimento ARPAT, per individuare eventuali relazioni tra le variabili;
+  \item Analisi dei residui della regressione lineare, per verificare le assunzioni del modello (vedi sezione \ref{ssec:regressione-residui});
+  \item Applicati tredici modelli di regressione diversi su tutto il dataset:
+        \begin{itemize}
+          \item Lineare semplice (\ref{sssec:regressione-lineare});
+          \item Lineare \textit{robusto}, per ridurre l'influenza di outlier utilizzando la funzione peso di Huber (\ref{sssec:regressione-huber});
+          \item Lineare \textit{avanzato}, con rimozione di outlier tramite distanza di Cook basata sull'influenza della singola osservazione (\ref{sssec:regressione-cook});
+          \item Ridge e Lasso (\ref{sssec:regressione-ridge} e \ref{sssec:regressione-lasso});
+          \item Polinomiale (grado 2 e 3, \ref{sssec:regressione-polinomiale});
+          \item SVR (con kernel lineare, polinomiale e RBF, come descritto in \ref{sssec:regressione-svr});
+          \item Random Forest, Gradient Boosting e KernelRidge (\ref{sssec:regressione-rf}, \ref{sssec:regressione-gb} e \ref{sssec:regressione-kridge}).
+        \end{itemize}
+    \item Applicati gli stessi modelli ai dati mese per mese, per validare la consistenza dei risultati;
+    \item Infine, sono stati raccolti e confrontati i coefficienti delle curve ottenute dai diversi modelli.
+\end{itemize}
 
+Per tutti i risultati ottenuti e presentati nella sezione seguente sono stati presi alcuni accorgimenti:
+\begin{itemize}
+  \item Per misurare le performance dei vari modelli di regressione sono state utilizzate due metriche: il coefficiente di determinazione ($R^2$) e la radice dell'errore quadratico medio (RMSE), come visto in \ref{ssec:regressione-correlazione};
+  \item Tutti i modelli sono stati precedentemente preparati tramite \textit{tuning} di parametri ottimali (dove possibile) con tecniche di \textit{cross-validation};
+  \item Ciascun risultato riportato di seguito ($R^2$ e RMSE) rappresenta la media su 1000 iterazioni, con \textit{shuffle} dei dati ad ogni iterazione per ridurre al minimo la possibilità di \textit{overfitting};
+  \item Per allenare i modelli il dataset è stato suddiviso in train set 70\% e test set 30\%;
+  \item Tutti gli esperimenti sono stati eseguiti con Python versione 3.9 con l'aiuto di librerie aggiuntive quali \url{scikit-learn}, \url{pandas}, \url{matplotlib}, \url{seaborn} e \url{numpy}.
+\end{itemize}
 
+\subsection{Risultati \ce{NO2}}\label{ssec:risultati-no2}
 
-
-
-
-
-
-\subsection{\ce{NO2}}\label{ssec:risultati-no2}
-
-% Scatterplot su tutto l'anno
-Scatterplot su tutto l'anno:
+Il confronto tra le misurazioni AirQino e le misurazioni di riferimento ARPAT per \ce{NO2} sono riportate nello \textit{scatterplot} di figura \ref{fig:scatterplot_no2}.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/sc_no2.png}
+\includegraphics[width=0.55\textwidth,height=\textheight,keepaspectratio]{img/sc_no2.png}
 \caption{Scatterplot dataset \ce{NO2}}
 \label{fig:scatterplot_no2}
 \end{figure}
 
-% analisi residui (4)
-analisi residui:
+I risultati dell'analisi grafica dei residui sono riportati in figura \ref{fig:residui_no2}.
 
 \begin{figure}[H]
 \centering
 \subfloat[Scatterplot]{%
-\includegraphics[width=0.5\textwidth]{img/res_no2_scatter}%
+\includegraphics[width=0.42\textwidth]{img/res_no2_scatter}%
 }\hfil
 \subfloat[Plot]{%
-\includegraphics[width=0.5\textwidth]{img/res_no2_plot}%
+\includegraphics[width=0.42\textwidth]{img/res_no2_plot}%
 }
 
 \subfloat[Distribuzione]{%
-\includegraphics[width=0.5\textwidth]{img/res_no2_distr}%
+\includegraphics[width=0.42\textwidth]{img/res_no2_distr}%
 }\hfil
 \subfloat[Q-Q plot]{%
-\includegraphics[width=0.5\textwidth]{img/res_no2_qq}%
+\includegraphics[width=0.42\textwidth]{img/res_no2_qq}%
 }
 \caption{Analisi dei residui dataset \ce{NO2}}
+\label{fig:residui_no2}
 \end{figure}
 
+La tabella \ref{fig:risultati-no2} mostra i risultati, in termini di $R^2$ e RMSE, della procedura di calibrazione applicata al sensore di \ce{NO2} per ciascun modello di regressione, su tutto il dataset.
 
-% risultati su tutto l’anno
-risultati su tutto l’anno:
 \begin{table}[H]
     \footnotesize
     \centering
+    \def\arraystretch{0.9}
     \begin{tabular}{|l|c|c|}
     \hline
         \textbf{Modello di regressione} & $\bm{\mathrm{R^2}}$ & \textbf{RMSE (}$\mathrm{\si{\micro}g/m^3}$) \\ \hline
@@ -761,26 +790,38 @@ risultati su tutto l’anno:
         SVR (Kernel RBF) & 0.294 & 11.445 \\ \hline
         KernelRidge & 0.301 & 11.344 \\ \hline
     \end{tabular}
-    \caption{Risultati}
+    \caption{Risultati della calibrazione \ce{NO2}}
     \label{fig:risultati-no2}
 \end{table}
+
+E in figura \ref{fig:risultati-no2-hist} gli stessi risultati in forma di istogramma:
 
 \begin{figure}[H]%
     \centering
     \captionsetup{justification=centering}
-    \subfloat[\centering $\mathrm{R^2}$]{{\includegraphics[width=6.9cm]{img/hist_no2_1} }}%
-    \subfloat[\centering RMSE]{{\includegraphics[width=6.9cm]{img/hist_no2_2} }}%
-    \caption{Risultati in forma di istogramma}%
+    \subfloat[\centering Risultati $\mathrm{R^2}$]{{\includegraphics[width=6.9cm]{img/hist_no2_1} }}%
+    \subfloat[\centering Risultati RMSE]{{\includegraphics[width=6.9cm]{img/hist_no2_2} }}%
+    \caption{Istogramma dei risultati della calibrazione \ce{NO2}}%
     \label{fig:risultati-no2-hist}%
 \end{figure}
 
-% RISULTATI mese per mese
-RISULTATI mese per mese:
+Per quanto riguarda l'applicazione del modello lineare \textit{avanzato}, è stata riapplicata la regressione dopo aver tolto tutti i punti con distanza di Cook (\ref{sssec:regressione-cook}) sopra una certa soglia ($\frac{4}{numero\ di\ osservazioni} = \frac{4}{5110} \approx 0,0007$). In particolare sono stati individuati e rimossi 282 outlier su 5110 osservazioni totali, circa il 5.52\% (figura \ref{fig:cook-no2}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/cook_no2.png}
+\caption{Rimozione di outlier con distanza di Cook su dataset \ce{NO2}}%
+\label{fig:cook-no2}%
+\end{figure}
+
+Nelle tabelle \ref{fig:risultati-no2-mese} e \ref{fig:risultati-no2-rmse-mese} sono invece riportati rispettivamente $R^2$ e RMSE della calibrazione su dataset \ce{NO2} fatta mese per mese.\\
+
+Anche in questo caso il modello di regressione migliore è risultato in media quello \textit{avanzato}, con riconoscimento e rimozione di outlier, anche se per alcuni mesi il modello polinomiale di terzo grado e il modello KernelRidge hanno ottenuto risultati migliori.
 
 \begin{table}[H]
     \footnotesize
     \centering
-    \def\arraystretch{0.9}
+    \def\arraystretch{0.95}
     \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|}
     \hline
         \textbf{Modello} & \textbf{Gen} & \textbf{Feb} & \textbf{Mar} & \textbf{Apr} & \textbf{Set} & \textbf{Ott} & \textbf{Nov} & \textbf{Dic} \\ \hline
@@ -798,14 +839,14 @@ RISULTATI mese per mese:
         SVR (RBF) & 0.38 & 0.50 & 0.46 & 0.19 & 0.25 & 0.39 & 0.14 & 0.43 \\ \hline
         KernelRidge & 0.44 & 0.45 & 0.37 & 0.24 & 0.26 & 0.39 & \textbf{0.18} & 0.41 \\ \hline
     \end{tabular}
-    \caption{Risultati mese per mese}
+    \caption{Risultati della calibrazione \ce{NO2} mese per mese ($R^2$)}
     \label{fig:risultati-no2-mese}
 \end{table}
 
 \begin{table}[H]
     \footnotesize
     \centering
-    \def\arraystretch{0.9}
+    \def\arraystretch{0.95}
     \setlength{\tabcolsep}{5pt}
     \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|}
     \hline
@@ -824,13 +865,11 @@ RISULTATI mese per mese:
         SVR (RBF) & 13.70 & 10.98 & 9.02 & 9.39 & 8.24 & 8.57 & 12.50 & 9.74 \\ \hline
         KernelRidge & 13.35 & 11.51 & 9.80 & 9.17 & 8.21 & 8.62 & 12.06 & 9.78 \\ \hline
     \end{tabular}
-    \caption{Risultati RMSE mese per mese}
+    \caption{Risultati della calibrazione \ce{NO2} mese per mese (RMSE)}
     \label{fig:risultati-no2-rmse-mese}
 \end{table}
 
-
-% coefficienti
-coefficienti:
+Infine, la tabella \ref{fig:risultati-no2-coefficienti} riporta i coefficienti delle curve di regressione ottenuti applicando i modelli al dataset \ce{NO2}. I coefficienti \textit{a}, \textit{b}, \textit{c}, \textit{d}, \textit{e} si riferiscono ad una equazione polinomiale generica del tipo $y=a+bx+cx^2+dx^3+ex^4$.
 
 \begin{table}[H]
     \footnotesize
@@ -847,17 +886,14 @@ coefficienti:
         Polinomiale (grado 3) & 12.71 & 4.23 & 1.91 & -0.40 & / \\ \hline
         Polinomiale (grado 4) & 9.97 & 22.86 & -22.40 & 10.21 & -1.47 \\ \hline
     \end{tabular}
-    \caption[caption]{Coefficienti\protect\footnotemark}
+    \caption{Coefficienti della calibrazione \ce{NO2}}
     \label{fig:risultati-no2-coefficienti}
 \end{table}
-\footnotetext{Con riferimento ad una equazione del tipo $y=a+bx+cx^2+dx^3+ex^4$}
 
+\subsection{Risultati \ce{PM_{2.5}}}\label{ssec:risultati-pm2.5}
 
+Il confronto tra le misurazioni AirQino e le misurazioni di riferimento ARPAT per \ce{PM_{2.5}} sono riportate nello \textit{scatterplot} di figura \ref{fig:scatterplot_pm2.5}.
 
-\subsection{\ce{PM_{2.5}}}\label{ssec:risultati-pm2.5}
-
-% Scatterplot su tutto l'anno
-Scatterplot su tutto l'anno:
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/sc_pm2.5.png}
@@ -865,8 +901,8 @@ Scatterplot su tutto l'anno:
 \label{fig:scatterplot_pm2.5}
 \end{figure}
 
-% Analisi residui
-Analisi residui:
+I risultati dell'analisi grafica dei residui sono riportati in figura \ref{fig:residui_pm2.5}.
+
 \begin{figure}[H]
 \centering
 \subfloat[Scatterplot]{%
@@ -883,10 +919,11 @@ Analisi residui:
 \includegraphics[width=0.5\textwidth]{img/res_pm2.5_qq}%
 }
 \caption{Analisi dei residui dataset \ce{PM_{2.5}}}
+\label{fig:residui_pm2.5}
 \end{figure}
 
-% risultati su tutto l’anno
-risultati su tutto l’anno:
+La tabella \ref{fig:risultati-pm2.5} mostra i risultati della procedura di calibrazione applicata al sensore di \ce{PM_{2.5}} per ciascun modello di regressione, su tutto il dataset.
+
 \begin{table}[H]
     \footnotesize
     \centering
@@ -907,21 +944,31 @@ risultati su tutto l’anno:
         SVR (Kernel RBF) & 0.739 & 8.581 \\ \hline
         KernelRidge & 0.757 & 8.208 \\ \hline
     \end{tabular}
-    \caption{Risultati}
+    \caption{Risultati della calibrazione \ce{PM_{2.5}}}
     \label{fig:risultati-pm2.5}
 \end{table}
+
+E in figura \ref{fig:risultati-pm2.5-hist} gli stessi risultati in forma di istogramma:
 
 \begin{figure}[H]%
     \centering
     \captionsetup{justification=centering}
     \subfloat[\centering $\mathrm{R^2}$]{{\includegraphics[width=6.9cm]{img/hist_pm2.5_1} }}%
     \subfloat[\centering RMSE]{{\includegraphics[width=6.9cm]{img/hist_pm2.5_2} }}%
-    \caption{Risultati in forma di istogramma}%
+    \caption{Istogramma dei risultati della calibrazione \ce{PM_{2.5}}}%
     \label{fig:risultati-pm2.5-hist}%
 \end{figure}
 
-% RISULTATI mese per mese
-RISULTATI mese per mese:
+Anche in questo caso nel modello lineare \textit{avanzato}, è stata riapplicata la regressione dopo aver tolto tutti i punti con distanza di Cook (\ref{sssec:regressione-cook}) sopra la soglia pari a $\frac{4}{numero\ di\ osservazioni} = \frac{4}{1037} \approx 0,0038$. In particolare sono stati individuati e rimossi 80 outlier su 1037 osservazioni totali, circa il 7.71\% (figura \ref{fig:cook-pm2.5}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/cook_pm2.5.png}
+\caption{Rimozione di outlier con distanza di Cook su dataset \ce{PM_{2.5}}}%
+\label{fig:cook-pm2.5}%
+\end{figure}
+
+Nelle tabelle \ref{fig:risultati-pm2.5-mese} e \ref{fig:risultati-pm2.5-rmse-mese} sono invece riportati rispettivamente $R^2$ e RMSE della calibrazione su dataset \ce{PM_{2.5}} fatta mese per mese.
 
 \begin{table}[H]
     \tiny
@@ -945,7 +992,7 @@ RISULTATI mese per mese:
         SVR (RBF) & 0.16 & 0.44 & 0.22 & 0.65 & 0.58 & 0.39 & 0.37 & -0.06 & -0.36 & -0.07 & 0.62 & 0.50 \\ \hline
         KernelRidge & 0.36 & 0.45 & \textbf{0.25} & \textbf{0.73} & 0.67 & 0.57 & 0.54 & 0.06 & -0.06 & \textbf{0.29} & 0.62 & 0.60 \\ \hline
     \end{tabular}
-    \caption{Risultati mese per mese}
+    \caption{Risultati della calibrazione \ce{PM_{2.5}} mese per mese ($R^2$)}
     \label{fig:risultati-pm2.5-mese}
 \end{table}
 
@@ -971,12 +1018,11 @@ RISULTATI mese per mese:
         SVR (RBF) & 3.99 & 6.51 & 12.98 & 12.88 & 12.60 & 9.41 & 7.54 & 4.25 & 1.57 & 2.33 & 1.41 & 2.23 \\ \hline
         KernelRidge & 3.56 & 6.45 & \textbf{12.65} & 11.31 & 11.31 & 7.92 & 6.36 & 4.01 & 1.42 & 1.88 & 1.39 & 2.06 \\ \hline
     \end{tabular}
-    \caption{Risultati RMSE mese per mese}
+    \caption{Risultati della calibrazione \ce{PM_{2.5}} mese per mese (RMSE)}
     \label{fig:risultati-pm2.5-rmse-mese}
 \end{table}
 
-% coefficienti
-coefficienti:
+Infine, la tabella \ref{fig:risultati-pm2.5-coefficienti} riporta i coefficienti delle curve di regressione ottenuti applicando i modelli al dataset \ce{PM_{2.5}}. Anche in questo caso i coefficienti \textit{a}, \textit{b}, \textit{c}, \textit{d}, \textit{e} si riferiscono ad una equazione polinomiale generica del tipo $y=a+bx+cx^2+dx^3+ex^4$.
 
 \begin{table}[H]
     \footnotesize
@@ -993,15 +1039,15 @@ coefficienti:
         Polinomiale (grado 3) & 5.19 & 25.32 & -4.07 & 0.23 & / \\ \hline
         Polinomiale (grado 4) & 4.17 & 30.76 & -9.29 & 1.75 & -0.13 \\ \hline
     \end{tabular}
-    \caption{Coefficienti}
+    \caption{Coefficienti della calibrazione \ce{PM_{2.5}}}
     \label{fig:risultati-pm2.5-coefficienti}
 \end{table}
 
 
-\subsection{\ce{PM10}}\label{ssec:risultati-pm10}
+\subsection{Risultati \ce{PM10}}\label{ssec:risultati-pm10}
 
-% Scatterplot su tutto l'anno
-Scatterplot su tutto l'anno:
+Il confronto tra le misurazioni AirQino e le misurazioni di riferimento ARPAT per \ce{PM_{10}} sono riportate nello \textit{scatterplot} di figura \ref{fig:scatterplot_pm10}.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/sc_pm10.png}
@@ -1009,8 +1055,8 @@ Scatterplot su tutto l'anno:
 \label{fig:scatterplot_pm10}
 \end{figure}
 
-% Analisi residui
-Analisi residui:
+I risultati dell'analisi grafica dei residui sono riportati in figura \ref{fig:residui_pm10}.
+
 \begin{figure}[H]
 \centering
 \subfloat[Scatterplot]{%
@@ -1027,10 +1073,11 @@ Analisi residui:
 \includegraphics[width=0.5\textwidth]{img/res_pm10_qq}%
 }
 \caption{Analisi dei residui dataset \ce{PM_{10}}}
+\label{fig:residui_pm10}
 \end{figure}
 
-% risultati su tutto l’anno
-risultati su tutto l’anno:
+La tabella \ref{fig:risultati-pm10} mostra i risultati della procedura di calibrazione applicata al sensore di \ce{PM_{10}} per ciascun modello di regressione, su tutto il dataset.
+
 \begin{table}[H]
     \footnotesize
     \centering
@@ -1051,21 +1098,31 @@ risultati su tutto l’anno:
         SVR (Kernel RBF) & 0.719 & 9.672 \\ \hline
         KernelRidge & 0.738 & 9.321 \\ \hline
     \end{tabular}
-    \caption{Risultati}
+    \caption{Risultati della calibrazione \ce{PM_{10}}}
     \label{fig:risultati-pm10}
 \end{table}
+
+E in figura \ref{fig:risultati-pm10-hist} gli stessi risultati in forma di istogramma:
 
 \begin{figure}[H]%
     \centering
     \captionsetup{justification=centering}
     \subfloat[\centering $\mathrm{R^2}$]{{\includegraphics[width=6.9cm]{img/hist_pm10_1} }}%
     \subfloat[\centering RMSE]{{\includegraphics[width=6.9cm]{img/hist_pm10_2} }}%
-    \caption{Risultati in forma di istogramma}%
+    \caption{Istogramma dei risultati della calibrazione \ce{PM_{10}}}%
     \label{fig:risultati-pm10-hist}%
 \end{figure}
 
-% RISULTATI mese per mese
-RISULTATI mese per mese:
+Anche in questo caso nel modello lineare \textit{avanzato}, è stata riapplicata la regressione dopo aver tolto tutti i punti con distanza di Cook (\ref{sssec:regressione-cook}) sopra la soglia pari a $\frac{4}{numero\ di\ osservazioni} = \frac{4}{1037} \approx 0,0038$. In particolare sono stati individuati e rimossi 70 outlier su 1037 osservazioni totali, circa il 6.71\% (figura \ref{fig:cook-pm10}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/cook_pm10.png}
+\caption{Rimozione di outlier con distanza di Cook su dataset \ce{PM_{10}}}%
+\label{fig:cook-pm10}%
+\end{figure}
+
+Nelle tabelle \ref{fig:risultati-pm10-mese} e \ref{fig:risultati-pm10-rmse-mese} sono invece riportati rispettivamente $R^2$ e RMSE della calibrazione su dataset \ce{PM_{10}} fatta mese per mese.
 
 \begin{table}[H]
     \tiny
@@ -1119,8 +1176,7 @@ RISULTATI mese per mese:
     \label{fig:risultati-pm10-rmse-mese}
 \end{table}
 
-% coefficienti
-coefficienti:
+Infine, la tabella \ref{fig:risultati-pm10-coefficienti} riporta i coefficienti delle curve di regressione ottenuti applicando i modelli al dataset \ce{PM_{10}}. Anche in questo caso i coefficienti \textit{a}, \textit{b}, \textit{c}, \textit{d}, \textit{e} si riferiscono ad una equazione polinomiale generica del tipo $y=a+bx+cx^2+dx^3+ex^4$.
 
 \begin{table}[H]
     \footnotesize
@@ -1141,10 +1197,10 @@ coefficienti:
     \label{fig:risultati-pm10-coefficienti}
 \end{table}
 
-
 % Validazione
 \section{Validazione}\label{sec:validazione}
 %TODO vedi capitolo 11 di douglas
+%todo vedi paper
 %TODO vedi anche https://en.wikipedia.org/wiki/Regression_validation
 
 Poiché l'adattamento del modello ai dati disponibili costituisce la base per molte delle tecniche utilizzate nel processo di sviluppo del modello (come la selezione delle variabili), si è tentati di concludere che un modello che si adatta bene ai dati avrà successo anche nel applicazione finale. Non é necessariamente così. Ad esempio, un modello potrebbe essere stato sviluppato principalmente per prevedere nuove osservazioni.
@@ -1173,4 +1229,16 @@ La corretta convalida di un modello sviluppato per prevedere nuove osservazioni 
 
 % Discussione
 \section{Discussione}\label{sec:discussione}
-\ldots
+
+% todo vedi paper
+l'uso della regressione polinomiale mi aspettavo risultati migliori ma non ha dimostrato di essere all'atezza
+
+la strada con detection di outlier è la migliore
+
+no2 peggio dei pm ma dipende dal sensore
+
+in generale, pm10 peggio di pm2.5
+
+riepilogo miglior modello + coefficienti per ciascun inquinante
+
+
