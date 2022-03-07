@@ -14,10 +14,10 @@ def annual_summary(X, y):
 
 
 if __name__ == '__main__':
-    dataset = get_dataset(Dataset.SMART16_NO2)
-    dataset = dataset.loc['2020-01-18': '2020-12-30']
-    X = dataset['airqino_{}'.format('no2')].values.reshape((-1, 1))
-    y = dataset['arpat_{}'.format('no2')].values
+    dataset = get_dataset(Dataset.SMART16_NEW_PM_8H)
+    # dataset = dataset.loc['2020-01-18': '2020-12-30']
+    X = dataset['airqino_{}'.format('pm10')].values.reshape((-1, 1))
+    y = dataset['arpat_{}'.format('pm10')].values
 
     model_result = sm.OLS(y, sm.add_constant(X)).fit()
     ypred = model_result.predict(sm.add_constant(X))
@@ -46,18 +46,19 @@ if __name__ == '__main__':
     # plt.scatter(X, y, label='Data', alpha=.5)
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.set_title('SMART16 | NO2 | Test rimozione outlier con distanza di Cook')
+    ax.set_title('SMART16 | NO₂ | Rimozione di outlier con distanza di Cook ({}%)'.format(
+        round((100 / len(X)) * (len(X) - len(X[mask])), 2)))
     ax.set_xlabel('AirQino ({})'.format('counts'))
     ax.set_ylabel('ARPAT (µg/m³)')
     ax.scatter(
-        X[mask], y[mask], color="yellowgreen", marker=".", label="Inliers"
+        X[mask], y[mask], color=(0.2, 0.4, 0.6, 0.6), marker=".", label="Inliers"
     )
     ax.scatter(
         X[outlier_mask], y[outlier_mask], color="tab:red", alpha=.8, marker="x", label="Outliers"
     )
     # ax.plot(X, ypred, color='cyan', label='pred')
     ax.legend()
-    plt.show()
+    # plt.savefig('../thesis_img/cook_no2.png', dpi=300)
 
     visualizer = CooksDistance()
     visualizer.fit(X, y)
