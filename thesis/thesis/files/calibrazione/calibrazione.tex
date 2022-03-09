@@ -475,7 +475,7 @@ La stima del parametro $b$, \textit{coefficiente angolare} della funzione linear
 
 $$\hat{b}=\frac{\sum_{i=1}^{n} \frac{\left(x_{i}-\bar{x}\right)\left(y_{i}-\bar{y}\right)}{n}}{\sum_{i=1}^{n} \frac{\left(x_{i}-\bar{x}\right)^{2}}{n}}$$\smallskip
 
-dove il denominatore è la \textit{varianza} di $X$ ($\sigma_{X}^{2}$), mentre il numeratore è detto \textit{covarianza} di X e Y ($\sigma_{XY}$) e misura la variabilità congiunta delle coppie ($x_i$, $y_i$) di valori corrispondenti rispetto al proprio valor medio; quindi, il coefficiente $b$ della retta interpolante esprime la variabilità congiunta di $X$ e $Y$ rapportata alla variabilità della sola $X$.
+dove il denominatore è la \textit{varianza} di $X$ ($\sigma_{X}^{2}$), mentre il numeratore è detto \textit{covarianza} di X e Y ($\sigma_{XY}$) e misura la variabilità congiunta delle coppie ($x_i$, $y_i$) di valori corrispondenti rispetto al proprio valor medio; quindi, il coefficiente $b$ della retta interpolante esprime la variabilità congiunta di $X$ e $Y$ rapportata alla variabilità della sola $X$. \cite{Neter1996}
 
 \begin{figure}[H]
 \centering
@@ -497,7 +497,7 @@ La precisione della retta calcolata dalla regressione lineare dipende dal grado 
 \subsubsection{Regressione lineare robusta (Huber)}\label{sssec:regressione-huber}
 La regressione Huber (in inglese Huber regression, anche detta regressione robusta) è una metodologia statistica per la stima dei parametri di un modello lineare in presenza di \textit{outliers}.
 
-Ci sono situazioni in cui si verifica presenza di valori anomali che influiscono sul modello di regressione, nel senso che possono avere una forte influenza sul metodo dei minimi quadrati, di fatto \textit{deviando} troppo l'equazione di regressione nella loro direzione. Il metodo dei minimi quadrati, infatti, in questi casi ha lo svantaggio di avere la tenedenza a essere dominato da questi valori — infatti sommando il quadrato dei residui ($\sum_{i=1}^{n} a_i^2$ dove $a_i$ è il residuo i-esimo), la media risulta troppo influenzata da pochi valori $a_i$ particolarmente grandi.
+Ci sono situazioni in cui si verifica presenza di valori anomali che influiscono sul modello di regressione, nel senso che possono avere una forte influenza sul metodo dei minimi quadrati, di fatto \textit{deviando} troppo l'equazione di regressione nella loro direzione. Il metodo dei minimi quadrati, infatti, in questi casi ha lo svantaggio di avere la tendenza ad essere dominato da questi valori — infatti sommando il quadrato dei residui ($\sum_{i=1}^{n} a_i^2$ dove $a_i$ è il residuo i-esimo), la media risulta troppo influenzata da pochi valori $a_i$ particolarmente grandi.
 
 Ci sono due modi per affrontare questa situazione:
 
@@ -645,12 +645,12 @@ In breve, l'algoritmo funziona eseguendo i seguenti passi:
   \item Per una nuova osservazione, fa in modo che ciascuno degli $N$ alberi preveda il valore di $y$, e assegna il nuovo punto alla media su tutti i valori $y$ previsti.
 \end{enumerate}
 
-Uno dei principali svantaggi degli alberi decisionali è che risultano molto inclini a provocare \textit{overfitting}: funzionano bene sui dati di training, ma non sono così flessibili per fare previsioni su campioni invisibili. Sebbene esistano soluzioni alternative per questo, come ad esempio ridurre il numero di alberi, questo riduce il loro potere predittivo. Generalmente sono modelli con bias medio e varianza alta, ma sono semplici e di facile interpretazione.
+Uno dei principali svantaggi degli alberi decisionali è che risultano molto inclini a provocare \textit{overfitting}: funzionano bene sui dati di training, ma non sono così flessibili per fare previsioni su campioni non visti in precedenza. Sebbene esistano soluzioni alternative per migliorare questo aspetto, come ad esempio ridurre il numero di alberi, questo riduce il loro potere predittivo. Generalmente sono modelli con \textit{bias} medio e varianza alta, ma sono semplici e di facile interpretazione.
 
 \subsubsection{Regressione con Gradient Boosting}\label{sssec:regressione-gb}
-Il Gradient Boosting è una tecnica di Machine Learning che ha alla base la stima iterativa di alberi sui residui ottenuti ad ogni passo e l’aggiornamento in maniera adattiva delle stime. Questa tecnica riprende il concetto matematico del \textit{Gradient Descent}, per cui lo split scelto sarà quello che favorisce l’avvicinamento al punto di minimo della funzione obiettivo.
+Il Gradient Boosting è una tecnica di Machine Learning che ha alla base la stima iterativa di alberi sui residui ottenuti ad ogni passo e l’aggiornamento in maniera adattiva delle stime. Questa tecnica riprende il concetto matematico del \textit{gradient descent}, per cui lo split scelto sarà quello che favorisce l’avvicinamento al punto di minimo della funzione obiettivo.
 
-Il Gradient Descent è un algoritmo di ottimizzazione che consente di individuare il valore minimo di una funzione di costo per sviluppare un modello con una previsione accurata.
+Il \textit{gradient descent} è un algoritmo di ottimizzazione che consente di individuare il valore minimo di una funzione di costo per sviluppare un modello con una previsione accurata.
 
 L’algoritmo Gradient Boosting applicato a problemi di regressione può essere descritto nei seguenti passi:
 
@@ -662,7 +662,7 @@ L’algoritmo Gradient Boosting applicato a problemi di regressione può essere 
 
 
 \subsubsection{Regressione con SVR}\label{sssec:regressione-svr}
-Un altro modello per la regressione è SVR (\textit{support-vector regression}), basato sui modelli SVM (support-vector machines) di apprendimento supervisionato, spesso impiegati nel il problema della classificazione. \cite{svm}
+Un altro modello per la regressione è SVR (\textit{support-vector regression}), basato sui modelli SVM (support-vector machines) di apprendimento supervisionato, spesso impiegati nel problema della classificazione. \cite{svm}
 
 Rispetto alla regressione lineare e al metodo dei minimi quadrati, SVR presenta più flessibilità perchè consente di definire una soglia di accettazione dell'errore nel modello. Infatti l'agoritmo SVR si propone di minimizzare non l'errore quadratico, come nel metodo dei minimi quadrati, ma i coefficienti (nello specifico, la norma al quadrato del vettore dei coefficienti). La funzione obiettivo quindi diventa:
 
@@ -678,7 +678,7 @@ $$min \frac{1}{2}\|\mathbf{w}\|^{2}$$\smallskip
 
 dove $C$ è un altro iperparametro regolabile: all'aumentare di $C$, aumenta anche la tolleranza per i punti al di fuori di $\varepsilon$. Quando invece $C$ si avvicina a 0, la tolleranza si avvicina a 0 e l'equazione ricade nel caso semplificato.
 
-I modelli di regressione SVM possono anche eseguire una regressione non lineare, applicando il \textit{kernel trick} per mappare i dati in uno spazio di caratteristiche multidimensionale. Il tipo di kernel da usare nell'algoritmo è un altro parametro da definire nel modello. I kernel più comuni sono quello lineare, polinomiale (di grado $n$) o rbf (basato su \textit{funzione di base radiale}).
+I modelli di regressione SVM possono anche eseguire una regressione non lineare, applicando il \textit{kernel trick} per mappare i dati in uno spazio multidimensionale. Il tipo di kernel da usare nell'algoritmo è un altro parametro da definire nel modello: i kernel più comuni sono quello lineare, polinomiale (di grado $n$) o RBF (basato su \textit{funzione di base radiale}).
 
 \subsubsection{Regressione con KernelRidge}\label{sssec:regressione-kridge}
 La regressione Kernel Ridge (o KRR, \textit{Kernel Ridge Regression}) è un altro modello che combina la regressione Ridge (descritta in \ref{sssec:regressione-ridge}) con il \textit{kernel trick}, imparando quindi una funzione lineare nello spazio indotto dal rispettivo kernel e dai dati. Per i kernel non lineari, questo corrisponde a una funzione non lineare nello spazio originale. \cite{krr}
@@ -697,7 +697,7 @@ Una volta collezionati i dati sia dalle centraline AirQino che ARPAT è stata av
         \begin{itemize}
           \item Lineare semplice (\ref{sssec:regressione-lineare});
           \item Lineare \textit{robusto}, per ridurre l'influenza di outlier utilizzando la funzione peso di Huber (\ref{sssec:regressione-huber});
-          \item Lineare \textit{avanzato}, con rimozione di outlier tramite distanza di Cook basata sull'influenza della singola osservazione (\ref{sssec:regressione-cook});
+          \item Lineare \textit{avanzato}, con rimozione di \textit{outlier} tramite distanza di Cook basata sull'influenza della singola osservazione (\ref{sssec:regressione-cook});
           \item Ridge e Lasso (\ref{sssec:regressione-ridge} e \ref{sssec:regressione-lasso});
           \item Polinomiale (grado 2 e 3, \ref{sssec:regressione-polinomiale});
           \item SVR (con kernel lineare, polinomiale e RBF, come descritto in \ref{sssec:regressione-svr});
@@ -713,7 +713,7 @@ Per tutti i risultati ottenuti e presentati nella sezione seguente sono stati pr
   \item Tutti i modelli sono stati precedentemente preparati tramite \textit{tuning} di parametri ottimali (dove possibile) con tecniche di \textit{cross-validation};
   \item Ciascun risultato riportato di seguito ($R^2$ e RMSE) rappresenta la media su 1000 iterazioni, con \textit{shuffle} dei dati ad ogni iterazione per ridurre al minimo la possibilità di \textit{overfitting};
   \item Per allenare i modelli il dataset è stato suddiviso in train set 70\% e test set 30\%;
-  \item Tutti gli esperimenti sono stati eseguiti con Python versione 3.9 con l'aiuto di librerie aggiuntive quali \url{scikit-learn}, \url{pandas}, \url{matplotlib}, \url{seaborn} e \url{numpy}.
+  \item Tutti gli esperimenti sono stati eseguiti con Python 3.9 e con l'aiuto di librerie aggiuntive quali \url{scikit-learn}, \url{pandas}, \url{matplotlib}, \url{numpy} e \url{seaborn}.
 \end{itemize}
 
 \subsection{Risultati \ce{NO2}}\label{ssec:risultati-no2}
@@ -875,9 +875,11 @@ Infine, la tabella \ref{fig:risultati-no2-coefficienti} riporta i coefficienti d
 
 Il confronto tra le misurazioni AirQino e le misurazioni di riferimento ARPAT per \ce{PM_{2.5}} sono riportate nello \textit{scatterplot} di figura \ref{fig:scatterplot_pm2.5}.
 
+\clearpage
+
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/sc_pm2.5.png}
+\includegraphics[width=0.55\textwidth,height=\textheight,keepaspectratio]{img/sc_pm2.5.png}
 \caption{Scatterplot dataset \ce{PM_{2.5}}}
 \label{fig:scatterplot_pm2.5}
 \end{figure}
@@ -887,17 +889,17 @@ I risultati dell'analisi grafica dei residui sono riportati in figura \ref{fig:r
 \begin{figure}[H]
 \centering
 \subfloat[Scatterplot]{%
-\includegraphics[width=0.5\textwidth]{img/res_pm2.5_scatter}%
+\includegraphics[width=0.42\textwidth]{img/res_pm2.5_scatter}%
 }\hfil
 \subfloat[Plot]{%
-\includegraphics[width=0.5\textwidth]{img/res_pm2.5_plot}%
+\includegraphics[width=0.42\textwidth]{img/res_pm2.5_plot}%
 }
 
 \subfloat[Distribuzione]{%
-\includegraphics[width=0.5\textwidth]{img/res_pm2.5_distr}%
+\includegraphics[width=0.42\textwidth]{img/res_pm2.5_distr}%
 }\hfil
 \subfloat[Q-Q plot]{%
-\includegraphics[width=0.5\textwidth]{img/res_pm2.5_qq}%
+\includegraphics[width=0.42\textwidth]{img/res_pm2.5_qq}%
 }
 \caption{Analisi dei residui dataset \ce{PM_{2.5}}}
 \label{fig:residui_pm2.5}
@@ -1003,6 +1005,7 @@ Nelle tabelle \ref{fig:risultati-pm2.5-mese} e \ref{fig:risultati-pm2.5-rmse-mes
     \label{fig:risultati-pm2.5-rmse-mese}
 \end{table}
 
+\clearpage
 Infine, la tabella \ref{fig:risultati-pm2.5-coefficienti} riporta i coefficienti delle curve di regressione ottenuti applicando i modelli al dataset \ce{PM_{2.5}}. Anche in questo caso i coefficienti \textit{a}, \textit{b}, \textit{c}, \textit{d}, \textit{e} si riferiscono ad una equazione polinomiale generica del tipo $y=a+bx+cx^2+dx^3+ex^4$.
 
 \begin{table}[H]
@@ -1029,9 +1032,11 @@ Infine, la tabella \ref{fig:risultati-pm2.5-coefficienti} riporta i coefficienti
 
 Il confronto tra le misurazioni AirQino e le misurazioni di riferimento ARPAT per \ce{PM_{10}} sono riportate nello \textit{scatterplot} di figura \ref{fig:scatterplot_pm10}.
 
+\clearpage
+
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/sc_pm10.png}
+\includegraphics[width=0.55\textwidth,height=\textheight,keepaspectratio]{img/sc_pm10.png}
 \caption{Scatterplot dataset \ce{PM_{10}}}
 \label{fig:scatterplot_pm10}
 \end{figure}
@@ -1041,17 +1046,17 @@ I risultati dell'analisi grafica dei residui sono riportati in figura \ref{fig:r
 \begin{figure}[H]
 \centering
 \subfloat[Scatterplot]{%
-\includegraphics[width=0.5\textwidth]{img/res_pm10_scatter}%
+\includegraphics[width=0.42\textwidth]{img/res_pm10_scatter}%
 }\hfil
 \subfloat[Plot]{%
-\includegraphics[width=0.5\textwidth]{img/res_pm10_plot}%
+\includegraphics[width=0.42\textwidth]{img/res_pm10_plot}%
 }
 
 \subfloat[Distribuzione]{%
-\includegraphics[width=0.5\textwidth]{img/res_pm10_distr}%
+\includegraphics[width=0.42\textwidth]{img/res_pm10_distr}%
 }\hfil
 \subfloat[Q-Q plot]{%
-\includegraphics[width=0.5\textwidth]{img/res_pm10_qq}%
+\includegraphics[width=0.42\textwidth]{img/res_pm10_qq}%
 }
 \caption{Analisi dei residui dataset \ce{PM_{10}}}
 \label{fig:residui_pm10}
@@ -1157,6 +1162,8 @@ Nelle tabelle \ref{fig:risultati-pm10-mese} e \ref{fig:risultati-pm10-rmse-mese}
     \label{fig:risultati-pm10-rmse-mese}
 \end{table}
 
+\clearpage
+
 Infine, la tabella \ref{fig:risultati-pm10-coefficienti} riporta i coefficienti delle curve di regressione ottenuti applicando i modelli al dataset \ce{PM_{10}}. Anche in questo caso i coefficienti \textit{a}, \textit{b}, \textit{c}, \textit{d}, \textit{e} si riferiscono ad una equazione polinomiale generica del tipo $y=a+bx+cx^2+dx^3+ex^4$.
 
 \begin{table}[H]
@@ -1180,15 +1187,13 @@ Infine, la tabella \ref{fig:risultati-pm10-coefficienti} riporta i coefficienti 
 
 % Validazione
 \section{Validazione}\label{sec:validazione}
-%todo vedi paper
-
 Non sempre un modello che si adatta bene ai dati avrà successo anche nell'applicazione finale o nella previsione di nuove osservazioni: non vi è alcuna garanzia che l'equazione che fornisce il miglior adattamento ai dati esistenti sarà un predittore di successo. Fattori influenti che erano sconosciuti durante la fase di costruzione del modello possono influenzare in modo significativo le nuove osservazioni, rendendo le previsioni quasi inutili.
 
-Per questo, La corretta convalida di un modello sviluppato per prevedere nuove osservazioni dovrebbe sempre implicare una fase di validazione fatta sul campo (\textit{field validation}).
+Per questo, la corretta convalida di un modello sviluppato per prevedere nuove osservazioni dovrebbe sempre implicare una fase di validazione fatta sul campo (\textit{field validation}).
 
 Una delle procedure per validare un modello di regressione consiste nel testarlo su dati nuovi, non visti in fase di training, e valutare se le prestazioni predittive del modello siano effettivamente in linea con le aspettative.
 
-Per svolgere la fase di validazione è stato quindi considerato il periodo da 01/09/21 a 20/11/21, non utilizzato per allenare il modello, di cui sono disponibili sia le misurazioni della centralina SMART16 di AirQino che della stazione ARPAT di Capannori (LU).\\
+Per svolgere la fase di validazione è stato quindi considerato il periodo da 01/09/21 a 20/11/21, non utilizzato per allenare il modello, di cui sono disponibili sia le misurazioni della centralina SMART16 di AirQino che della stazione ARPAT di Capannori (LU).
 
 Le tabelle \ref{tab:val-pm25} e \ref{tab:val-pm10} riassumono i risultati del confronto di misurazione della concentrazione di \ce{PM_{2.5}} e \ce{PM_{10}} della centralina SMART16 AirQino nelle due configurazioni (con sensori calibrati e non calibrati).
 
@@ -1218,7 +1223,7 @@ Le tabelle \ref{tab:val-pm25} e \ref{tab:val-pm10} riassumono i risultati del co
 \label{tab:val-pm10}
 \end{table}
 
-Le figure \ref{fig:val-pm2.5} e \ref{fig:val-pm10} mostrano l'andamento temporale delle misurazioni di \ce{PM_{2.5}} e \ce{PM_{10}}, calibrate e non calibrate, della stazione AIRQino rispetto alle osservazioni della stazione ARPAT.
+Le figure \ref{fig:val-pm2.5} e \ref{fig:val-pm10} mostrano l'andamento temporale delle misurazioni di \ce{PM_{2.5}} e \ce{PM_{10}}, calibrate e non calibrate, della stazione AirQino rispetto alle osservazioni della stazione ARPAT.
 
 \begin{figure}[H]
 \centering
@@ -1237,25 +1242,32 @@ Le figure \ref{fig:val-pm2.5} e \ref{fig:val-pm10} mostrano l'andamento temporal
 % Discussione
 \section{Discussione}\label{sec:discussione}
 
-I risultati della fase di calibrazione hanno evidenziato un miglioramento generale nella misura delle concentrazioni di \ce{NO2} e PM: tale miglioramento è stato moderato nei valori di $R^2$ (da 0,900 a 0,957 per PM2,5 e da 0,840 a 0,909 per PM10), e nei valori MB per PM10 (da 0,840 a 0,909 per PM10) da 0,720 a 0,598 mg/m3), mentre notevole nei valori MB per PM2,5 (da 4,394 a 0,036 mg/m3).
+Tutti risultati della fase di calibrazione hanno evidenziato un miglioramento generale nella misura delle concentrazioni di \ce{NO2} e PM, sia nei valori di $R^2$ (da 0.582 a 0.633 per \ce{PM_{2.5}} e da 0.431 a 0.494 per \ce{PM_{10}}) che per RMSE (da 4.954 a 4.522 $\mathrm{\si{\micro}g/m^3}$ per \ce{PM_{2.5}} e da 6.942 a 5.711 $\mathrm{\si{\micro}g/m^3}$ per \ce{PM_{10}}). I modelli di regressione migliori sono riportati nella tabella \ref{tab:recap-calib-results}, insieme ai coefficienti corrispondenti. In tutti i casi, il modello di regressione lineare \textit{avanzata}, con rilevamento e rimozione di outlier tramite distanza di Cook (\ref{sssec:regressione-cook}), ha dimostrato essere il più efficiente.
 
-Tutte le osservazioni ARPAT sono sovrastimate dai sensori AIRQino non calibrati, ma, che viene tuttavia drasticamente modificato dal processo di calibrazione
+\begin{table}[H]
+\footnotesize
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+\textbf{Inquinante} & \textbf{Modello di regressione} & \textbf{a} & \textbf{b} & $\bm{\mathrm{R^2}}$ & \textbf{RMSE (}$\mathrm{\si{\micro}g/m^3}$) \\ \hline
+\ce{NO2} & Lineare avanzato (Cook) & 6.84 & 9.56 & 0.373 & 9.447 \\ \hline
+\ce{PM_{2.5}} & Lineare avanzato (Cook) & 10.31 & 7.67 & 0.801 & 5.894 \\ \hline
+\ce{PM10} & Lineare avanzato (Cook) & 10.98 & 11.32 & 0.785 & 7.103 \\ \hline
+\end{tabular}
+\caption{Riepilogo dei migliori modelli di regressione, coefficienti ($y=a+bx$) e risultati rilevati dalla calibrazione di sensori \ce{NO2}, \ce{PM_{2.5}} e \ce{PM10}}
+\label{tab:recap-calib-results}
+\end{table}
+
+Dai confronti sull'andamento temporale (figure \ref{fig:val-pm2.5} e \ref{fig:val-pm10}) risulta evidente che gran parte delle osservazioni ARPAT \ce{PM_{2.5}} e \ce{PM_10} vengono sottostimate dai sensori AirQino non calibrati. Questa discrepanza viene tuttavia ridotta significativamente dal processo di calibrazione: in molti casi il segnale calibrato infatti "imita" in maniera più fedele il riferimento.
+
+Modelli di regressione polinomiale così come altri modelli non lineari (Random Forest, Gradient Boosting, SVR, KernelRidge) non hanno portato miglioramenti rispetto ai modelli lineari. Questo indica che la strada migliore sia l'utilizzo di tecniche matematiche e statistiche avanzate, in grado di  rilevare possibili relazioni non lineari tra segnali del sensore e dati di riferimento (come grafici di residui), che possono fornire informazioni utili su come migliorare il modello (ad esempio con la regressione robusta).
+
+In generale, i risultati per i \ce{PM_{2.5}} e \ce{PM_10} sono risultati di gran lunga migliori rispetto alla calibrazione dei sensori di \ce{NO2}. Questo si può ricondurre in parte alla diversa frequenza dei dati (medie orarie per \ce{NO2}, medie a 8h per i PM), e in parte anche alla natura e alle differenze dei sensori stessi (vedi \ref{ssec:hardware}), questi infatti hanno un principio fisico di funzionamento diverso (SDS011 per i PM è ad infrarossi, mentre il MiCS-2714 per \ce{NO2} funziona per ossidazione).
+
+Infine, i risultati per \ce{PM_{2.5}} si sono dimostrati essere sempre tendezialmente migliori dei corrispettivi \ce{PM_{10}}. Questo risulta in linea con quanto riportato in studi correlati (\cite{s18092843}) e sistemi low-cost simili (\cite{eval_zikova}, \cite{s17081805}, \cite{s17081922}).
 
 % todo cita paper
-l'uso della regressione polinomiale mi aspettavo risultati migliori ma non ha dimostrato di essere all'atezza
 
-la strada con detection di outlier è la migliore
-
-no2 peggio dei pm ma dipende dal sensore
-
-in generale, pm10 peggio di pm2.5
-
-riepilogo miglior modello + coefficienti per ciascun inquinante
-
-La procedura di calibrazione qui originariamente sviluppata e applicata (Figura 4) rappresenta un valore aggiunto, in particolare in quanto implementa diverse tecniche matematiche e statistiche avanzate in grado di esplorare e rilevare possibili complesse relazioni non lineari tra segnali del sensore e dati di riferimento, come grafici di residui, che sono metodi molto potenti per verificare la validità delle ipotesi di relazione lineare e fornire informazioni su come migliorare il modello (ad esempio, regressione robusta).
-
-Potrebbe quindi stabilire, insieme a strumenti molto raffinati come quelli implementati, ad esempio, da [49,50], come una metodologia all'avanguardia per la calibrazione del rilevamento a basso costo.
-
-Conteggio dei superamenti dei limiti di legge predetti vs reference come ulteriore metrica del modello di regressione
+%Conteggio dei superamenti dei limiti di legge predetti vs reference come ulteriore metrica del modello di regressione
 
 
