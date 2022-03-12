@@ -92,6 +92,7 @@ SELECT * FROM pg_create_physical_replication_slot('replica_1_slot');
 \end{enumerate}
 
 \subsubsection{Configurazione della replica}
+Di seguito sono elencati i passi da seguire per configurare la replica:
 
 \begin{enumerate}
   \item Stoppare l'istanza Postgres:
@@ -99,7 +100,7 @@ SELECT * FROM pg_create_physical_replication_slot('replica_1_slot');
 \begin{lstlisting}[]
 pg_ctl -D $PGDATA -m fast -w stop
 \end{lstlisting}
-  \item Cancellare i contenuti della cartella PGDATA:
+  \item Cancellare i contenuti della cartella \textit{PGDATA}:
   \vspace{1mm}
 \begin{lstlisting}[]
 rm -rf $PGDATA/*
@@ -110,27 +111,28 @@ rm -rf $PGDATA/*
 pg_basebackup -h <PRIMARY_HOST> -p <PRIMARY_PORT> -D $PGDATA -U repuser -vP -R -W
 \end{lstlisting}
 Dove \textit{PRIMARY\_HOST} è l'IP della macchina in cui si trova il database primario, \textit{PRIMARY\_PORT} è la porta del database primario e \textit{repuser} è l'utente di replicazione creato al passo 1.
-Verrà chiesta in maniera interattiva la password di replicazione impostata sempre al passo 1 di preparazione (\textit{SOME\_SECURE\_PASSWORD});
+
+Da notare che verrà chiesta in maniera interattiva la password di replicazione impostata in precedenza (\textit{SOME\_SECURE\_PASSWORD});
   \item Infine avviare l'istanza Postgres:
   \vspace{1mm}
 \begin{lstlisting}[]
 pg_ctl -D $PGDATA -w start
 \end{lstlisting}
-A questo punto la replica dovrebbe essere funzionante e sincronizzata 1:1 in tempo reale con il db primario.
+A questo punto la replica dovrebbe essere funzionante e sincronizzata 1:1 in tempo reale con il database primario.
 \end{enumerate}
 
 \subsubsection{Automazione con Docker}
-L'intero setup (sia database primario che la replica) può essere automatizzato con Docker e docker-compose.
+L'intero setup (sia database primario che la replica) può essere automatizzato con Docker e docker-compose, in modo da far partire la sincronizzazione all'avvio del container.
 Poichè i passi per creare la replica richiedono di stoppare l'istanza Postgres, non si può eseguire all'interno del container Docker già avviato perchè si stopperebbe tutto il container.
-Per questo è necessario dare i comandi per la replica da uno script di \textit{entrypoint} che viene eseguito prima di avviare il container.
+Per questo è necessario dare i comandi per la replica da uno script di \textit{entrypoint} che viene eseguito prima di avviare il container:
 \begin{enumerate}
-  \item Creare un Dockerfile da immagine base Timescale con l'aggiunta di uno script entrypoint così strutturato:
+  \item Creare un Dockerfile da immagine Timescale (\url{timescaledb:latest}), con l'aggiunta di uno script \textit{entrypoint}, così strutturato:
   \vspace{1mm}
   \begin{lstlisting}[]
 FROM timescale/timescaledb:latest-pg13
 ADD replica.sh /docker-entrypoint-initdb.d/
 \end{lstlisting}
-  \item Creare il file \url{replica.sh} che viene eseguito tutte le volte che si avvia il database:
+  \item Creare il file \url{replica.sh} che verrà eseguito tutte le volte che si avvia il database:
   \vspace{1mm}
   \begin{lstlisting}[]
 echo "Stopping Postgres instance..." 
@@ -145,7 +147,7 @@ PGPASSWORD=${REPLICATION_PASSWORD} pg_basebackup -h ${REPLICATION_HOST} -p ${REP
 echo "Restarting Postgres instance..." 
 pg_ctl -D ${PGDATA} -w start
 \end{lstlisting}
-La flag -W di pg\_basebackup chiede la password in maniera interattiva, che non funziona per script automatizzati. Come alternativa si può usare la flag -w (minuscola) e passare la password come variabile di ambiente \textit{PGPASSWORD};
+Da notare che la flag -W di \textit{pg\_basebackup} chiede la password in maniera interattiva, che non funziona per script automatizzati. Come alternativa si può usare la flag -w (minuscola) e passare la password come variabile di ambiente chiamata \textit{PGPASSWORD};
 \item Creare il file docker-compose.yml:
 \vspace{1mm}
   \begin{lstlisting}[]
@@ -172,27 +174,132 @@ services:
   \item Avviare il container con \url{docker-compose} \url{up}.
 \end{enumerate}
 
-Allo stesso modo è possibile automatizzare con Docker anche il database primario.
+In questo modo la replica verrà sincronizzata con il database primario automaticamente all'avvio del container Docker.
+Allo stesso modo è possibile automatizzare con Docker anche il setup su database primario.
 
 % Ottimizzazione di query temporali
 \section{Ottimizzazione di query temporali}\label{sec:cont-aggr}
-\ldots
+Ci sono molti vantaggi nell'aggregazione di dati:
+\begin{itemize}
+  \item \textbf{Flessibilità}: aggregare dati in tempo reale in base a qualsiasi criterio desiderato;
+  \item \textbf{Risparmio di tempo}: non è necessario eseguire query aggiuntive per ottenere informazioni aggregate in tempo reale;
+  \item \textbf{Risparmio di spazio} i dati aggregati in tempo reale occupano meno spazio rispetto ai dati non aggregati.
+\end{itemize}
+
+I dati delle serie temporali però tendono a crescere molto rapidamente, e grandi volumi di dati possono rallentare quando si eseguono query con lo scopo di aggregare i dati (ad esempio per generare report o riepiloghi sull'andamento).
+
+Per garantire efficienza e scalabiità con questa tipologia di dati, si rende quindi necessario garantire che le query su dati temporali abbiano un tempo di risposta costante, indipendentemente dalla quantità di dati e senza gravare sul database.
 
 \subsection{Motivazioni}\label{ssec:cont-aggr-motivazioni}
-\ldots
+La piattaforma AirQino (vedi \ref{sec:airqino}) raccoglie dati emessi ogni minuto da decine di centraline in diverse località. Per memorizzare questi dati viene utilizzato un database Postgres con estensione Timescale, che offre delle funzionalità specifiche proprio per dati di tipo temporale.
 
-\subsection{Continuous Aggregates}\label{ssec:cont-aggr}
-I continuous aggregate sono una funzionalità integrata in TimescaleDB che consente di aggregare i dati in tempo reale, senza la necessità di eseguire query aggiuntive. Questa funzionalità utilizza i contatori per tenere traccia dei dati aggregati in tempo reale e fornisce una rappresentazione dei dati aggregati in tempo reale.
+Una delle funzionalità di AirQino consente di mostrare un grafico dell'andamento (su base media oraria) dell'ultima settimana per diverse grandezze (temperatura, umidità, \ce{CO2}, \ce{NO2}, \ce{PM_{2.5}}, \ce{PM_10} ecc..), come mostrato in figura \ref{fig:airqino-temp}.
 
-I continuous aggregate offrono numerosi vantaggi, tra cui:
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.45\textwidth,height=\textheight,keepaspectratio]{img/airqino_temp}
+\caption{Grafico dell'andamento della temperatura nell'ultima settimana per una centralina AirQino.\\Fonte: \url{https://airqino.magentalab.it}}
+\label{fig:airqino-temp}
+\end{figure}
 
-- Flessibilità: è possibile aggregare dati in tempo reale in base a qualsiasi criterio desiderato.
+Per calcolare la media oraria nell'ultima settimana, ad ogni richiesta sul database viene eseguito una query SQL di questo tipo (ridotta per semplicità):
 
-- Risparmio di tempo: non è necessario eseguire query aggiuntive per ottenere informazioni aggregate in tempo reale.
+\vspace{1mm}
+\begin{lstlisting}[language=sql]
+SELECT time_bucket('1 hour', sd.data_acquired) as bucket, avg(sd.float_value)
+FROM station_data sd
+WHERE sd.data_acquired > NOW() - INTERVAL '7 days'
+AND sd.sensor_id = 29510691 /* id centralina */
+ORDER BY bucket DESC;
+\end{lstlisting}
 
-- Risparmio di spazio: i dati aggregati in tempo reale occupano meno spazio rispetto ai dati non aggregati.
+La query fa uso della funzione \textit{time\_bucket} di Timescale, che consente di partizionare la tabella con i dati dei sensori minuto per minuto direttamente in fasce orarie. L'utilizzo combinato con la funzione \textit{avg()} va poi a prendere la media del valore su tutta l'ora.
 
-- Maggiore efficienza: i continuous aggregate sono più efficienti dei query batch per l'aggregazione dei dati in tempo reale.
+Questo però significa che se si desidera eseguire questa query più di una volta, il database deve eseguire la scansione dell'intera tabella e ricalcolare la media ogni volta. Nella maggior parte dei casi, tuttavia, i dati nella tabella non sono cambiati in modo significativo, quindi non è necessario eseguire la scansione dell'intero set di dati.
+
+La figura \ref{fig:query-prima} mostra i tempi di risposta a questa query per tutte le centraline AirQino prima di aver applicato l'ottimizzazione.
+
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.85\textwidth,height=\textheight,keepaspectratio]{img/query_prima}
+\caption{Tempi di risposta per query temporali sulle centraline AirQino prima dell'ottimizzazione (media su 10 iterazioni)}
+\label{fig:query-prima}
+\end{figure}
+
+Come si può vedere, per le centraline più attive la query per recuperare la media oraria impiega fino a 35 secondi, un tempo molto elevato.
+
+Per rendere più veloce l'aggregazione dei dati, Timescale mette a disposizione una funzionalità chiamata \textbf{continuous aggregates} (\textit{aggregati continui}), spiegata di seguito.
+
+\subsection{Continuous aggregates}\label{ssec:cont-aggr}
+I continuous aggregate sono una funzionalità integrata in TimescaleDB che consente di aggregare i dati in tempo reale, senza la necessità di eseguire query aggiuntive. Funzionano in maniera simile alle viste materializzate di PostgreSQL, con la differenza che non necessitano di essere aggiornati manualmente ogni volta che un nuovo dato viene inserito nella tabella. Infatti, la riaggregazione viene eseguita automaticamente in background tramite una \textbf{refresh policy} definita dall'utente in fase di creazione della vista.
+
+L’utilizzo dei countinuous aggregates offre diversi vantaggi:
+\begin{itemize}
+  \item Miglioramento delle \textbf{performance}, infatti non è più necessario scansionare tutte le volte la tabella con i dati raw ma è sufficiente leggere questi risultati precalcolati;
+  \item Funzionalità avanzate, come la possibilità di salvare i dati raw solo per un periodo di tempo limitato, continuando però a mantenere i dati aggregati. Così facendo si hanno dei dati riassuntivi per eventi che sono molto indietro nel tempo, mentre per gli eventi più recenti si continua ad avere tutti i dati raccolti, portando and un grosso \textbf{risparmio di spazio occupato}.
+\end{itemize}
+
+Di contro, lo svantaggio di questa soluzione è che i dati non sono aggiornati ad ogni INSERT effettuata, ma solo ad un intervallo di tempo specificato dall’utente. Questo significa che in fase di lettura i dati più recenti non sono presenti nelle viste materializzate. Per limitare questo problema si potrebbe pensare di diminuire l’intervallo di tempo necessario per il refresh dei dati, ma questo porterebbe ad un aumento del carico computazionale. C'è quindi un compromesso tra la velocità di lettura e l’aggiornamento dei dati. \cite{tesi_polito_2}
+
+Timescale inoltre introduce il concetto di \textit{hypertable}, normali tabelle SQL ma con partizionamento automatico su base temporale.
 
 \subsection{Risultati ottenuti}\label{ssec:cont-aggr-risultati}
-\ldots
+Di seguito sono riportati i passi eseguiti sul database di produzione AirQino per l'attivazione del meccanismo di continuous aggregates sulla tabella con i dati dei sensori (\textit{station\_data}):
+
+\begin{enumerate}
+  \item  Creare la \textit{hypertable} a partire dalla tabella originale, migrando tutti i dati:
+\vspace{1mm}
+\begin{lstlisting}[language=sql]
+SELECT create_hypertable('station_data', 'data_acquired', migrate_data => true);
+\end{lstlisting}
+Dove \textit{data\_acquired} è la colonna temporale della tabella, in cui vengono salvati data e ora della misurazione.
+Questa operazione potrebbe impiegare molto tempo, in base alla quantità di dati nella tabella. Sul database di produzione AirQino ha richiesto circa 36 minuti.
+  \item Creare la vista materializzata per il calcolo delle medie orarie:
+\vspace{1mm}
+\begin{lstlisting}[language=sql]
+CREATE MATERIALIZED VIEW station_data_hourly_avg
+WITH (timescaledb.continuous) AS
+SELECT time_bucket('1 hour', sd.data_acquired) AS bucket, 
+    station_id,  
+    sensor_id, 
+    avg(sd.float_value) 
+FROM station_data sd
+GROUP by bucket, station_id, sensor_id;
+\end{lstlisting}
+Questa operazione sul database di produzione AirQino ha richiesto circa 5 minuti.
+  \item Creare una refresh policy adeguata:
+\vspace{1mm}
+\begin{lstlisting}[language=sql]
+SELECT add_continuous_aggregate_policy('station_data_hourly_avg',
+     start_offset => INTERVAL '7 days',
+     end_offset => INTERVAL '1 hour',
+     schedule_interval => INTERVAL '1 hour');
+\end{lstlisting}
+Dove \textit{start\_offset} indica quanto indietro nel tempo vado a calcolare l'aggregato, \textit{end\_offset} indica fino a quando arrivo e schedule indica ogni quanto voglio refreshare la vista.
+In questo caso voglio refreshare ogni ora i dati da una settimana fa fino a un'ora fa.
+Per ragioni di performance conviene sempre escludere l'ultimo bucket (in questo caso l'ultima ora di dati arrivati).
+\end{enumerate}
+
+Una volta creata la vista, è possibile ricreare la SELECT originale per la media degli ultimi 7 giorni prendendo i dati da questa nuova tabella:
+\vspace{1mm}
+\begin{lstlisting}[language=sql]
+SELECT sd.avg
+FROM station_data_hourly_avg sd
+WHERE bucket > NOW() - INTERVAL '7 days'
+AND sd.sensor_id = 29510691 /* id centralina */
+ORDER BY bucket DESC;
+\end{lstlisting}
+
+Questa nuova query è risultata molto più performante rispetto alla precedente, perchè le medie orarie sono di fatto già precalcolate. I risultati sulle centraline AirQino sono riportati di seguito in figura \ref{fig:query-dopo}.
+
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.85\textwidth,height=\textheight,keepaspectratio]{img/query_dopo}
+\caption{Tempi di risposta per query temporali sulle centraline AirQino dopo l'ottimizzazione (media su 10 iterazioni)}
+\label{fig:query-dopo}
+\end{figure}
+
+Da cui si può notare che con la nuova query, ottimizzata con continuous aggregates, i tempi di risposta risultano costanti per tutte le centraline indipendentemente dalla quantità di dati, garantendo scalabilità ed efficienza.
