@@ -15,7 +15,9 @@ Un sistema di replica correttamente implementato può offrire diversi vantaggi, 
 Di contro, questa tecnica comporta la necessità di mantenimento dei nodi secondari, spesso collocati su server diversi (con i costi a questi associati). Inoltre, repliche errate o non implementate in maniera corretta possono causare la mancata sincronizzazione tra i nodi, portando ad una perdita o incoerenza dei dati.
 
 \subsection{Motivazioni}\label{ssec:replica-motivazioni}
-La replica offrire vantaggi principalmente legati alle prestazioni, disponibilità e sicurezza dei dati:
+L'affidabilità dei dati rappresenta uno dei punti critici per un sistema di ingestione di grosse quantità di dati. Questo è vero anche caso di AirQino, dove infatti il database di produzione conta oltre 100 milioni di misurazioni rilevate, in continuo aumento con una media di 300 inserimenti al minuto.
+
+La replica offrire vantaggi in questo senso, principalmente legati alle prestazioni, disponibilità e sicurezza dei dati:
 \begin{enumerate}
   \item \textbf{Maggiore affidabilità}: tramite la replica del database viene garantita la disponibilità dei dati anche nel caso in cui una delle macchine presenti un guasto hardware. In questo caso, il sistema di gestione del database distribuito deve essere in grado di indirizzare gli utenti interessati ad uno degli altri nodi disponibili;
   \item \textbf{Miglioramento delle prestazioni}: essendo i dati distribuiti su diverse istanze, accessi multipli non saturano i server. Questo aspetto risulta particolarmente importante per applicazioni che possono avere una grande quantità di richieste simultanee;
@@ -179,6 +181,7 @@ Allo stesso modo è possibile automatizzare con Docker anche il setup su databas
 
 % Ottimizzazione di query temporali
 \section{Ottimizzazione di query temporali}\label{sec:cont-aggr}
+% todo metti percentuale? es. tempo sceso di X%
 Ci sono molti vantaggi nell'aggregazione di dati:
 \begin{itemize}
   \item \textbf{Flessibilità}: aggregare dati in tempo reale in base a qualsiasi criterio desiderato;
