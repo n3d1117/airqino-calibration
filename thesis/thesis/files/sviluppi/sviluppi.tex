@@ -24,7 +24,7 @@ La replica offrire vantaggi principalmente legati alle prestazioni, disponibilit
 
 Esistono diverse tecniche di replicazione del database, che dipendono sia dalla tecnologia utilizzata (MySQL, Postgres) che dalla natura del database stesso (relazionale o non relazionale). Il database di AirQino fa uso di Timescale\footnote{Timescale: Time-series data simplified - \url{https://www.timescale.com}}, basato su Postgres; una caratteristica di Postgres è la possibilità di replicazione con la tecnologia di \textbf{Streaming Replication}, descritta di seguito.
 
-\subsection{Streaming Replication}\label{ssec:streaming-replication}
+\subsection{Streaming replication}\label{ssec:streaming-replication}
 La streaming replication di PostgreSQL è una funzionalità che consente di replicare i dati in tempo reale da una istanza di PostgreSQL a un'altra. Questo significa che, se si modificano i dati in una delle istanze, questi saranno immediatamente replicati anche nell'altra istanza. Questa istanza database di replica di lettura ("standby" in termini PostgreSQL) è una replica fisica creata in modo asincrono dell'istanza del database primario.
 
 PostgreSQL fa utilizza un ruolo di "replica" (\textit{replication role}) per eseguire la replica in streaming (il ruolo presenta dei privilegi ma non può essere utilizzato per modificare i dati, la replica infatti è di sola lettura).
@@ -202,6 +202,14 @@ Una delle funzionalità di AirQino consente di mostrare un grafico dell'andament
 \caption{Grafico dell'andamento della temperatura nell'ultima settimana per una centralina AirQino.\\Fonte: \url{https://airqino.magentalab.it}}
 \label{fig:airqino-temp}
 \end{figure}
+
+Attualmente sono previsti i seguenti casi d’uso dei dati a media oraria:
+\begin{itemize}
+  \item Visualizzazione sulla home page dell’applicazione web degli ultimi 7 giorni;
+  \item Esportazione dataset periodici da mettere a disposizione degli utenti esterni (ad esempio pubbliche amministrazioni che hanno installato le centraline);
+  \item Esportazione dataset on demand da parte di utenti esterni, con indicazione di inizio/fine del periodo desiderato.
+\end{itemize}
+In tutti questi casi il requisito è di ottenere medie orarie del dato calibrato.
 
 Per calcolare la media oraria nell'ultima settimana, ad ogni richiesta sul database viene eseguito una query SQL di questo tipo (ridotta per semplicità):
 
