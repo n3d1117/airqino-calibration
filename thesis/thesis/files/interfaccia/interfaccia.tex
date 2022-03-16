@@ -205,7 +205,7 @@ Questi parametri sono sufficienti a definire l'integrazione tra applicazione e s
 
 % CI/CD e deploy automatico
 \subsection{CI/CD e deploy automatico}\label{sec:ci}
-L'integrazione continua (\textit{continuous integration}, CI o CI/CD) è una metodologia di sviluppo software \textit{agile} che prevede la continua e costante integrazione dei cambiamenti effettuati dagli sviluppatori all'interno di un codice sorgente (figura \ref{fig:cicd}).
+L'integrazione continua (\textit{continuous integration}, CI o CI/CD) è una metodologia di sviluppo software \textit{agile}, spesso utilizzata in combinazione con approccio \textbf{DevOps}, che prevede la continua e costante integrazione dei cambiamenti effettuati dagli sviluppatori all'interno di un codice sorgente (figura \ref{fig:cicd}).
 
 Con il termine CD (\textit{continuous delivery}) si indica invece la distribuzione e/o il deployment continuo, un concetto comunque correlato alla CI, ovvero processo con il quale le modifiche apportate da uno sviluppatore all'applicazione vengono automaticamente testate e caricate in una repository, dalla quale vengono automaticamente distribuite in un ambiente di produzione. \cite{cicd}
 
@@ -255,5 +255,5 @@ pipeline {
 
 In questo caso il primo stage esegue la build del frontend, il secondo esegue il rilascio del backend e il terzo rilascia il frontend. L'interfaccia web di Jenkins permette inoltre di monitorare l'andamento dei vari step e di verificare eventuali errori.
 
-Jenkins può essere anche combinato con Docker (\cite{docker}) in modo da garantire processi di rilascio automatizzati con isolamento delle dipendenze.
+Jenkins può essere anche combinato con Docker \cite{docker} in modo da garantire processi di rilascio automatizzati con isolamento delle dipendenze.
 

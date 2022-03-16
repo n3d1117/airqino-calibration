@@ -7,6 +7,8 @@ La sezione \ref{sec:esperimenti} elenca gli esperimenti svolti per ciascun inqui
 
 Infine, la sezione \ref{sec:discussione} riassume tutto il lavoro svolto e fornisce un'analisi qualitativa dei risultati ottenuti.
 
+% todo per una introduzione, vedi il pdf development_ ecc sezione introduction e vedi anche relazione alice
+
 % I dati a disposizione
 \clearpage
 \section{Dati a disposizione}\label{sec:dati}
@@ -681,7 +683,7 @@ I modelli di regressione SVM possono anche eseguire una regressione non lineare,
 \subsubsection{Regressione con KernelRidge}\label{sssec:regressione-kridge}
 La regressione Kernel Ridge (o KRR, \textit{Kernel Ridge Regression}) è un altro modello che combina la regressione Ridge (descritta in \ref{sssec:regressione-ridge}) con il \textit{kernel trick}, imparando quindi una funzione lineare nello spazio indotto dal rispettivo kernel e dai dati. Per i kernel non lineari, questo corrisponde a una funzione non lineare nello spazio originale. \cite{krr}
 
-La forma del modello di regressione KRR è identica a quello basato su SVR (descritto in \ref{sssec:regressione-svr}), ma vengono utilizzate diverse funzioni di \textit{loss}: KRR minimizza l'errore quadratico mentre SVR minimizza i coefficienti in base alla soglia $\varepsilon$. In generale il modello KRR risulta più veloce per dataset di medie dimensioni. %todo cita fonte
+La forma del modello di regressione KRR è identica a quello basato su SVR (descritto in \ref{sssec:regressione-svr}), ma vengono utilizzate diverse funzioni di \textit{loss}: KRR minimizza l'errore quadratico mentre SVR minimizza i coefficienti in base alla soglia $\varepsilon$. In generale il modello KRR risulta più veloce per dataset di medie dimensioni. \cite{krr}
 
 % Esperimenti e risultati ottenuti
 \clearpage

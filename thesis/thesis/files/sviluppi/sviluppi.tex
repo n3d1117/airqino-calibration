@@ -150,7 +150,7 @@ echo "Restarting Postgres instance..."
 pg_ctl -D ${PGDATA} -w start
 \end{lstlisting}
 Da notare che la flag -W di \textit{pg\_basebackup} chiede la password in maniera interattiva, che non funziona per script automatizzati. Come alternativa si può usare la flag -w (minuscola) e passare la password come variabile di ambiente chiamata \textit{PGPASSWORD};
-\item Creare il file docker-compose.yml:
+\item Creare il file \url{docker-compose.yml}:
 \vspace{1mm}
   \begin{lstlisting}[]
 services:
@@ -181,7 +181,6 @@ Allo stesso modo è possibile automatizzare con Docker anche il setup su databas
 
 % Ottimizzazione di query temporali
 \section{Ottimizzazione di query temporali}\label{sec:cont-aggr}
-% todo metti percentuale? es. tempo sceso di X%
 Ci sono molti vantaggi nell'aggregazione di dati:
 \begin{itemize}
   \item \textbf{Flessibilità}: aggregare dati in tempo reale in base a qualsiasi criterio desiderato;
@@ -313,4 +312,4 @@ Questa nuova query è risultata molto più performante rispetto alla precedente,
 \label{fig:query-dopo}
 \end{figure}
 
-Da cui si può notare che con la nuova query, ottimizzata con continuous aggregates, i tempi di risposta risultano costanti per tutte le centraline indipendentemente dalla quantità di dati, garantendo scalabilità ed efficienza.
+Da cui si può notare che con la nuova query, ottimizzata con continuous aggregates, i tempi di risposta risultano costanti per tutte le centraline indipendentemente dalla quantità di dati (con conseguente riduzione significativa dei tempi di risposta, anche 175 volte meno per alcune centraline), garantendo scalabilità ed efficienza.
