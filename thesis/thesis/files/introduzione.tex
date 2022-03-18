@@ -5,7 +5,7 @@ Il lavoro di tesi è stato realizzato in collaborazione con Magenta srl \cite{ma
 L'oggetto di studio è la piattaforma AirQino \cite{airqino} per il monitoraggio ambientale ad alta precisione in ambito urbano. Gli obiettivi sono stati molteplici:
 \begin{itemize}
   \item Sviluppi tecnologici alla piattaforma, rivolti a migliorare in un caso l'affidabilità dei dati inviati dai sensori, e nell'altro la gestione del problema della quantità di dati in aumento costante (capitolo \ref{ch:sviluppi});
-  \item Studio e analisi del processo di calibrazione delle centraline AirQino, con un confronto quantitativo sulle diverse procedure utilizzate (capitolo \ref{ch:calibrazione});
+  \item Studio e analisi del processo di calibrazione delle centraline AirQino, con un confronto quantitativo sulle diverse tecniche utilizzate (capitolo \ref{ch:calibrazione});
   \item Realizzazione di un'interfaccia che permetta la calibrazione di più centraline contemporaneamente  (capitolo \ref{ch:interfaccia}).
 \end{itemize}
 
@@ -41,7 +41,7 @@ Il monitoraggio della qualità dell'aria è una delle attività più importanti 
 
 I principali inquinanti atmosferici sono l'ossido di zolfo (\ce{SO_{x}}), ossido di azoto (\ce{NO_{x}}), monossido di carbonio (\ce{CO}), ozono (\ce{O_{3}}) e particolato atmosferico (\ce{PM} o polveri sottili). Per il particolato si parla di \ce{PM10} se le particelle hanno un diametro inferiore o uguale ai 10\textmu m, e \ce{PM_{2.5}} se inferiore o uguale ai 2.5\textmu m.
 
-Il monitoraggio della qualità dell’aria è disciplinato in Italia dal DLgs. n. 155 del 13/08/2010, che recepisce la direttiva europea 2008/50/CE \cite{direttiva}. Il decreto assegna alle varie ARPA\footnote{Agenzia regionale per la protezione ambientale} regionali il compito istituzionale di effettuare il monitoraggio della qualità dell’aria e ne prescrive in dettaglio le modalità. Il monitoraggio viene effettuato attraverso stazioni ubicate in siti fissi di campionamento in base a precisi criteri di esposizione: si distinguono quindi stazioni di fondo (urbane o suburbane), di traffico urbane, ed industriali. Ad esempio, nella città di Firenze la rete regionale di rilevamento gestita da ARPAT è costituita da 6 stazioni: 2 urbane-traffico, 3 urbane-fondo, ed una suburbana-fondo. Avendo valore normativo, le misure effettuate devono inoltre rispondere a precisi criteri di accuratezza ed esser sottoposte a precisi processi di validazione. \cite{relazione_alice}
+Il monitoraggio della qualità dell’aria è disciplinato in Italia dal DLgs. n. 155 del 13/08/2010, che recepisce la direttiva europea 2008/50/CE \cite{direttiva}. Il decreto assegna alle varie ARPA\footnote{Agenzia regionale per la protezione ambientale} regionali il compito istituzionale di effettuare il monitoraggio della qualità dell’aria e ne prescrive in dettaglio le modalità. Il monitoraggio viene effettuato attraverso stazioni ubicate in siti fissi di campionamento in base a precisi criteri di esposizione: si distinguono quindi stazioni di fondo (urbane o suburbane), di traffico urbane, ed industriali. Ad esempio, nella città di Firenze la rete regionale di rilevamento gestita da ARPAT \cite{arpat} è costituita da 6 stazioni: 2 urbane-traffico, 3 urbane-fondo, ed una suburbana-fondo. Avendo valore normativo, le misure effettuate devono inoltre rispondere a precisi criteri di accuratezza ed esser sottoposte a precisi processi di validazione. \cite{relazione_alice}
 
 Queste reti di monitoraggio sono quindi costituite da stazioni dotate di costose strumentazioni, oltretutto con elevati costi di manutenzione; un altro loro limite intrinseco è la rappresentatività strettamente puntuale delle misure (possono fornire misurazioni dettagliate e altamente accurate \cite{MEAD2013186}, ma soltanto in posizioni precise e sparse per una determinata città). \cite{s16050710}
 Questo rende difficile raccogliere informazioni rappresentative e affidabili per un'intera area urbana e, quindi, formare un quadro più chiaro sull'andamento dell'inquinamento. \cite{s16050710}
@@ -181,7 +181,7 @@ Di solito il  materiale funzionale del \textit{film} più adatto per la rilevazi
 
 Qualsiasi sia il materiale funzionale, il principio di funzionamento per tutti i MOS nella rilevazione di gas è quello di interagire con il gas presente all’interno dell’atmosfera tramite reazioni di ossidoriduzione, portando a un cambiamento di conduttività, che viene rilevato da un circuito apposito. Le variazioni della conduttività dei sensori è fortemente influenzata dalle variazioni di umidità e temperatura. \cite{relazione_alice}
 
-Di seguito alcune specifiche del sensore MiCS-2714 come riportate dal \textit{datasheet}:
+Di seguito le specifiche del sensore MiCS-2714 come riportate dal \textit{datasheet}:
 
 \begin{table}[H]
     \footnotesize

@@ -27,7 +27,7 @@ Il sistema di calibrazione multipla delle centraline AirQino deve prevedere, olt
 
 \begin{itemize}
   \item la possibilità di aprire una nuova \textit{sessione} per ciascuna centralina interessata. Questo risulta utile nel caso in cui non si voglia sovrascrivere i coefficienti già esistenti, ma salvarne dei nuovi;
-  \item Se la centralina o il sensore specificati non sono presenti nel database il processo deve continuare, mostrando l'errore soltanto alla fine in una pagina di riepilogo;
+  \item Se la centralina o il sensore specificati non sono presenti nel database il processo deve continuare senza interrompersi, mostrando l'errore soltanto alla fine in una pagina di riepilogo;
   \item Se la sessione non è presente nel database, il sistema deve aprirne una nuova prima di caricare i coefficienti;
   \item Il sistema deve proteggere l'accesso da parte di utenti di terze parti implementando un meccanismo di autenticazione.
 \end{itemize}
@@ -77,10 +77,12 @@ Il risultato finale è stato reso disponibile al seguente indirizzo:\
 
 \url{https://airqino-calibration.magentalab.it}.
 
+Di seguito ne vengono descritte le caratteristiche principali.
+
 % Interfaccia
 \subsection{Interfaccia}\label{sec:interfaccia}
 
-L'interfaccia principale, dopo il primo caricamento, si presenta come in figura \ref{fig:interfaccia-1}, con un \textit{form} che permette di scegliere e caricare il file csv, una \textit{checkbox} che consente di aprire una nuova sessione per tutte le centraline, e un pulsante per avviare il caricamento.
+L'interfaccia, dopo il primo caricamento, si presenta come in figura \ref{fig:interfaccia-1}, con un \textit{form} che permette di scegliere e caricare il file csv, una \textit{checkbox} che consente di aprire una nuova sessione per tutte le centraline, e un pulsante per avviare il caricamento.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.70\textwidth,height=\textheight,keepaspectratio]{img/interfaccia_1}
@@ -97,7 +99,7 @@ Se il formato del file csv scelto non è compatibile con quello previsto (vedi \
 \label{fig:interfaccia-8}
 \end{figure}
 
-Una pagina simile viene mostrata nel caso in cui l'applicazione non riesce a connettersi al database di AirQino (ad esempio se è in fase di mantenimento).
+Una pagina simile viene mostrata nel caso in cui l'applicazione non riesca a connettersi al database di AirQino (ad esempio se questo è in fase di mantenimento).
 
 Se il file csv caricato ha il formato corretto, e il database è raggiungibile, viene avviata la procedura di caricamento multiplo dei coefficienti. Al termine dell'operazione, viene mostrato un riepilogo in forma di tabella dove ogni riga corrisponde ad un sensore (figura \ref{fig:interfaccia-2}).
 
@@ -155,7 +157,7 @@ La figura \ref{fig:interfaccia-7} riporta un esempio di diversa colorazione dell
 
 % Autenticazione
 \subsection{Autenticazione}\label{sec:autenticazione}
-Per la gestione dell'autenticazione è stato scelto il software \textbf{Keycloak} (\cite{keycloak}), che risultava già installato sul server di Magenta.
+Per la gestione dell'autenticazione è stato scelto il software \textbf{Keycloak} \cite{keycloak}, che risultava essere già installato sul server di Magenta.
 
 Keycloak è un prodotto software open source che abilita l'autenticazione \textit{Single Sign-On} (SSO) per applicazioni e servizi. È scritto in Java e supporta i protocolli di federazione delle identità per impostazione predefinita SAML v2 e OpenID Connect (OIDC) o OAuth2. \cite{keycloak}
 
@@ -170,7 +172,7 @@ Keycloak infatti include un server e un agente. L'agente è installato sulle app
 \label{fig:keycloak}
 \end{figure}
 
-Keycloak è stato integrato nell'applicazione con l'aiuto della libreria open source \url{keycloak-angular} (\cite{keycloak-angular}), un wrapper della libreria ufficiale JavaScript \url{keycloak-js} (\cite{keycloak-js}) che rende semplice l'utilizzo del software per applicazioni Angular. I principali parametri da impostare sono:
+Keycloak è stato integrato nell'applicazione con l'aiuto della libreria open source \url{keycloak-angular} \cite{keycloak-angular}, un wrapper della libreria ufficiale JavaScript \url{keycloak-js} \cite{keycloak-js} che rende semplice l'utilizzo del software per applicazioni Angular. I principali parametri da impostare sono:
 
 \begin{itemize}
   \item \textbf{url}: l'url del server Keycloak;
@@ -227,7 +229,7 @@ Lo strumento di CI scelto per questa applicazione è \textbf{Jenkins} \cite{jenk
 
 Tra le varie caratteristiche, Jenkins offre un sistema chiamato \textit{pipeline}, ovvero uno script (chiamato \textit{Jenkinsfile}) che fornisce a Jenkins una serie di lavori (\textit{stage}) da eseguire in modo simile a una pipeline (uno dopo l'altro).
 
-Un esempio di Jenkinsfile, contenente tre stage ognuno con i propri comandi, è riportato di seguito:
+Il Jenkinsfile utilizzato per questo progetto contiene tre stage, ognuno con i propri comandi, ed è riportato di seguito (ridotto per semplicità):
 
 \vspace{1mm}
 \begin{lstlisting}[]
@@ -241,7 +243,7 @@ pipeline {
 		}
 		stage('Docker deploy backend') {
 			steps {
-				sh 'docker-compose up --build -d'
+				sh 'flask run'
 			}
 		}
 		stage('Deploy frontend') {
@@ -253,7 +255,13 @@ pipeline {
 }
 \end{lstlisting}
 
-In questo caso il primo stage esegue la build del frontend, il secondo esegue il rilascio del backend e il terzo rilascia il frontend. L'interfaccia web di Jenkins permette inoltre di monitorare l'andamento dei vari step e di verificare eventuali errori.
+In particolare:
 
-Jenkins può essere anche combinato con Docker \cite{docker} in modo da garantire processi di rilascio automatizzati con isolamento delle dipendenze.
+\begin{itemize}
+  \item Il primo stage esegue il build del frontend, installando le dipendenze con \url{npm} \url{install} e avviando il processo con \url{ng} \url{build} in configurazione di produzione. Questo genera l'artefatto finale all'interno della cartella \url{dist};
+  \item Il secondo stage esegue il rilascio del backend con il comando \url{flask} \url{run};
+  \item Infine, il terzo stage rilascia il frontend copiando i contenuti della cartella \url{dist} nella cartella corretta del server di produzione.
+\end{itemize}
+
+L'interfaccia web di Jenkins permette inoltre di monitorare l'andamento dei vari step e di verificare eventuali errori. Jenkins può essere anche combinato con Docker \cite{docker} in modo da garantire processi di rilascio automatizzati con isolamento delle dipendenze.
 
