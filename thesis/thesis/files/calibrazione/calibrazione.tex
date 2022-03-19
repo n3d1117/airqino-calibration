@@ -3,7 +3,7 @@ Questo capitolo riguarda la parte di tesi incentrata sulla calibrazione delle ce
 
 La sezione \ref{sec:regressione} racchiude una breve panoramica teorica sui concetti di regressione, correlazione, metriche (coefficiente di correlazione, coefficiente di determinazione, scarto quadratico medio), analisi dei residui e modelli di regressione (sia lineare che non lineare).
 
-La sezione \ref{sec:esperimenti} elenca gli esperimenti svolti per ciascun inquinante (\ce{NO2}, \ce{PM_{2.5}} e \ce{PM_{10}}) e presenta i risultati ottenuti (con analisi dei residui e confrontando i vari modelli, sia su tutto l'anno che mese per mese), mentre in \ref{sec:validazione} viene presentato il lavoro svolto per la validazione in campo del modello selezionato.
+La sezione \ref{sec:esperimenti} elenca gli esperimenti svolti per ciascun inquinante (\ce{NO2}, \ce{PM_{2.5}} e \ce{PM_{10}}) e presenta i risultati ottenuti (con analisi dei residui e confrontando i vari modelli, sia su tutto l'anno che con cadenza mensile), mentre in \ref{sec:validazione} viene presentato il lavoro svolto per la validazione in campo del modello selezionato.
 
 Infine, la sezione \ref{sec:discussione} riassume tutto il lavoro svolto e fornisce un'analisi qualitativa dei risultati ottenuti.
 
@@ -11,7 +11,7 @@ Infine, la sezione \ref{sec:discussione} riassume tutto il lavoro svolto e forni
 \section{Introduzione}\label{sec:calib-intro}
 Al fine di verificare il corretto funzionamento dei sensori della piattaforma è necessario implementare una procedura di \textbf{calibrazione}. Lo scopo di questa procedura è quello di catturare la risposta del sensore sotto differenti concentrazioni di gas nel \textit{target range} di funzionamento del sensore. Nel caso di AirQino, questa procedura di calibrazione è composta da due fasi:
 \begin{itemize}
-  \item \textbf{Indoor test}: nel laboratorio di Elettronica di IBE CNR viene allestito un banco di calibrazione. Per testare il funzionamento dei sensori di \ce{NO2}, \ce{CO}, \ce{CO2} e \ce{CH4} vengono utilizzati dei campioni di gas a concentrazione nota, mentre per il sensore di \ce{O3} viene utilizzato un generatore di ozono. Per studiare il comportamento del sensore di polveri (PM) è invece necessario fare il confronto con le misure di un \textit{Particle Counter}, in particolare viene usato il \textbf{DustTrak DRX modello 8533} (TSI Inc., Shoreview, MN, USA) \cite{dust}. Il protocollo impiegato per la calibrazione prevede l’apporto di un flusso costante di gas. La scheda viene inserita in una cameretta dotata di due prese di aria, una collegata alla bombola di calibrazione in cui è presente un flussimetro e una per l’uscita. La risposta del sensore viene convertita da analogico a digitale con un convertitore (con uscita a 10 bit, ovvero un range di 0-1024 \textit{counts}) presente nella scheda di acquisizione. Se la variazione del segnale del sensore supera i limiti del convertitore (2014 counts), viene effettuata una modifica del valore delle resistenze sul segnale di uscita, in modo tale da ottenere una risposta simile a quella del convertitore. Tenendo anche conto dei tempi di risposta dichiarati dalle specifiche dei sensori, il tempo massimo di ogni test è di circa 30 minuti, mentre il tempo minimo per completare una misura è di circa 15 minuti. \cite{relazione_alice}
+  \item \textbf{Indoor test}: nel laboratorio di Elettronica di IBE CNR viene allestito un banco di calibrazione. Per testare il funzionamento dei sensori di \ce{NO2}, \ce{CO}, \ce{CO2} e \ce{CH4} vengono utilizzati dei campioni di gas a concentrazione nota, mentre per il sensore di \ce{O3} viene utilizzato un generatore di ozono. Per studiare il comportamento del sensore di polveri (PM) è invece necessario fare il confronto con le misure di un \textit{Particle Counter}, in particolare viene usato il \textbf{DustTrak DRX modello 8533} (TSI Inc., Shoreview, MN, USA) \cite{dust}. Il protocollo impiegato per la calibrazione prevede l’apporto di un flusso costante di gas. La scheda viene inserita in una cameretta dotata di due prese di aria, una collegata alla bombola di calibrazione in cui è presente un flussimetro e una per l’uscita. La risposta del sensore viene convertita da analogico a digitale con un convertitore (con uscita a 10 bit, ovvero un range di 0-1024 \textit{counts}) presente nella scheda di acquisizione. Se la variazione del segnale del sensore supera i limiti del convertitore (1024 counts), viene effettuata una modifica del valore delle resistenze sul segnale di uscita, in modo tale da ottenere una risposta simile a quella del convertitore. Tenendo anche conto dei tempi di risposta dichiarati dalle specifiche dei sensori, il tempo massimo di ogni test è di circa 30 minuti, mentre il tempo minimo per completare una misura è di circa 15 minuti. \cite{relazione_alice}
   \item \textbf{Outdoor test}: la seconda fase della calibrazione riguarda lo studio della risposta del sensore sotto differenti condizioni ambientali. Si rende quindi necessario verificare i valori osservati per le concentrazioni di gas e polveri tramite la comparazione verso sensori fissi di riferimento. Per fare questo vengono individuate delle stazioni ARPAT di monitoraggio fisse sul territorio, in prossimità delle quali vengono posizionate le centraline. \cite{relazione_alice}
 \end{itemize}
 
@@ -24,7 +24,7 @@ I dataset a disposizione sono due:
   \item Dataset delle misurazioni di concentrazione di \ce{PM_{2.5}} e \ce{PM10} nell'aria relative alla centralina SMART16 AirQino (43°50'23.4"N 10°34'22.2"E).
 \end{itemize}
 
-I dataset sono stati collezionati nel periodo 01/01/2020 - 20/11/2021 di colocazione di SMART16 con la stazione ARPAT di Capannori (Lucca).\\
+I dati sono stati collezionati nel periodo 01/01/2020 - 20/11/2021 di colocazione di SMART16 con la stazione ARPAT di Capannori (Lucca).\\
 
 \begin{figure}[H]
 \centering
@@ -49,11 +49,10 @@ I dataset sono stati collezionati nel periodo 01/01/2020 - 20/11/2021 di colocaz
 \caption{Posizione della centralina SMART16 (AirQino)\\e ARPAT (Capannori) a Lucca}
 \label{fig:capannori-gps}
 \end{figure}
-\clearpage
 
 \subsection{Dataset \ce{NO2}}\label{ssec:dataset-no2}
-Il dataset di misurazioni \ce{NO2} di AirQino è stato ottenuto con delle query specifiche sul database.
-I dati ARPAT (Capannori) per il confronto invece sono messi a disposizione sul sito ufficiale \cite{arpat} e sono accessibili tramite API, a seguito di un periodo di validazione che può durare anche diversi mesi.
+Il dataset di misurazioni \ce{NO2} di AirQino è stato ottenuto con delle query specifiche sul database della piattaforma.
+I dati ARPAT (Capannori) per il confronto invece vengono messi a disposizione sul sito ufficiale \cite{arpat} e sono accessibili tramite API, a seguito di un periodo di validazione che può durare anche diversi mesi.
 
 Ci sono delle differenze sostanziali tra i due set di dati:\\
 
@@ -98,8 +97,6 @@ La figura \ref{fig:arpat-no2} invece riporta l'andamento della concentrazione di
 \subsection{Dataset \ce{PM_{2.5}} e \ce{PM10}}\label{ssec:dataset-pm}
 Come per \ce{NO2}, i dati ARPAT (Capannori) invece sono stati collezionati tramite API da sito ufficiale, e poi confrontati con i dati di AirQino.
 Anche in questo caso ci sono delle differenze tra i due set di dati:\\
-
-Il dataset di misurazioni \ce{PM_{2.5}} e \ce{PM10}, che mette a confronto i dati della centralina AirQino SMART16 e i dati di ARPAT (Capannori), risulta invece così strutturato:\\
 
 \begin{table}[H]
 \centering
@@ -222,7 +219,7 @@ Il dataset originale per la centralina SMART16 di AirQino consiste in due file c
 \begin{itemize}
   \item Nel primo ci sono dati dal 01/01/2020 al 31/12/2020, nel secondo invece dal 18/08/2020 al 30/08/2021.
   \item Data e ora sono già in formato standard UTC;
-  \item I valori di \ce{NO2} sono riportati nella colonna 'no2';
+  \item I valori di \ce{NO2} sono riportati nella colonna "no2";
   \item I valori di \ce{PM_{2.5}} e \ce{PM10} sono riportati rispettivamente nelle colonne "pm2\_5" e "pm10";
   \item In entrambi i file sono riportate anche le coordinate GPS inviate dalla centralina al momento della misurazione (colonne "long" e "lat");
   \item Le colonne tair, rad, co2, o3, co, voc, ds18 si riferiscono rispettivamente a temperatura ambientale, umidità, \ce{CO2}, \ce{O2}, \ce{CO}, \ce{VOC} e temperatura interna;
@@ -784,7 +781,7 @@ Per quanto riguarda l'applicazione del modello lineare \textit{avanzato}, è sta
 \label{fig:cook-no2}%
 \end{figure}
 
-Nelle tabelle \ref{fig:risultati-no2-mese} e \ref{fig:risultati-no2-rmse-mese} sono invece riportati rispettivamente $R^2$ e RMSE della calibrazione su dataset \ce{NO2} fatta mese per mese.\\
+Nelle tabelle \ref{fig:risultati-no2-mese} e \ref{fig:risultati-no2-rmse-mese} sono invece riportati rispettivamente $R^2$ e RMSE della calibrazione su dataset \ce{NO2} fatta con cadenza mensile.\\
 
 Anche in questo caso il modello di regressione migliore è risultato in media quello \textit{avanzato}, con riconoscimento e rimozione di outlier, anche se per alcuni mesi il modello polinomiale di terzo grado e il modello KernelRidge hanno ottenuto risultati migliori.
 
@@ -809,7 +806,7 @@ Anche in questo caso il modello di regressione migliore è risultato in media qu
         SVR (RBF) & 0.38 & 0.50 & 0.46 & 0.19 & 0.25 & 0.39 & 0.14 & 0.43 \\ \hline
         KernelRidge & 0.44 & 0.45 & 0.37 & 0.24 & 0.26 & 0.39 & \textbf{0.18} & 0.41 \\ \hline
     \end{tabular}
-    \caption{Risultati della calibrazione \ce{NO2} mese per mese ($R^2$)}
+    \caption{Risultati della calibrazione \ce{NO2} con cadenza mensile ($R^2$)}
     \label{fig:risultati-no2-mese}
 \end{table}
 
@@ -835,7 +832,7 @@ Anche in questo caso il modello di regressione migliore è risultato in media qu
         SVR (RBF) & 13.70 & 10.98 & 9.02 & 9.39 & 8.24 & 8.57 & 12.50 & 9.74 \\ \hline
         KernelRidge & 13.35 & 11.51 & 9.80 & 9.17 & 8.21 & 8.62 & 12.06 & 9.78 \\ \hline
     \end{tabular}
-    \caption{Risultati della calibrazione \ce{NO2} mese per mese (RMSE)}
+    \caption{Risultati della calibrazione \ce{NO2} con cadenza mensile (RMSE)}
     \label{fig:risultati-no2-rmse-mese}
 \end{table}
 
@@ -940,7 +937,7 @@ Anche in questo caso nel modello lineare \textit{avanzato}, è stata riapplicata
 \label{fig:cook-pm2.5}%
 \end{figure}
 
-Nelle tabelle \ref{fig:risultati-pm2.5-mese} e \ref{fig:risultati-pm2.5-rmse-mese} sono invece riportati rispettivamente $R^2$ e RMSE della calibrazione su dataset \ce{PM_{2.5}} fatta mese per mese.
+Nelle tabelle \ref{fig:risultati-pm2.5-mese} e \ref{fig:risultati-pm2.5-rmse-mese} sono invece riportati rispettivamente $R^2$ e RMSE della calibrazione su dataset \ce{PM_{2.5}} fatta con cadenza mensile.
 
 \begin{table}[H]
     \tiny
@@ -964,7 +961,7 @@ Nelle tabelle \ref{fig:risultati-pm2.5-mese} e \ref{fig:risultati-pm2.5-rmse-mes
         SVR (RBF) & 0.16 & 0.44 & 0.22 & 0.65 & 0.58 & 0.39 & 0.37 & -0.06 & -0.36 & -0.07 & 0.62 & 0.50 \\ \hline
         KernelRidge & 0.36 & 0.45 & \textbf{0.25} & \textbf{0.73} & 0.67 & 0.57 & 0.54 & 0.06 & -0.06 & \textbf{0.29} & 0.62 & 0.60 \\ \hline
     \end{tabular}
-    \caption{Risultati della calibrazione \ce{PM_{2.5}} mese per mese ($R^2$)}
+    \caption{Risultati della calibrazione \ce{PM_{2.5}} con cadenza mensile ($R^2$)}
     \label{fig:risultati-pm2.5-mese}
 \end{table}
 
@@ -990,7 +987,7 @@ Nelle tabelle \ref{fig:risultati-pm2.5-mese} e \ref{fig:risultati-pm2.5-rmse-mes
         SVR (RBF) & 3.99 & 6.51 & 12.98 & 12.88 & 12.60 & 9.41 & 7.54 & 4.25 & 1.57 & 2.33 & 1.41 & 2.23 \\ \hline
         KernelRidge & 3.56 & 6.45 & \textbf{12.65} & 11.31 & 11.31 & 7.92 & 6.36 & 4.01 & 1.42 & 1.88 & 1.39 & 2.06 \\ \hline
     \end{tabular}
-    \caption{Risultati della calibrazione \ce{PM_{2.5}} mese per mese (RMSE)}
+    \caption{Risultati della calibrazione \ce{PM_{2.5}} con cadenza mensile (RMSE)}
     \label{fig:risultati-pm2.5-rmse-mese}
 \end{table}
 
@@ -1097,7 +1094,7 @@ Anche in questo caso nel modello lineare \textit{avanzato}, è stata riapplicata
 \label{fig:cook-pm10}%
 \end{figure}
 
-Nelle tabelle \ref{fig:risultati-pm10-mese} e \ref{fig:risultati-pm10-rmse-mese} sono invece riportati rispettivamente $R^2$ e RMSE della calibrazione su dataset \ce{PM_{10}} fatta mese per mese.
+Nelle tabelle \ref{fig:risultati-pm10-mese} e \ref{fig:risultati-pm10-rmse-mese} sono invece riportati rispettivamente $R^2$ e RMSE della calibrazione su dataset \ce{PM_{10}} fatta con cadenza mensile.
 
 \begin{table}[H]
     \tiny
@@ -1121,7 +1118,7 @@ Nelle tabelle \ref{fig:risultati-pm10-mese} e \ref{fig:risultati-pm10-rmse-mese}
         SVR (RBF) & 0.33 & 0.13 & 0.28 & 0.63 & 0.53 & 0.41 & 0.37 & -0.21 & 0.07 & -0.35 & 0.53 & 0.34 \\ \hline
         KernelRidge & 0.38 & 0.40 & \textbf{0.30} & 0.68 & 0.61 & 0.65 & 0.52 & -0.05 & 0.27 & 0.14 & 0.60 & 0.69 \\ \hline
     \end{tabular}
-    \caption{Risultati della calibrazione \ce{PM_{10}} mese per mese ($R^2$)}
+    \caption{Risultati della calibrazione \ce{PM_{10}} con cadenza mensile ($R^2$)}
     \label{fig:risultati-pm10-mese}
 \end{table}
 
@@ -1147,7 +1144,7 @@ Nelle tabelle \ref{fig:risultati-pm10-mese} e \ref{fig:risultati-pm10-rmse-mese}
         SVR (RBF) & 5.11 & 9.84 & 13.65 & 14.44 & 15.01 & 13.25 & 8.53 & 5.03 & 2.65 & 6.12 & 2.73 & 4.88 \\ \hline
         KernelRidge & 5.04 & 8.23 & 13.60 & 13.52 & 14.06 & 10.59 & 7.31 & 4.79 & 2.37 & 4.65 & 2.52 & 3.30 \\ \hline
     \end{tabular}
-    \caption{Risultati della calibrazione \ce{PM_{10}} mese per mese (RMSE)}
+    \caption{Risultati della calibrazione \ce{PM_{10}} con cadenza mensile (RMSE)}
     \label{fig:risultati-pm10-rmse-mese}
 \end{table}
 
@@ -1176,15 +1173,15 @@ Infine, la tabella \ref{fig:risultati-pm10-coefficienti} riporta i coefficienti 
 
 % Validazione
 \section{Validazione}\label{sec:validazione}
-Non sempre un modello che si adatta bene ai dati avrà successo anche nell'applicazione finale o nella previsione di nuove osservazioni: non vi è alcuna garanzia che l'equazione che fornisce il miglior adattamento ai dati esistenti sarà un predittore di successo. Fattori influenti che erano sconosciuti durante la fase di costruzione del modello possono influenzare in modo significativo le nuove osservazioni, rendendo le previsioni quasi inutili.
+Un modello che si adatta bene ai dati potrebbe non avere lo stesso successo nella previsione di nuove osservazioni: fattori influenti che erano sconosciuti durante la fase di costruzione del modello possono influenzare in modo significativo le nuove osservazioni, rendendo le previsioni meno accurate.
 
-Per questo, la corretta convalida di un modello sviluppato per prevedere nuove osservazioni dovrebbe sempre implicare una fase di validazione fatta sul campo (\textit{field validation}).
+Per questo motivo, la corretta convalida di un modello sviluppato per prevedere nuove osservazioni dovrebbe sempre implicare una fase di validazione fatta sul campo (\textit{field validation}).
 
-Una delle procedure per validare un modello di regressione consiste nel testarlo su dati nuovi, non visti in fase di training, e valutare se le prestazioni predittive del modello siano effettivamente in linea con le aspettative.
+Una delle procedure per validare un modello di regressione consiste nel testarlo su nuove osservazioni (non visti in fase di training) per poi valutare se le prestazioni predittive del modello siano effettivamente in linea con le aspettative.
 
-Per svolgere la fase di validazione è stato quindi considerato il periodo da 01/09/21 a 20/11/21, non utilizzato per allenare il modello, di cui sono disponibili sia le misurazioni della centralina SMART16 di AirQino che della stazione ARPAT di Capannori (LU).
+Per svolgere la fase di validazione è stato quindi considerato il periodo da 01/09/21 a 20/11/21, di cui sono disponibili sia le misurazioni della centralina SMART16 di AirQino (ottenute con query sul database) che della stazione ARPAT di Capannori (disponibili sul sito ufficiale \cite{arpat}).
 
-Le tabelle \ref{tab:val-pm25} e \ref{tab:val-pm10} riassumono i risultati del confronto di misurazione della concentrazione di \ce{PM_{2.5}} e \ce{PM_{10}} della centralina SMART16 AirQino nelle due configurazioni (con sensori calibrati e non calibrati).
+Le tabelle \ref{tab:val-pm25} e \ref{tab:val-pm10} riassumono i risultati del confronto di misurazione della concentrazione di \ce{PM_{2.5}} e \ce{PM_{10}} della centralina SMART16 AirQino nelle due configurazioni (ovvero con sensori calibrati e non calibrati).
 
 \begin{table}[H]
 \footnotesize
@@ -1253,7 +1250,7 @@ Modelli di regressione polinomiale così come altri modelli non lineari (Random 
 
 In generale, i risultati per i \ce{PM_{2.5}} e \ce{PM_10} sono risultati di gran lunga migliori rispetto alla calibrazione dei sensori di \ce{NO2}. Questo si può ricondurre in parte alla diversa frequenza dei dati (medie orarie per \ce{NO2}, medie a 8h per i PM), e in parte anche alla natura e alle differenze dei sensori stessi (vedi \ref{ssec:hardware}), questi infatti hanno un principio fisico di funzionamento diverso (SDS011 per i PM è ad infrarossi, mentre il MiCS-2714 per \ce{NO2} funziona per ossidazione).
 
-Infine, i risultati per \ce{PM_{2.5}} si sono dimostrati essere sempre tendezialmente migliori dei corrispettivi \ce{PM_{10}}. Questo risulta in linea con quanto riportato in studi correlati (\cite{s18092843}) e sistemi low-cost simili (\cite{eval_zikova}, \cite{s17081805}, \cite{s17081922}).
+Infine, i risultati per \ce{PM_{2.5}} si sono dimostrati essere sempre tendezialmente migliori dei corrispettivi \ce{PM_{10}}. Questo risulta in linea con quanto riportato in studi correlati \cite{s18092843} e altre reti di monitoraggio ambientale low-cost \cite{eval_zikova}, \cite{s17081805}, \cite{s17081922}.
 
 %Conteggio dei superamenti dei limiti di legge predetti vs reference come ulteriore metrica del modello di regressione
 
