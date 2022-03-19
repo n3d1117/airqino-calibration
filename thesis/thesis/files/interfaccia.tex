@@ -144,9 +144,7 @@ La tabella è ordinabile per colonne (con un click su di esse) e filtrabile con 
 
 In caso di esito negativo per un sensore (ad esempio se il sensore o la centralina specificati non esistono nel database), la riga corrispondente risulta colorata di rosso e la colonna \textbf{Result} fornisce un aiuto nel capire il motivo (es. "Failed: station SMART999 does not exist").
 
-Se invece i coefficienti non erano presenti nel database e sono stati caricati per la prima volta, la riga risulta colorata di azzurro. 
-
-La figura \ref{fig:interfaccia-7} riporta un esempio di diversa colorazione delle righe in base all'esito.
+Se invece i coefficienti non erano presenti nel database e sono stati caricati per la prima volta, la riga risulta colorata di azzurro. La figura \ref{fig:interfaccia-7} riporta un esempio di diversa colorazione delle righe in base all'esito.
 
 \begin{figure}[H]
 \centering
@@ -161,9 +159,7 @@ Per la gestione dell'autenticazione è stato scelto il software \textbf{Keycloak
 
 Keycloak è un prodotto software open source che abilita l'autenticazione \textit{Single Sign-On} (SSO) per applicazioni e servizi. È scritto in Java e supporta i protocolli di federazione delle identità per impostazione predefinita SAML v2 e OpenID Connect (OIDC) o OAuth2. \cite{keycloak}
 
-In particolare, Keycloak consente a un'applicazione di delegare la propria autenticazione ad un server web predisposto, consentendo allo sviluppatore di concentrarsi sulle funzionalità, senza doversi preoccupare di aspetti di sicurezza e crittografia.
-
-Keycloak infatti include un server e un agente. L'agente è installato sulle applicazioni che richiedono l'autenticazione, mentre il server gestisce tutte le richieste di autenticazione. Quando un utente tenta di accedere a una applicazione protetta da Keycloak, l'agente verifica se l'utente è autenticato e, in caso affermativo, fornisce le credenziali appropriate all'applicazione.
+In particolare, Keycloak consente a un'applicazione di delegare la propria autenticazione ad un server web predisposto, consentendo allo sviluppatore di concentrarsi sulle funzionalità, senza doversi preoccupare di aspetti di sicurezza e crittografia. Keycloak infatti include un server e un agente. L'agente è installato sulle applicazioni che richiedono l'autenticazione, mentre il server gestisce tutte le richieste di autenticazione. Quando un utente tenta di accedere a una applicazione protetta da Keycloak, l'agente verifica se l'utente è autenticato e, in caso affermativo, fornisce le credenziali appropriate all'applicazione.
 
 \begin{figure}[H]
 \centering
@@ -229,7 +225,7 @@ Lo strumento di CI scelto per questa applicazione è \textbf{Jenkins} \cite{jenk
 
 Tra le varie caratteristiche, Jenkins offre un sistema chiamato \textit{pipeline}, ovvero uno script (chiamato \textit{Jenkinsfile}) che fornisce a Jenkins una serie di lavori (\textit{stage}) da eseguire in modo simile a una pipeline (uno dopo l'altro).
 
-Il Jenkinsfile utilizzato per questo progetto contiene tre stage, ognuno con i propri comandi, ed è riportato di seguito (ridotto per semplicità):
+Il \url{Jenkinsfile} utilizzato per questo progetto contiene tre stage, ognuno con i propri comandi, ed è riportato di seguito (ridotto per semplicità):
 
 \vspace{1mm}
 \begin{lstlisting}[]
@@ -263,5 +259,5 @@ In particolare:
   \item Infine, il terzo stage rilascia il frontend copiando i contenuti della cartella \url{dist} nella cartella corretta del server di produzione.
 \end{itemize}
 
-L'interfaccia web di Jenkins permette inoltre di monitorare l'andamento dei vari step e di verificare eventuali errori. Jenkins può essere anche combinato con Docker \cite{docker} in modo da garantire processi di rilascio automatizzati con isolamento delle dipendenze.
+L'interfaccia web di Jenkins permette inoltre di monitorare l'andamento dei vari step e di verificare eventuali errori. Jenkins può essere anche combinato con Docker \cite{docker} in modo da garantire processi di rilascio automatizzati e allo stesso tempo avere l'isolamento delle dipendenze, che verranno installate solo sul container invece che su tutto il server.
 

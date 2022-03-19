@@ -11,7 +11,7 @@ Infine, la sezione \ref{sec:discussione} riassume tutto il lavoro svolto e forni
 \section{Introduzione}\label{sec:calib-intro}
 Al fine di verificare il corretto funzionamento dei sensori della piattaforma è necessario implementare una procedura di \textbf{calibrazione}. Lo scopo di questa procedura è quello di catturare la risposta del sensore sotto differenti concentrazioni di gas nel \textit{target range} di funzionamento del sensore. Nel caso di AirQino, questa procedura di calibrazione è composta da due fasi:
 \begin{itemize}
-  \item \textbf{Indoor test}: nel laboratorio di Elettronica di IBE CNR viene allestito un banco di calibrazione. Per testare il funzionamento dei sensori di \ce{NO2}, \ce{CO}, \ce{CO2} e \ce{CH4} vengono utilizzati dei campioni di gas a concentrazione nota, mentre per il sensore di \ce{O3} viene utilizzato un generatore di ozono. Per studiare il comportamento del sensore di polveri (PM) è invece necessario fare il confronto con le misure di un \textit{Particle Counter}, in particolare viene usato il \textbf{DustTrak DRX modello 8533} (TSI Inc., Shoreview, MN, USA) \cite{dust}. Il protocollo impiegato per la calibrazione prevede l’apporto di un flusso costante di gas. La scheda viene inserita in una cameretta dotata di due prese di aria, una collegata alla bombola di calibrazione in cui è presente un flussimetro e una per l’uscita. La risposta del sensore viene convertita da analogico a digitale con un convertitore (con uscita a 10 bit, ovvero un range di 0-1024 \textit{counts}) presente nella scheda di acquisizione. Se la variazione del segnale del sensore supera i limiti del convertitore (1024 counts), viene effettuata una modifica del valore delle resistenze sul segnale di uscita, in modo tale da ottenere una risposta simile a quella del convertitore. Tenendo anche conto dei tempi di risposta dichiarati dalle specifiche dei sensori, il tempo massimo di ogni test è di circa 30 minuti, mentre il tempo minimo per completare una misura è di circa 15 minuti. \cite{relazione_alice}
+  \item \textbf{Indoor test}: nel laboratorio di Elettronica di IBE CNR viene allestito un banco di calibrazione. Per testare il funzionamento dei sensori di \ce{NO2}, \ce{CO}, \ce{CO2} e \ce{CH4} vengono utilizzati dei campioni di gas a concentrazione nota, mentre per il sensore di \ce{O3} viene utilizzato un generatore di ozono. Per studiare il comportamento del sensore di polveri (PM) è invece necessario fare il confronto con le misure di un \textit{Particle Counter}, in particolare viene usato il \textbf{DustTrak DRX modello 8533} (TSI Inc., Shoreview, MN, USA) \cite{dust}. Il protocollo impiegato per la calibrazione prevede l’apporto di un flusso costante di gas. La scheda viene inserita in una cameretta dotata di due prese di aria, una collegata alla bombola di calibrazione in cui è presente un flussimetro e una per l’uscita. La risposta del sensore viene convertita da analogico a digitale con un convertitore (con uscita a 10 bit, ovvero un range di 0-1024 \textit{counts}) presente nella scheda di acquisizione. Se la variazione del segnale del sensore supera i limiti del convertitore (1024 counts), viene effettuata una modifica del valore delle resistenze sul segnale di uscita, in modo tale da ottenere una risposta simile a quella del convertitore. Tenendo anche conto dei tempi di risposta dichiarati dalle specifiche dei sensori, il tempo massimo di ogni test è di circa 30 minuti, mentre il tempo minimo per completare una misura è di circa 15 minuti; \cite{relazione_alice}
   \item \textbf{Outdoor test}: la seconda fase della calibrazione riguarda lo studio della risposta del sensore sotto differenti condizioni ambientali. Si rende quindi necessario verificare i valori osservati per le concentrazioni di gas e polveri tramite la comparazione verso sensori fissi di riferimento. Per fare questo vengono individuate delle stazioni ARPAT di monitoraggio fisse sul territorio, in prossimità delle quali vengono posizionate le centraline. \cite{relazione_alice}
 \end{itemize}
 
@@ -65,6 +65,7 @@ Ci sono delle differenze sostanziali tra i due set di dati:\\
 \textbf{SMART16} & 01/01/2020 - 31/12/2020 & \textit{counts} & circa 2 minuti \\ \hline
 \textbf{ARPAT} & 01/01/2020 - 31/12/2020 & µg/m³ & medie giornaliere \\ \hline
 \end{tabular}
+\captionsetup{justification=centering}
 \caption{Differenze tra i dati di SMART16 e ARPAT (per \ce{NO2})}
 \label{tab:dataset-no2-tabella}
 \end{table}
@@ -107,7 +108,8 @@ Anche in questo caso ci sono delle differenze tra i due set di dati:\\
 \textbf{SMART16} & 01/09/2020 - 31/08/2021 & µg/m³ & circa 2 minuti \\ \hline
 \textbf{ARPAT} & 01/09/2020 - 31/08/2021 & µg/m³ & medie ogni 8h \\ \hline
 \end{tabular}
-\caption{Differenze tra i dati di SMART16 e ARPAT (per \ce{PM_{2.5}} e \ce{PM10})}
+\captionsetup{justification=centering}
+\caption{Differenze tra i dati di SMART16 e ARPAT (per \ce{PM})}
 \label{tab:dataset-no2-tabella}
 \end{table}
 
@@ -139,7 +141,7 @@ La figura \ref{fig:arpat-pm} invece riporta gli andamenti della concentrazione d
 Per facilitare il caricamento e l'elaborazione, si è resa necessaria una fase inziale di preprocessamento dei dati, descritta di seguito.
 
 \subsubsection{Dataset ARPAT \ce{NO2}}
-Il dataset originale \ce{NO2}, fornito da ARPAT, consiste in un file csv da 8785 righe, con encoding ISO-8859-1, valori separati da punto e virgola (;), e strutturato come in figura \ref{fig:ds-arpat}. In particolare:
+Il dataset originale \ce{NO2}, fornito da ARPAT, consiste in un file csv da 8785 misurazioni, con encoding ISO-8859-1, valori separati da punto e virgola (;), e strutturato come in figura \ref{fig:ds-arpat}. In particolare:
 \begin{itemize}
   \item La data è in formato AAAAMMGG (colonna 'DATA');
   \item L'ora risulta in formato intero (colonna 'ORA FINE MISURA', con valori da 1 a 24, dove 24 indica le 00:00);
@@ -161,7 +163,7 @@ In questa fase sono state effettuate le seguenti modifiche:
   \item Data e ora sono state unite in una singola colonna;
   \item Data e ora sono state convertite in formato standard UTC\footnote{Il tempo coordinato universale o tempo civile, abbreviato con la sigla UTC, è il fuso orario scelto come riferimento globale, a partire dal quale sono calcolati tutti i fusi orari del mondo.} per conformarsi al dataset di AirQino;
   \item I dati non validi sono stati scartati;
-  \item Le colonne sono state rinominate per semplicità ('data' per la data e 'avg' per il valore di \ce{NO2}).
+  \item Le colonne sono state rinominate per semplicità ("data" per la data e "avg" per il valore di \ce{NO2}).
 \end{itemize}
 
 Il risultato è un file csv che si presenta come riportato in figura \ref{fig:ds-arpat-dopo}:
@@ -175,7 +177,7 @@ Il risultato è un file csv che si presenta come riportato in figura \ref{fig:ds
 \end{figure}
 
 \subsubsection{Dataset ARPAT \ce{PM_{2.5}} e \ce{PM10}}
-Il dataset originale \ce{PM_{2.5}} e \ce{PM10}, fornito da ARPAT, consiste in un singolo file csv da 33.674 righe con encoding UTF-8, valori separati da virgola (,), e strutturato come in figura \ref{fig:pm-arpat}. In particolare:
+Il dataset originale \ce{PM_{2.5}} e \ce{PM10}, fornito da ARPAT, consiste in un singolo file csv da 33.674 misurazioni con encoding UTF-8, valori separati da virgola (,), e strutturato come in figura \ref{fig:pm-arpat}. In particolare:
 \begin{itemize}
   \item È stato considerato il periodo 01/09/2020 - 31/08/2021;
   \item La data è in formato gg/mm/aaaa (colonna 'DATA');
@@ -198,11 +200,11 @@ Per questo dataset sono state effettuate le seguenti modifiche:
   \item Data e ora sono state unite in una singola colonna;
   \item Data e ora sono state convertite in formato standard UTC per conformarsi al dataset di AirQino;
   \item I dati non validi sono stati scartati;
-  \item Le colonne sono state rinominate per semplicità ('data' per la data, 'pm2.5' per i valori di \ce{PM_{2.5}} e 'pm10' per i valori di \ce{PM10});
+  \item Le colonne sono state rinominate per semplicità ("data" per la data, "pm2.5" per i valori di \ce{PM_{2.5}} e "pm10" per i valori di \ce{PM10});
   \item I dati sono stati ricampionati e salvati come medie ogni otto ore.\\
 \end{itemize}
 
-Il risultato è un file csv di 4211 righe e che si presenta come riportato in figura \ref{fig:ds-arpat-pm-dopo}:
+Il risultato è un file csv di 4211 misurazioni che si presenta come riportato in figura \ref{fig:ds-arpat-pm-dopo}:
 
 \begin{figure}[H]
 \centering
@@ -217,7 +219,7 @@ Il risultato è un file csv di 4211 righe e che si presenta come riportato in fi
 Il dataset originale per la centralina SMART16 di AirQino consiste in due file csv (uno di 201.279 misurazioni per \ce{NO2}, e l'altro di 324.431 misurazioni per \ce{PM_{2.5}} e \ce{PM10}), strutturati rispettivamente come in figura \ref{fig:no2-smart-ds} e \ref{fig:pm-smart-ds}. In particolare:
 
 \begin{itemize}
-  \item Nel primo ci sono dati dal 01/01/2020 al 31/12/2020, nel secondo invece dal 18/08/2020 al 30/08/2021.
+  \item Nel primo ci sono dati dal 01/01/2020 al 31/12/2020, nel secondo invece dal 18/08/2020 al 30/08/2021;
   \item Data e ora sono già in formato standard UTC;
   \item I valori di \ce{NO2} sono riportati nella colonna "no2";
   \item I valori di \ce{PM_{2.5}} e \ce{PM10} sono riportati rispettivamente nelle colonne "pm2\_5" e "pm10";
@@ -256,7 +258,7 @@ Di seguito sono riportati i risultati del preprocessamento dei due dataset:
     \subfloat[\centering Dataset \ce{NO2} processato]{{\includegraphics[width=6.7cm]{img/no2_smart_ds_dopo} }}%
     \subfloat[\centering Dataset \ce{PM_{2.5}} e \ce{PM10} processato]{{\includegraphics[width=6.4cm]{img/pm_smart_ds_dopo} }}%
     \caption{Struttura dei dataset SMART16 processati\\con ricampionamento a una e otto ore}%
-    \label{fig:arpat-pm}%
+    \label{fig:ris-prepro}%
 \end{figure}
 
 \subsubsection{Unione dei dataset}
@@ -283,7 +285,7 @@ I risultati di questa unione sono riportati di seguito (figure \ref{fig:no2-ds-f
 \section{Regressione}\label{sec:regressione}
 Nella statistica applicata si osserva (o si ipotizza) l’esistenza di relazioni fra due o più grandezze. Sorge allora il problema di determinare una funzione che, in base ai dati ricavati mediante esperimenti o rilevazioni statistiche, rappresenti questi relazioni permettendo di analizzare meglio i fenomeni osservati. 
 
-Con il termine regressione si intende una tecnica statistica che serve a stimare la relazione esistente tra due o più variabili.
+Con il termine \textit{regressione} si intende una tecnica statistica che serve a stimare la relazione esistente tra due o più variabili.
 
 \subsection{Introduzione}\label{ssec:regressione-introduzione}
 Limitando lo studio a problemi che stabiliscono relazioni fra due sole variabili, si tratta, partendo dalle coppie $(x_i, y_i)$ di dati rilevati, di determinare una funzione $y=f(x)$ che rappresenti la relazione.
@@ -352,7 +354,7 @@ Il coefficiente di correlazione lineare gode di importanti proprietà:
 \end{figure}
 \end{itemize}
 
-È noto che la varianza della variabile $Y$ ($\sigma_{y}^{2}$) si può scomporre in una parte ($\sigma_{\hat{y}}^{2}$), detta \textit{varianza spiegata}, in cui la variabilità della $Y$ è dovuta alla dipendenza di $Y$ dalla variabile $X$, e in una parte ($\sigma_{e}^{2}$), detta \textit{varianza non spiegata} in cui la  variabilità della $Y$ non dipende dalla variabile $X$, ma da altri fattori. Si può quindi introdurre un secondo indicatore, dato dal rapporto tra la varianza spiegata e la varianza totale, chiamato \textbf{coefficiente di determinazione}:
+La varianza della variabile $Y$ ($\sigma_{y}^{2}$) si può scomporre in una parte ($\sigma_{\hat{y}}^{2}$), detta \textit{varianza spiegata}, in cui la variabilità della $Y$ è dovuta alla dipendenza di $Y$ dalla variabile $X$, e in una parte ($\sigma_{e}^{2}$), detta \textit{varianza non spiegata} in cui la  variabilità della $Y$ non dipende dalla variabile $X$, ma da altri fattori. Si può quindi introdurre un secondo indicatore, dato dal rapporto tra la varianza spiegata e la varianza totale, chiamato \textbf{coefficiente di determinazione}:
 
 $$r^{2}=\frac{\sigma_{\hat{y}}^{2}}{\sigma_{y}^{2}}$$\smallskip
 
@@ -370,11 +372,11 @@ $$r^{2}=\frac{\sigma_{\hat{y}}^{2}}{\sigma_{\hat{y}}^{2}+\sigma_{e}^{2}}$$\small
 
 Minore è la somma residua rispetto alla somma totale dei quadrati, maggiore sarà il valore del coefficiente di determinazione, $r^2$, il quale è un indicatore del livello di precisione con cui l'equazione ottenuta dall'analisi di regressione spiega la relazione tra le variabili. \cite{linear_models}\\
 
-Un'altra metrica utile in ambito delle regressioni è l'errore quadratico medio (in inglese \textit{Mean Squared Error}, MSE) che indica la discrepanza quadratica media fra i valori dei dati osservati ed i valori dei dati stimati:
+Un'altra metrica utile in ambito delle regressioni è l'\textbf{errore quadratico medio} (in inglese \textit{Mean Squared Error}, MSE) che indica la discrepanza quadratica media fra i valori dei dati osservati ed i valori dei dati stimati:
 
 $$MSE=\frac{\sum_{i=1}^{n}\left(x_{i}-\widehat{x}_{i}\right)^{2}}{n}$$\smallskip
 
-La sua radice quadrata fornisce un ulteriore indice statistico, la cosiddetta radice dell'errore quadratico medio (in inglese \textit{root-mean-square error}, RMSE). L'RMSE può essere anche calcolato come deviazione standard degli scarti. Da notare che l'MSE ed RMSE non sono quantità a-dimensionali, ma assumono l'unità di misura della grandezza considerata (RMSE) ed il suo quadrato (MSE). 
+La sua radice quadrata fornisce un ulteriore indice statistico, la cosiddetta radice dell'errore quadratico medio (in inglese \textit{root-mean-square error}, RMSE). L'RMSE può essere anche calcolato come deviazione standard degli scarti. Da notare che l'MSE ed RMSE non sono quantità adimensionali, ma assumono l'unità di misura della grandezza considerata (RMSE) ed il suo quadrato (MSE). 
 
 \subsection{Analisi dei residui}\label{ssec:regressione-residui}
 Esistono metodi utili per diagnosticare le violazioni delle ipotesi di regressione di base: questi si basano principalmente sullo studio dei residui del modello. Spesso infatti la retta di regressione è una semplificazione della realtà e non coglie tutta la variabilità presente in un insieme di dati. \cite{residui_pozzolo}
@@ -396,7 +398,7 @@ Eventuali scostamenti dalle ipotesi sugli errori dovrebbero quindi manifestarsi 
 \end{itemize}
 
 \subsubsection{Distribuzione degli errori}\label{ssec:distr-errori}
-La distribuzione normale degli errori può essere verificata attraverso un grafico dei quantili, detto anche q-q plot.
+La distribuzione normale degli errori può essere verificata attraverso un grafico dei quantili, detto anche \textbf{q-q plot}.
 In questa tipologia di grafico, i quantili teorici di una distribuzione Normale sono riportati sull’asse orizzontale. I quantili dei residui standardizzati sono invece riportati sull’asse verticale.
 L’idea è che se i residui hanno una distribuzione normale, i loro quantili dovrebbero coincidere con quelli della distribuzione normale. A livello grafico, questo significa che i punti dovrebbero disporsi lungo la \textit{bisettrice}, indicata dalla retta presente nel grafico (figura \ref{fig:distr_errori}).
 
@@ -422,7 +424,7 @@ Per verificare l'indipendenza tra la variabile indipendente e i residui è utile
 L’ipotesi è confermata se non è individuabile nessuna relazione tra le due variabili (ovvero se non compaiono trend o strutture cicliche nel tempo).
 
 \subsubsection{Omogeneità della varianza dei residui}\label{ssec:omogeneita-varianza}
-Per verificare l’ipotesi di omogeneità delle varianze dei residui, in modo da valutare la bontà dell'adattamento, è necessario creare un grafico a dispersione (\textit{scatterplot}). I valori predetti della $y$ si riportano sull’asse orizzontale delle $x$. Sull’asse verticale delle $y$ invece si indicano i valori dei residui (figura \ref{fig:distr_residui}). \cite{residui_pozzolo}
+Per verificare l’ipotesi di omogeneità delle varianze dei residui, in modo da valutare la bontà dell'adattamento, è necessario creare un grafico a dispersione (\textbf{scatterplot}). I valori predetti della $y$ si riportano sull’asse orizzontale delle $x$. Sull’asse verticale delle $y$ invece si indicano i valori dei residui (figura \ref{fig:distr_residui}). \cite{residui_pozzolo}
 
 \begin{figure}[H]
 \centering
@@ -431,10 +433,10 @@ Per verificare l’ipotesi di omogeneità delle varianze dei residui, in modo da
 \label{fig:distr_residui}
 \end{figure}
 
-Se c’è omogeneità della varianza dei residui, i punti saranno dispersi in modo simile sia nella parte sinistra che in quella destra del grafico. Questa proprietà, se verificata, prende il nome di \textbf{omoschedasticità}. Al contrario, si parla di \textit{eteroschedasticità} se i residui del modello non sono statisticamente indipendenti da tutte le variabili esplicative, e cioè quando la varianza degli errori non è la stessa in tutte le osservazioni.
+Se c’è omogeneità della varianza dei residui, i punti saranno dispersi in modo simile sia nella parte sinistra che in quella destra del grafico. Questa proprietà, se verificata, prende il nome di \textbf{omoschedasticità}. Al contrario, si parla di \textbf{eteroschedasticità} se i residui del modello non sono statisticamente indipendenti da tutte le variabili esplicative, e cioè quando la varianza degli errori non è la stessa in tutte le osservazioni.
 
 \subsubsection{Influenza degli outliers}\label{ssec:influenza-outliers}
-Il grafico a dispersione tra valori predetti e residui permette di individuare anche i possibili \textit{outliers}, ovvero i punti isolati nel grafico (quelli con residui maggiori).
+Il grafico a dispersione tra valori predetti e residui permette di individuare anche i possibili \textbf{outliers}, ovvero i punti isolati nel grafico (quelli con residui maggiori).
 Tuttavia, per verificare se ci sono outliers in un modello di regressione, spesso si utilizzano altre tecniche (ad esempio eliminando i punti problematici tramite la distanza di Cook, descritta in \ref{sssec:regressione-cook}, oppure applicando tecniche di regressione robusta meno sensibili alle le osservazioni problematiche, ad esempio con la funzione peso di Huber  descritta in \ref{sssec:regressione-huber}).
 
 Nei modelli di regressione infatti anche un singolo outlier può influenzare in maniera sostanziale la capacità di adattamento del modello ai dati, soprattutto se il campione non risulta molto numeroso.
@@ -509,9 +511,9 @@ Dove la variabile $a$ fa riferimento al residuo, cioè la differenza tra valore 
 \subsubsection{Regressione lineare avanzata}\label{sssec:regressione-cook}
 Come accennato in \ref{sssec:regressione-huber}, un'altra tecnica per la gestione di outlier è quella di applicare il modello sul dataset dopo aver rimosso i valori anomali. Esistono molte metriche su cui basarsi per rimuovere gli outlier da un set di dati: un metodo che viene spesso utilizzato \cite{cook_ref} nella regressione è la \textbf{distanza di Cook}.
 
-La distanza di Cook è una stima dell'\textit{influenza} di una osservazione in un dataset, in termini di residuo (outlier) o di elevato \textit{leverage}: è una metrica utile per stimare di quanto cambierebbe un modello di regressione nel caso in cui venga rimossa l'i-esima osservazione.\\
+La distanza di Cook è una stima dell'\textit{influenza} di una osservazione in un dataset, in termini di residuo (outlier) o di elevato \textit{leverage}: è una metrica utile per stimare di quanto cambierebbe un modello di regressione nel caso in cui venga rimossa l'i-esima osservazione.
 
-In presenza di outliers la distanza di Cook aumenta, e quindi questi dati ad alta influenza hanno un maggiore impatto sulle stime dei parametri della regressione.\\
+In presenza di outliers la distanza di Cook aumenta, e quindi questi dati ad alta influenza hanno un maggiore impatto sulle stime dei parametri della regressione.
 
 La distanza di Cook \cite{cook_def} dell'osservazione $i$ ($\forall i=1, \ldots, n$) è definita come:
 
@@ -561,8 +563,6 @@ In generale esistono due tipi di penalizzazione:
   \item \textbf{L2}: penalizza il quadrato del valore dei coefficienti del modello (es. Ridge).
 \end{itemize}
 
-La regressione Ridge usa la penalità L2: in pratica questo produce coefficienti piccoli, ma nessuno di loro è mai annullato (\textit{feature shrinkage}).
-
 Richiamando il metodo dei minimi quadrati (\ref{ssec:regressione-introduzione}) si deve minimizzare la somma dei quadrati dei residui (RSS):
 
 $$\mathrm{RSS}=\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} x_{i j}\right)^{2}$$\smallskip
@@ -573,12 +573,12 @@ $$\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} x_{i j}\right)^{2
 
 Dove $\lambda$ è un parametro di \textit{tuning} che serve proprio a controllare l’effetto della penalità: un valore $\lambda=0$ infatti non avrà effetto sul risultato finale (l’equazione viene ricondotta a quella dei minimi quadrati), al contrario per $\lambda \to \infty$ invece i coefficienti di regressione stimati tenderanno a zero poiché si darà molto peso alla penalità del modello. \cite{lasso_vs_ridge}
 
-Il modello di regressione di Ridge presenta dei vantaggi rispetto a quello dei minimi quadrati, soprattutto per quanto riguarda il \textit{bias-variance trade-off}: quando $\lambda$ aumenta la flessibilità del modello diminuisce, e questo comporta una riduzione della varianza ma un aumento del bias. 
+Il modello di regressione Ridge presenta dei vantaggi rispetto a quello dei minimi quadrati, soprattutto per quanto riguarda il \textit{bias-variance trade-off}: quando $\lambda$ aumenta la flessibilità del modello diminuisce, e questo comporta una riduzione della varianza ma un aumento del bias. 
 
 In generale, quando c’è una relazione lineare tra i predittori e la variabile risposta, il modello dei minimi quadrati comporta poco bias ma alta varianza. Questo si traduce nel fatto che una piccola variazione nell'osservazione può generare un cambiamento notevole nei coefficienti stimati. Al contrario, la regressione Ridge lavora bene nelle situazioni in cui il modello dei minimi quadrati genera ampia varianza nelle predizioni. \cite{tesi_polito}
 
 \subsubsection{Regressione Lasso}\label{sssec:regressione-lasso}
-Lo svantaggio della regressione Ridge è il fatto di considerare tutte le variabili per la predizione nel modello finale. Il termine di regolarizzazione $\lambda \sum_{j=1}^{p} \beta_{j}^{2}$ tende ad assegnare ai coefficienti valori vicini allo zero, ma non perfettamente zero, a meno che $\lambda = 0$.
+Lo svantaggio della regressione Ridge è il fatto di dover considerare tutte le variabili per la predizione nel modello finale. Il termine di regolarizzazione $\lambda \sum_{j=1}^{p} \beta_{j}^{2}$ tende ad assegnare ai coefficienti valori vicini allo zero, ma non perfettamente zero, a meno che $\lambda = 0$.
 Questo crea problemi non tanto per l’accuratezza della predizione, ma per l’interpretazione delle variabili, soprattutto quando il numero di queste diventa alto.
 
 La regressione Lasso (acronimo di \textit{least absolute shrinkage and selection operator}, ovvero operatore di restringimento e selezione minimo assoluto) è un’alternativa alla regressione Ridge utilizzata proprio per superare questo problema. L'unica differenza sta nel termine di regolarizzazione, ovvero:
@@ -617,16 +617,16 @@ che, risolto, permette di ricavare i parametri $a_0$, $a_1$, $a_2$, ..., $a_k$.
 Ci sono diverse considerazioni importanti che emergono quando si adatta un polinomio in una variabile: una di queste riguarda la scelta dell'ordine del modello.
 Come regola generale, l'uso di polinomi di ordine elevato ($n > 3$) dovrebbe essere evitato: un modello di ordine basso è quasi sempre preferibile a un modello di ordine elevato per ragioni di minore complessità, di coerenza con i dati e per evitare \textit{overfitting}. \cite{introduction_to_lr}
 
-Se da una parte è sempre possibile trovare un polinomio di grado $n-1$ ad $n$ punti che risulti in un buon adattamento dei dati, non è detto che questo sarebbe un buon predittore sui dati futuri (è il problema dell'\textit{overfitting}).
+Infatti se da una parte è sempre possibile trovare un polinomio di grado $n-1$ ad $n$ punti che risulti in un buon adattamento dei dati, non è detto che questo sia poi un buon predittore sui dati futuri (è il problema dell'\textit{overfitting}).
 
 \subsubsection{Regressione con Random Forest}\label{sssec:regressione-rf}
-La regressione Random Forest è un algoritmo di apprendimento supervisionato che utilizza il metodo di apprendimento \textit{ensemble} per la regressione tramite alberi di decisione. Il metodo di apprendimento ensemble è una tecnica che combina le previsioni di più algoritmi di apprendimento automatico per effettuare una previsione più accurata rispetto a un singolo modello. \cite{random_forest}
+La regressione Random Forest è un algoritmo di apprendimento supervisionato che utilizza il metodo di apprendimento \textbf{ensemble} per la regressione tramite alberi di decisione. Il metodo di apprendimento ensemble è una tecnica che combina le previsioni di più algoritmi di apprendimento automatico per effettuare una previsione più accurata rispetto a un singolo modello. \cite{random_forest}
 
-In particolare, Random Forest opera adattando una serie di alberi decisionali su vari sottocampioni del set di dati e utilizza la media dei risultati per migliorare l'accuratezza predittiva e controllare l'overfitting.
+In particolare, Random Forest opera adattando una serie di alberi decisionali su vari sottocampioni del set di dati e utilizza la media dei risultati per migliorare l'accuratezza predittiva e controllare l'\textit{overfitting}.
 In breve, l'algoritmo funziona eseguendo i seguenti passi:
 
 \begin{enumerate}
-  \item Sceglie a caso $k$ osservazioni dati dal training set;
+  \item Sceglie a caso $k$ osservazioni dati dal \textit{training set};
   \item Costruisce un albero decisionale associato a queste $k$ osservazioni;
   \item Sceglie il numero $N$ di alberi da costruire e ripete i passaggi 1 e 2 per ciascuno;
   \item Per una nuova osservazione, fa in modo che ciascuno degli $N$ alberi preveda il valore di $y$, e assegna il nuovo punto alla media su tutti i valori $y$ previsti.
@@ -635,9 +635,7 @@ In breve, l'algoritmo funziona eseguendo i seguenti passi:
 Uno dei principali svantaggi degli alberi decisionali è che risultano molto inclini a provocare \textit{overfitting}: funzionano bene sui dati di training, ma non sono così flessibili per fare previsioni su campioni non visti in precedenza. Sebbene esistano soluzioni alternative per migliorare questo aspetto, come ad esempio ridurre il numero di alberi, questo riduce il loro potere predittivo.
 
 \subsubsection{Regressione con Gradient Boosting}\label{sssec:regressione-gb}
-Il Gradient Boosting è una tecnica di machine learning che si applica sia a problemi di regressione che di classificazione statistica. Questa tecnica riprende il concetto matematico del \textit{gradient descent}, per cui lo split scelto sarà quello che favorisce l’avvicinamento al punto di minimo della funzione obiettivo.
-
-Il \textit{gradient descent} è un algoritmo di ottimizzazione che consente di individuare il valore minimo di una funzione di costo per sviluppare un modello con una previsione accurata.
+Il Gradient Boosting è una tecnica di machine learning che si applica sia a problemi di regressione che di classificazione statistica. Questa tecnica riprende il concetto matematico del \textbf{gradient descent}, per cui lo split scelto sarà quello che favorisce l’avvicinamento al punto di minimo della funzione obiettivo. Il \textit{gradient descent} è un algoritmo di ottimizzazione che consente di individuare il valore minimo di una funzione di costo per sviluppare un modello con una previsione accurata.
 
 L’algoritmo Gradient Boosting applicato a problemi di regressione può essere descritto nei seguenti passi:
 
@@ -678,9 +676,9 @@ La forma del modello di regressione KRR è identica a quello basato su SVR (desc
 Una volta collezionati i dati sia dalle centraline AirQino che ARPAT è stata avviata la fase di calibrazione, con le seguenti analisi per ciascun inquinante (\ce{NO2}, \ce{PM_{2.5}} e \ce{PM10}):
 
 \begin{itemize}
-  \item Scatterplot preliminare delle misurazioni AirQino confrontate con le misurazioni di riferimento ARPAT, per individuare relazioni tra le variabili;
-  \item Analisi dei residui della regressione lineare, per verificare le assunzioni del modello (vedi sezione \ref{ssec:regressione-residui});
-  \item Applicazione di modelli di regressione lineare e non lineare su tutto il dataset:
+  \item \textbf{Scatterplot} preliminare delle misurazioni AirQino confrontate con le misurazioni di riferimento ARPAT, per individuare relazioni tra le variabili;
+  \item \textbf{Analisi dei residui} della regressione lineare, per verificare le assunzioni del modello (vedi sezione \ref{ssec:regressione-residui});
+  \item \textbf{Applicazione di modelli} di regressione lineare e non lineare su tutto il dataset:
         \begin{itemize}
           \item Lineare semplice (\ref{sssec:regressione-lineare});
           \item Lineare \textit{robusto}, per ridurre l'influenza di outlier utilizzando la funzione peso di Huber (\ref{sssec:regressione-huber});
@@ -690,15 +688,15 @@ Una volta collezionati i dati sia dalle centraline AirQino che ARPAT è stata av
           \item SVR (con kernel lineare, polinomiale e RBF, come descritto in \ref{sssec:regressione-svr});
           \item Random Forest, Gradient Boosting e KernelRidge (\ref{sssec:regressione-rf}, \ref{sssec:regressione-gb} e \ref{sssec:regressione-kridge}).
         \end{itemize}
-    \item Applicazione e valutazione degli stessi modelli con cadenza mensile, per validare la consistenza dei risultati;
-    \item Infine, valutazione della performance e accuratezza dei modelli applicati.
+    \item Applicazione e valutazione degli stessi modelli con \textbf{cadenza mensile}, per validare la consistenza dei risultati;
+    \item Infine, \textbf{valutazione della performance} e accuratezza dei modelli applicati.
 \end{itemize}
 
 Per tutti i risultati ottenuti e presentati nella sezione seguente sono state implementate le seguenti operazioni:
 \begin{itemize}
-  \item Per misurare le performance dei vari modelli di regressione sono state utilizzate due metriche: il coefficiente di determinazione ($R^2$) e la radice dell'errore quadratico medio (RMSE), come visto in \ref{ssec:regressione-correlazione}. Ciascun risultato rappresenta la media su 1000 iterazioni, con \textit{shuffle} dei dati ad ogni iterazione;
-  \item I modelli Gradient Boosting, Random Forest e SVR sono stati preparati tramite \textit{tuning} di parametri ottimali con tecniche di \textit{cross-validation};
-  \item Per l'addestramento il dataset è stato suddiviso in 70\% train set e 30\% test set;
+  \item Per misurare le performance dei vari modelli di regressione sono state utilizzate due metriche: il \textbf{coefficiente di determinazione} ($R^2$) e la \textbf{radice dell'errore quadratico medio} (RMSE), come visto in \ref{ssec:regressione-correlazione}. Ciascun risultato rappresenta la media su 1000 iterazioni, con \textbf{shuffle} dei dati ad ogni iterazione;
+  \item I modelli Gradient Boosting, Random Forest e SVR sono stati preparati tramite \textbf{tuning} di parametri ottimali con tecniche di \textit{cross-validation};
+  \item Per l'addestramento il dataset è stato suddiviso in 70\% train set e 30\% test set, con l'ausilio della funzione \url{train_test_split} della libreria \url{scikit-learn} \cite{scikit};
   \item Tutti gli esperimenti sono stati eseguiti con Python 3.9 e con l'aiuto di librerie aggiuntive quali \url{scikit-learn} \cite{scikit}, \url{pandas} \cite{pandas}, \url{matplotlib} \cite{matplotlib}, \url{numpy} \cite{numpy} e \url{seaborn} \cite{seaborn}.
 \end{itemize}
 
@@ -757,6 +755,7 @@ La tabella \ref{fig:risultati-no2} mostra i risultati, in termini di $R^2$ e RMS
         SVR (Kernel RBF) & 0.294 & 11.445 \\ \hline
         KernelRidge & 0.301 & 11.344 \\ \hline
     \end{tabular}
+    \captionsetup{justification=centering}
     \caption{Risultati della calibrazione \ce{NO2}}
     \label{fig:risultati-no2}
 \end{table}
@@ -806,6 +805,7 @@ Anche in questo caso il modello di regressione migliore è risultato in media qu
         SVR (RBF) & 0.38 & 0.50 & 0.46 & 0.19 & 0.25 & 0.39 & 0.14 & 0.43 \\ \hline
         KernelRidge & 0.44 & 0.45 & 0.37 & 0.24 & 0.26 & 0.39 & \textbf{0.18} & 0.41 \\ \hline
     \end{tabular}
+    \captionsetup{justification=centering}
     \caption{Risultati della calibrazione \ce{NO2} con cadenza mensile ($R^2$)}
     \label{fig:risultati-no2-mese}
 \end{table}
@@ -832,6 +832,7 @@ Anche in questo caso il modello di regressione migliore è risultato in media qu
         SVR (RBF) & 13.70 & 10.98 & 9.02 & 9.39 & 8.24 & 8.57 & 12.50 & 9.74 \\ \hline
         KernelRidge & 13.35 & 11.51 & 9.80 & 9.17 & 8.21 & 8.62 & 12.06 & 9.78 \\ \hline
     \end{tabular}
+    \captionsetup{justification=centering}
     \caption{Risultati della calibrazione \ce{NO2} con cadenza mensile (RMSE)}
     \label{fig:risultati-no2-rmse-mese}
 \end{table}
@@ -913,6 +914,7 @@ La tabella \ref{fig:risultati-pm2.5} mostra i risultati della procedura di calib
         SVR (Kernel RBF) & 0.739 & 8.581 \\ \hline
         KernelRidge & 0.757 & 8.208 \\ \hline
     \end{tabular}
+    \captionsetup{justification=centering}
     \caption{Risultati della calibrazione \ce{PM_{2.5}}}
     \label{fig:risultati-pm2.5}
 \end{table}
@@ -961,6 +963,7 @@ Nelle tabelle \ref{fig:risultati-pm2.5-mese} e \ref{fig:risultati-pm2.5-rmse-mes
         SVR (RBF) & 0.16 & 0.44 & 0.22 & 0.65 & 0.58 & 0.39 & 0.37 & -0.06 & -0.36 & -0.07 & 0.62 & 0.50 \\ \hline
         KernelRidge & 0.36 & 0.45 & \textbf{0.25} & \textbf{0.73} & 0.67 & 0.57 & 0.54 & 0.06 & -0.06 & \textbf{0.29} & 0.62 & 0.60 \\ \hline
     \end{tabular}
+    \captionsetup{justification=centering}
     \caption{Risultati della calibrazione \ce{PM_{2.5}} con cadenza mensile ($R^2$)}
     \label{fig:risultati-pm2.5-mese}
 \end{table}
@@ -987,6 +990,7 @@ Nelle tabelle \ref{fig:risultati-pm2.5-mese} e \ref{fig:risultati-pm2.5-rmse-mes
         SVR (RBF) & 3.99 & 6.51 & 12.98 & 12.88 & 12.60 & 9.41 & 7.54 & 4.25 & 1.57 & 2.33 & 1.41 & 2.23 \\ \hline
         KernelRidge & 3.56 & 6.45 & \textbf{12.65} & 11.31 & 11.31 & 7.92 & 6.36 & 4.01 & 1.42 & 1.88 & 1.39 & 2.06 \\ \hline
     \end{tabular}
+    \captionsetup{justification=centering}
     \caption{Risultati della calibrazione \ce{PM_{2.5}} con cadenza mensile (RMSE)}
     \label{fig:risultati-pm2.5-rmse-mese}
 \end{table}
@@ -1009,6 +1013,7 @@ Infine, la tabella \ref{fig:risultati-pm2.5-coefficienti} riporta i coefficienti
         Polinomiale (grado 3) & 5.19 & 25.32 & -4.07 & 0.23 & / \\ \hline
         Polinomiale (grado 4) & 4.17 & 30.76 & -9.29 & 1.75 & -0.13 \\ \hline
     \end{tabular}
+    \captionsetup{justification=centering}
     \caption{Coefficienti della calibrazione \ce{PM_{2.5}}}
     \label{fig:risultati-pm2.5-coefficienti}
 \end{table}
@@ -1070,6 +1075,7 @@ La tabella \ref{fig:risultati-pm10} mostra i risultati della procedura di calibr
         SVR (Kernel RBF) & 0.719 & 9.672 \\ \hline
         KernelRidge & 0.738 & 9.321 \\ \hline
     \end{tabular}
+    \captionsetup{justification=centering}
     \caption{Risultati della calibrazione \ce{PM_{10}}}
     \label{fig:risultati-pm10}
 \end{table}
@@ -1118,6 +1124,7 @@ Nelle tabelle \ref{fig:risultati-pm10-mese} e \ref{fig:risultati-pm10-rmse-mese}
         SVR (RBF) & 0.33 & 0.13 & 0.28 & 0.63 & 0.53 & 0.41 & 0.37 & -0.21 & 0.07 & -0.35 & 0.53 & 0.34 \\ \hline
         KernelRidge & 0.38 & 0.40 & \textbf{0.30} & 0.68 & 0.61 & 0.65 & 0.52 & -0.05 & 0.27 & 0.14 & 0.60 & 0.69 \\ \hline
     \end{tabular}
+    \captionsetup{justification=centering}
     \caption{Risultati della calibrazione \ce{PM_{10}} con cadenza mensile ($R^2$)}
     \label{fig:risultati-pm10-mese}
 \end{table}
@@ -1144,6 +1151,7 @@ Nelle tabelle \ref{fig:risultati-pm10-mese} e \ref{fig:risultati-pm10-rmse-mese}
         SVR (RBF) & 5.11 & 9.84 & 13.65 & 14.44 & 15.01 & 13.25 & 8.53 & 5.03 & 2.65 & 6.12 & 2.73 & 4.88 \\ \hline
         KernelRidge & 5.04 & 8.23 & 13.60 & 13.52 & 14.06 & 10.59 & 7.31 & 4.79 & 2.37 & 4.65 & 2.52 & 3.30 \\ \hline
     \end{tabular}
+    \captionsetup{justification=centering}
     \caption{Risultati della calibrazione \ce{PM_{10}} con cadenza mensile (RMSE)}
     \label{fig:risultati-pm10-rmse-mese}
 \end{table}
@@ -1167,6 +1175,7 @@ Infine, la tabella \ref{fig:risultati-pm10-coefficienti} riporta i coefficienti 
         Polinomiale (grado 3) & 5.80 & 28.01 & -3.72 & 0.14 & / \\ \hline
         Polinomiale (grado 4) & 4.92 & 30.76 & -5.97 & 0.76 & -0.05 \\ \hline
     \end{tabular}
+    \captionsetup{justification=centering}
     \caption{Coefficienti della calibrazione \ce{PM_{10}}}
     \label{fig:risultati-pm10-coefficienti}
 \end{table}
@@ -1177,11 +1186,11 @@ Un modello che si adatta bene ai dati potrebbe non avere lo stesso successo nell
 
 Per questo motivo, la corretta convalida di un modello sviluppato per prevedere nuove osservazioni dovrebbe sempre implicare una fase di validazione fatta sul campo (\textit{field validation}).
 
-Una delle procedure per validare un modello di regressione consiste nel testarlo su nuove osservazioni (non visti in fase di training) per poi valutare se le prestazioni predittive del modello siano effettivamente in linea con le aspettative.
+Una delle procedure per validare un modello di regressione consiste nel testarlo su nuove osservazioni (non viste in fase di addestramento) per poi valutare se le prestazioni predittive del modello siano effettivamente in linea con le aspettative.
 
-Per svolgere la fase di validazione è stato quindi considerato il periodo da 01/09/21 a 20/11/21, di cui sono disponibili sia le misurazioni della centralina SMART16 di AirQino (ottenute con query sul database) che della stazione ARPAT di Capannori (disponibili sul sito ufficiale \cite{arpat}).
+Per svolgere la fase di validazione è stato quindi considerato il periodo da 01/09/21 a 20/11/21, di cui sono disponibili sia le misurazioni della centralina SMART16 di AirQino (ottenute con query sul database) che della stazione ARPAT di Capannori (disponibili sul sito ufficiale tramite API \cite{arpat}).
 
-Le tabelle \ref{tab:val-pm25} e \ref{tab:val-pm10} riassumono i risultati del confronto di misurazione della concentrazione di \ce{PM_{2.5}} e \ce{PM_{10}} della centralina SMART16 AirQino nelle due configurazioni (ovvero con sensori calibrati e non calibrati).
+Le tabelle \ref{tab:val-pm25} e \ref{tab:val-pm10} riassumono i risultati del confronto di misurazione della concentrazione di \ce{PM_{2.5}} e \ce{PM_{10}} della centralina SMART16 AirQino nelle due configurazioni (ovvero con sensori calibrati e non calibrati) nel periodo di validazione.
 
 \begin{table}[H]
 \footnotesize
@@ -1192,7 +1201,7 @@ Le tabelle \ref{tab:val-pm25} e \ref{tab:val-pm10} riassumono i risultati del co
 \textbf{Calibrato} & 0.633 & 4.522 \\ \hline
 \textbf{Non calibrato} & 0.582 & 4.954 \\ \hline
 \end{tabular}
-\caption{Statistiche a confronto nella misurazione delle concentrazioni medie (8h) di \ce{PM_{2.5}} tra stazione AirQino calibrata e non calibrata rispetto alla stazione di riferimento ARPAT (dal 1 settembre 2021 al 20 novembre 2021).}
+\caption{Statistiche a confronto nella misurazione delle concentrazioni medie (8h) di \ce{PM_{2.5}} tra stazione AirQino calibrata e non calibrata rispetto alla stazione di riferimento ARPAT (periodo di validazione dal 1 settembre 2021 al 20 novembre 2021).}
 \label{tab:val-pm25}
 \end{table}
 
@@ -1205,11 +1214,11 @@ Le tabelle \ref{tab:val-pm25} e \ref{tab:val-pm10} riassumono i risultati del co
 \textbf{Calibrato} & 0.494 & 5.711 \\ \hline
 \textbf{Non calibrato} & 0.431 & 6.942 \\ \hline
 \end{tabular}
-\caption{confronto nella misurazione delle concentrazioni medie (8h) di \ce{PM_{10}} tra stazione AirQino calibrata e non calibrata rispetto alla stazione di riferimento ARPAT (dal 1 settembre 2021 al 20 novembre 2021).}
+\caption{confronto nella misurazione delle concentrazioni medie (8h) di \ce{PM_{10}} tra stazione AirQino calibrata e non calibrata rispetto alla stazione di riferimento ARPAT (periodo di validazione dal 1 settembre 2021 al 20 novembre 2021).}
 \label{tab:val-pm10}
 \end{table}
 
-Le figure \ref{fig:val-pm2.5} e \ref{fig:val-pm10} mostrano l'andamento temporale delle misurazioni di \ce{PM_{2.5}} e \ce{PM_{10}}, calibrate e non calibrate, della stazione AirQino rispetto alle osservazioni della stazione ARPAT.
+Le figure \ref{fig:val-pm2.5} e \ref{fig:val-pm10} mostrano l'andamento temporale delle misurazioni di \ce{PM_{2.5}} e \ce{PM_{10}}, calibrate e non calibrate, della stazione AirQino rispetto alle osservazioni della stazione ARPAT nel periodo di validazione.
 
 \begin{figure}[H]
 \centering
@@ -1228,7 +1237,7 @@ Le figure \ref{fig:val-pm2.5} e \ref{fig:val-pm10} mostrano l'andamento temporal
 % Discussione
 \section{Discussione}\label{sec:discussione}
 
-Tutti risultati della fase di calibrazione hanno evidenziato un miglioramento generale nella misura delle concentrazioni di \ce{NO2} e PM, sia nei valori di $R^2$ (da 0.582 a 0.633 per \ce{PM_{2.5}} e da 0.431 a 0.494 per \ce{PM_{10}}) che per RMSE (da 4.954 a 4.522 $\mathrm{\si{\micro}g/m^3}$ per \ce{PM_{2.5}} e da 6.942 a 5.711 $\mathrm{\si{\micro}g/m^3}$ per \ce{PM_{10}}). I modelli di regressione migliori sono riportati nella tabella \ref{tab:recap-calib-results}, insieme ai coefficienti corrispondenti. In tutti i casi, il modello di regressione lineare \textit{avanzata}, con rilevamento e rimozione di outlier tramite distanza di Cook (\ref{sssec:regressione-cook}), ha dimostrato essere il più efficiente.
+Tutti risultati della fase di calibrazione hanno evidenziato un miglioramento generale nella misura delle concentrazioni di \ce{NO2} e PM, sia nei valori di $R^2$ (da 0.582 a 0.633 per \ce{PM_{2.5}} e da 0.431 a 0.494 per \ce{PM_{10}}) che per RMSE (da 4.954 a 4.522 $\mathrm{\si{\micro}g/m^3}$ per \ce{PM_{2.5}} e da 6.942 a 5.711 $\mathrm{\si{\micro}g/m^3}$ per \ce{PM_{10}}). I modelli di regressione migliori sono riportati nella tabella \ref{tab:recap-calib-results}, insieme ai coefficienti corrispondenti. In tutti i casi, il modello di regressione lineare \textit{avanzata}, con rilevamento e rimozione di outlier tramite distanza di Cook (\ref{sssec:regressione-cook}), si è dimostrato essere il più accurato.
 
 \begin{table}[H]
 \footnotesize
@@ -1240,6 +1249,7 @@ Tutti risultati della fase di calibrazione hanno evidenziato un miglioramento ge
 \ce{PM_{2.5}} & Lineare avanzato (Cook) & 10.31 & 7.67 & 0.801 & 5.894 \\ \hline
 \ce{PM10} & Lineare avanzato (Cook) & 10.98 & 11.32 & 0.785 & 7.103 \\ \hline
 \end{tabular}
+\captionsetup{justification=centering}
 \caption{Riepilogo dei migliori modelli di regressione, coefficienti ($y=a+bx$) e risultati rilevati dalla calibrazione di sensori \ce{NO2}, \ce{PM_{2.5}} e \ce{PM10}}
 \label{tab:recap-calib-results}
 \end{table}
@@ -1248,7 +1258,7 @@ Dai confronti sull'andamento temporale (figure \ref{fig:val-pm2.5} e \ref{fig:va
 
 Modelli di regressione polinomiale così come altri modelli non lineari (Random Forest, Gradient Boosting, SVR, KernelRidge) non hanno portato miglioramenti rispetto ai modelli lineari. Questo indica che la strada migliore sia l'utilizzo di tecniche matematiche e statistiche avanzate, in grado di  rilevare possibili relazioni non lineari tra segnali del sensore e dati di riferimento (come grafici di residui), che possono fornire informazioni utili su come migliorare il modello (ad esempio con la regressione robusta).
 
-In generale, i risultati per i \ce{PM_{2.5}} e \ce{PM_10} sono risultati di gran lunga migliori rispetto alla calibrazione dei sensori di \ce{NO2}. Questo si può ricondurre in parte alla diversa frequenza dei dati (medie orarie per \ce{NO2}, medie a 8h per i PM), e in parte anche alla natura e alle differenze dei sensori stessi (vedi \ref{ssec:hardware}), questi infatti hanno un principio fisico di funzionamento diverso (SDS011 per i PM è ad infrarossi, mentre il MiCS-2714 per \ce{NO2} funziona per ossidazione).
+In generale, i risultati per i \ce{PM_{2.5}} e \ce{PM_10} sono risultati di gran lunga migliori rispetto alla calibrazione dei sensori di \ce{NO2}. Questo si può ricondurre in parte alla diversa frequenza dei dati (medie orarie per \ce{NO2}, medie a 8h per i PM), e in parte anche alla natura e alle differenze dei sensori stessi (vedi \ref{ssec:hardware}), questi infatti hanno un principio fisico di funzionamento diverso (\textbf{SDS011} per i PM è ad infrarossi, mentre il \textbf{MiCS-2714} per \ce{NO2} funziona per ossidazione).
 
 Infine, i risultati per \ce{PM_{2.5}} si sono dimostrati essere sempre tendezialmente migliori dei corrispettivi \ce{PM_{10}}. Questo risulta in linea con quanto riportato in studi correlati \cite{s18092843} e altre reti di monitoraggio ambientale low-cost \cite{eval_zikova}, \cite{s17081805}, \cite{s17081922}.
 

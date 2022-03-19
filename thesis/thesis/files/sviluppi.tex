@@ -6,11 +6,11 @@ Questo capitolo riguarda i miglioramenti realizzati dal punto di vista tecnologi
 
 Spesso fare analisi mediamente complesse sui dati contenuti in un database può comportare rallentamenti nei tempi di risposta. Se questi carichi risultano frequenti, il sistema può arrivare a bloccarsi e provocare interruzioni del servizio.
 
-Una soluzione per risolvere questo problema è la creazione di una (o più) repliche del database primario. Nella replica, i dati e gli oggetti del database vengono copiati e distribuiti su un altro spazio fisico. Le operazioni onerose a questo punto possono essere fatte direttamente sulla replica che agisce come nodo secondario: in questo modo, il carico viene distribuito e non si intaccano le performance del database principale.
+Una soluzione per risolvere questo problema è la creazione di una (o più) \textbf{repliche} del database primario. Nella replica, i dati e gli oggetti del database vengono copiati e distribuiti su un altro spazio fisico. Le operazioni onerose a questo punto possono essere fatte direttamente sulla replica che agisce come nodo secondario: in questo modo, il carico viene distribuito e non si intaccano le performance del database principale.
 
 Il concetto di \textit{replica} è diverso dal \textit{mirroring}, in cui vengono create una o più copie di un database su diverse istanze del server, e funzionano come copie di riserva (e si attivano soltanto nel caso di guasto del nodo principale).
 
-Un sistema di replica correttamente implementato può offrire diversi vantaggi, tra cui riduzione del carico (perchè i dati replicati possono essere distribuiti su più server), efficienza (i server offrono prestazioni migliori perchè meno gravati da query pesanti) e ridondanza (i dati sono raggiungibili da più indirizzi).
+Un sistema di replica correttamente implementato può offrire diversi vantaggi, tra cui \textbf{riduzione del carico} (perchè i dati replicati possono essere distribuiti su più server), \textbf{efficienza} (i server offrono prestazioni migliori perchè meno gravati da query pesanti) e \textbf{ridondanza} (i dati sono raggiungibili da più indirizzi).
 
 Di contro, questa tecnica comporta la necessità di mantenimento dei nodi secondari, spesso collocati su server diversi (con i costi a questi associati). Inoltre, repliche errate o non implementate in maniera corretta possono causare la mancata sincronizzazione tra i nodi, portando ad una perdita o incoerenza dei dati.
 
@@ -21,21 +21,21 @@ La replica offrire vantaggi in questo senso, principalmente legati alle prestazi
 \begin{enumerate}
   \item \textbf{Maggiore affidabilità}: tramite la replica del database viene garantita la disponibilità dei dati anche nel caso in cui una delle macchine presenti un guasto hardware. In questo caso, il sistema di gestione del database distribuito deve essere in grado di indirizzare gli utenti interessati ad uno degli altri nodi disponibili;
   \item \textbf{Miglioramento delle prestazioni}: essendo i dati distribuiti su diverse istanze, accessi multipli non saturano i server. Questo aspetto risulta particolarmente importante per applicazioni che possono avere una grande quantità di richieste simultanee;
-  \item \textbf{Maggiore sicurezza dei dati}: Mentre in un sistema tradizionale i backup di un database (se effttuati) sono archiviati sullo stesso disco, con la replica del database vengono scritti su più server, aumentandone di fatto l'affidabilità e la ridondanza.
+  \item \textbf{Maggiore sicurezza dei dati}: Mentre in un sistema tradizionale i backup di un database (se effettuati) sono archiviati sullo stesso disco, con la replica del database vengono scritti su più server, aumentandone di fatto l'affidabilità e la ridondanza.
 \end{enumerate}
 
-Esistono diverse tecniche di replicazione del database, che dipendono sia dalla tecnologia utilizzata (MySQL, Postgres) che dalla natura del database stesso (relazionale o non relazionale). Il database di AirQino fa uso di Timescale\footnote{Timescale: Time-series data simplified - \url{https://www.timescale.com}}, basato su Postgres; una caratteristica di Postgres è la possibilità di replicazione con la tecnologia di \textbf{Streaming Replication}, descritta di seguito.
+Esistono diverse tecniche di replicazione del database, che dipendono sia dalla tecnologia utilizzata (MySQL, Postgres) che dalla natura del database stesso (relazionale o non relazionale). Il database di AirQino fa uso di Timescale\footnote{Timescale: Time-series data simplified - \url{https://www.timescale.com}}, basato su Postgres; una caratteristica di Postgres è proprio la possibilità di replicazione tramite l'utilizzo della tecnologia di \textbf{streaming replication}, descritta di seguito.
 
 \subsection{Streaming replication}\label{ssec:streaming-replication}
-La streaming replication di PostgreSQL è una funzionalità che consente di replicare i dati in tempo reale da una istanza di PostgreSQL a un'altra. Questo significa che, se si modificano i dati in una delle istanze, questi saranno immediatamente replicati anche nell'altra istanza. Questa istanza database di replica di lettura ("standby" in termini PostgreSQL) è una replica fisica creata in modo asincrono dell'istanza del database primario.
+La \textit{streaming replication} è una funzionalità che consente di replicare i dati in tempo reale da una istanza di database PostgreSQL a un'altra. Questo significa che se si modificano i dati in una delle istanze, questi saranno immediatamente replicati anche nell'altra istanza. Questa istanza database di replica di lettura (\textit{standby} in termini PostgreSQL) è di fatto una replica fisica creata in modo asincrono dell'istanza del database primario.
 
-PostgreSQL fa utilizza un \textit{ruolo di replica} (\textit{replication role}) per eseguire la replica in streaming (il ruolo presenta dei privilegi ma non può essere utilizzato per modificare i dati, la replica infatti è di sola lettura).
+PostgreSQL utilizza un \textit{ruolo di replica} (\textit{replication role}) per eseguire la replica in streaming. Il ruolo presenta dei privilegi ma non può essere utilizzato per modificare i dati: la replica infatti è di \textbf{sola lettura}.
 
-La replica si basa sulle transazioni \textbf{WAL} (Write Ahead Log) e utilizza il protocollo TCP per garantire una connessione sicura tra i server e inviare in modo asincrono le modifiche al database via via che vengono effettuate.
+La gestione della replicazione si basa sulle transazioni \textbf{WAL} (\textit{Write Ahead Log}) e utilizza il protocollo TCP per garantire una connessione sicura tra i server, e inviare in modo asincrono le modifiche al database via via che vengono effettuate.
 
-È possibile promuovere una replica di lettura PostgreSQL a una nuova istanza database di origine. Una volta promossa, la replica smette di ricevere comunicazioni WAL e non è più un'istanza di sola lettura.
+È possibile anche promuovere una replica di lettura PostgreSQL a una nuova istanza database di origine. Una volta promossa, la replica smette di ricevere comunicazioni WAL e non è più un'istanza di sola lettura.
 
-PostgreSQL salva le informazioni aggiornate del server primario in registro delle transazioni, noto come registro \textit{write-ahead}, utile in preparazione per il ripristino dopo un'interruzione o per un \textit{rollback}. La replica in streaming funziona proprio trasferendo e applicando il WAL al server di replica in tempo reale.
+PostgreSQL salva le informazioni aggiornate del server primario in registro delle transazioni, noto come registro \textit{write-ahead}, utile in fase di preparazione per il ripristino dopo un'interruzione o per un \textit{rollback}. La replica in streaming funziona proprio trasferendo e applicando il WAL al server di replica in tempo reale (figura \ref{fig:streaming-replication}).
 
 \begin{figure}[H]
 \centering
@@ -45,9 +45,9 @@ PostgreSQL salva le informazioni aggiornate del server primario in registro dell
 \label{fig:streaming-replication}
 \end{figure}
 
-La replica in streaming può essere costruita in una configurazione 1:N, con un solo server primario, ma è possibile anche aggiungere più server di replica (configurazione \textit{multi-standby}). È anche possibile realizzare una configurazione a cascata, in cui un server di replica si connette ad un altro server di replica.
+La replica in streaming può essere costruita in una configurazione 1:N, con un solo server primario, ma è possibile anche aggiungere più server di replica (configurazione \textit{multi-standby}). È anche possibile realizzare una configurazione \textit{a cascata}, in cui un server di replica si connette ad un altro server di replica.
 
-Per la replica in streaming, è possibile scegliere se effettuare una modalità sincrona oppure asincrona. La differenza tra replica sincrona e replica asincrona sta nell'attesa o meno della risposta dal server di replica prima di completare l'elaborazione sul server primario:
+Per la replica in streaming, è possibile scegliere se effettuare una modalità \textit{sincrona} oppure \textit{asincrona}. La differenza tra replica sincrona e replica asincrona sta nell'attesa o meno della risposta dal server di replica prima di completare l'elaborazione sul server primario. In particolare:
 \begin{itemize}
   \item \textbf{Replica sincrona}: il server primario attende una risposta dal server di replica prima di completare un processo. In questo caso il tempo di risposta complessivo include anche il tempo di spedizione del registro;
   \item \textbf{Replica asincrona} (impostazione predefinita): il server primario completa un processo senza attendere una risposta dal server di standby. Pertanto, il tempo di risposta complessivo è praticamente lo stesso di quando non viene utilizzata la replica in streaming; in questa modalità il risultato aggiornato sul server primario potrebbe non essere immediatamente disponibile sul server di replica. \cite{streaming_replication}
@@ -55,9 +55,9 @@ Per la replica in streaming, è possibile scegliere se effettuare una modalità 
 
 Ci sono però alcune limitazioni nell'utilizzo di repliche con PostgreSQL:
 \begin{itemize}
-  \item Ogni replica di lettura PostgreSQL è di sola lettura. Non è possibile creare una replica di lettura che sia anche scrivibile;
+  \item Ogni replica è di sola lettura. Non è possibile creare una replica che sia anche scrivibile;
   \item Non è possibile creare una replica di lettura da un'altra replica di lettura a cascata;
-  \item Gli utenti e i ruoli di accesso vengono rispecchiati dall'istanza primaria, il che significa che non è possibile utilizzare credenziali diverse o aggiungere utenti aggiuntivi soltanto alla replica;
+  \item Gli utenti e i ruoli di accesso vengono rispecchiati dall'istanza primaria, il che significa che non è possibile utilizzare credenziali diverse o aggiungere utenti soltanto alla replica;
   \item Non è possibile creare tabelle e viste nell'istanza di replica; in pratica si possono solo eseguire query di tipo \textit{SELECT}.
 \end{itemize}
 
@@ -66,11 +66,12 @@ La sezioni seguenti spiegano il lavoro svolto per configurare la replica del dat
 \subsubsection{Preparazione del database primario}
 
 \begin{enumerate}
-  \item Per avviare la procedura, è stato sul database un utente PostgreSQL con un ruolo adatto ad avviare la \textit{streaming replication} con il comando SQL:
+  \item Per avviare la procedura, è stato aggiunto sul database un utente PostgreSQL, con un ruolo adatto ad avviare la \textit{streaming replication}, con il comando SQL:
   \vspace{1mm}
    \begin{lstlisting}[language=sql]
 SET password_encryption = 'scram-sha-256'; 
 CREATE ROLE repuser WITH REPLICATION PASSWORD 'SOME_SECURE_PASSWORD' LOGIN;\end{lstlisting}
+dove \textit{repuser} è il nome dell'utente di replicazione e \textit{SOME\_SECURE\_PASSWORD} è la password di replicazione;
   \item Sono stati poi aggiunti i seguenti parametri di configurazione al file \url{/var/lib/postgresql/data/postgresql.conf}:
   \vspace{1mm}
   \begin{lstlisting}[]
@@ -81,25 +82,26 @@ max_replication_slots = 2
 synchronous_commit = off
 \end{lstlisting}
 
-  \item Sono stati inoltre aggiunti i seguenti parametri al secondo file di configurazione \url{/var/lib/postgresql/data/pg_hba.conf} per configurare l'autenticazione basata su host in modo da accettare connessioni dalla replica\footnote{Dalla documentazione Streaming Replication: \url{https://www.postgresql.org/docs/current/warm-standby.html\#STREAMING-REPLICATION}}:
+  \item Sono stati inoltre aggiunti i seguenti parametri al file \url{/var/lib/postgresql/data/pg_hba.conf} per configurare l'autenticazione basata su host, in modo da accettare connessioni dalla replica\footnote{Dalla documentazione Streaming Replication: \url{https://www.postgresql.org/docs/current/warm-standby.html\#STREAMING-REPLICATION}}:
   \vspace{1mm}
 \begin{lstlisting}[]
 host     replication     repuser   <REPLICA_IP>/32       scram-sha-256
 \end{lstlisting}
 dove \textit{repuser} è l'utente creato al passo 1 e \textit{REPLICA\_IP} è l'IP della macchina in cui si trova la replica;
   \item È stato riavviato il database per applicare i cambiamenti;
-  \item Infine è stato creato uno slot di replicazione sul database con il comando SQL:
+  \item Infine è stato creato uno \textit{slot di replicazione} sul database con il comando SQL:
   \vspace{1mm}
   \begin{lstlisting}[language=sql]
 SELECT * FROM pg_create_physical_replication_slot('replica_1_slot');
 \end{lstlisting}
+Questo assicura che il server master conservi i registri WAL necessari per le repliche anche quando queste sono disconnesse dal master.
 \end{enumerate}
 
-\subsubsection{Configurazione della replica}
-Di seguito sono elencati i passi eseguiti per configurare la replica:
+\subsubsection{Configurazione della replica}\label{conf-repl}
+Di seguito sono elencati i passi eseguiti per configurare la replica su un server seccondario:
 
 \begin{enumerate}
-  \item È stata interrotta l'istanza Postgres:
+  \item È stata interrotta l'istanza Postgres con il comando:
   \vspace{1mm}
 \begin{lstlisting}[]
 pg_ctl -D $PGDATA -m fast -w stop
@@ -116,21 +118,22 @@ pg_basebackup -h <PRIMARY_HOST> -p <PRIMARY_PORT> -D $PGDATA -U repuser -vP -R -
 \end{lstlisting}
 Dove \textit{PRIMARY\_HOST} è l'IP della macchina in cui si trova il database primario, \textit{PRIMARY\_PORT} è la porta del database primario e \textit{repuser} è l'utente di replicazione creato al passo 1.
 
-Da notare che con la flag \textit{-W} viene chiesta in maniera interattiva la password di replicazione, impostata in precedenza (\textit{SOME\_SECURE\_PASSWORD});
-  \item Infine è stata avviata l'istanza Postgres:
+Da notare che con la flag \textit{-W} viene chiesta in maniera interattiva la password di replicazione, anch'essa impostata in precedenza al passo 1;
+  \item Infine è stata riavviata l'istanza Postgres:
   \vspace{1mm}
 \begin{lstlisting}[]
 pg_ctl -D $PGDATA -w start
 \end{lstlisting}
-A questo punto la replica è attiva e sincronizzata 1:1 in tempo reale con il database primario.
+A questo punto la replica è attiva e sincronizzata 1:1 in tempo reale con il database primario. Per il database di produzione AirQino, questa procedura ha richiesto circa 5 minuti.
 \end{enumerate}
 
 \subsubsection{Automazione con Docker}
 L'intero setup (sia database primario che la replica) può essere automatizzato con Docker e docker-compose, in modo da far partire la sincronizzazione direttamente all'avvio del container.
-Poichè i passi per creare la replica richiedono di stoppare l'istanza Postgres, questa procedura non si può eseguire all'interno del container Docker stesso, già avviato, perchè si andrebbe a stoppare tutto il container.
-Per questo è necessario dare i comandi per la replica da uno script di \textit{entrypoint} che viene eseguito subito prima di avviare il container:
+
+Poichè i passi per creare la replica richiedono di interrompere l'istanza Postgres, questa procedura non si può eseguire all'interno del container Docker stesso già avviato, perchè si andrebbe a interrompere tutto il container.
+Per questo è necessario aggiungere i comandi per la replica in uno script di \textit{entrypoint}, che viene eseguito subito prima di avviare il container \cite{dockerfile}:
 \begin{enumerate}
-  \item È stato creato un \url{Dockerfile} da immagine Timescale (\url{timescaledb:latest}), con l'aggiunta di uno script \textit{entrypoint}, così strutturato:
+  \item È stato creato un \url{Dockerfile} partendo dall'immagine Timescale ufficiale (\url{timescaledb:latest}), con l'aggiunta di uno script \textit{entrypoint}, in questo modo:
   \vspace{1mm}
   \begin{lstlisting}[]
 FROM timescale/timescaledb:latest-pg13
@@ -151,7 +154,9 @@ PGPASSWORD=${REPLICATION_PASSWORD} pg_basebackup -h ${REPLICATION_HOST} -p ${REP
 echo "Restarting Postgres instance..." 
 pg_ctl -D ${PGDATA} -w start
 \end{lstlisting}
-Come già accennato, la flag \textit{-W} di \textit{pg\_basebackup} chiede la password in maniera interattiva, ma questo ovviamente non è adatto a script automatizzati che invece non richiedono interazione. Come alternativa è stata utilizzata la flag \textit{-w} (minuscola) e passata la password come variabile di ambiente chiamata \textit{PGPASSWORD};
+Il file riproduce semplicemente i passi descritti in \ref{conf-repl}.
+
+Come già accennato, la flag \textit{-W} di \textit{pg\_basebackup} chiede la password in maniera interattiva, ma questo ovviamente non è adatto a script automatizzati che invece non richiedono interazione. Come alternativa è stata utilizzata la flag \textit{-w} (minuscola) e passata la password come una variabile di ambiente (\textit{PGPASSWORD});
 \item È stato creato il file \url{docker-compose.yml} così strutturato (ridotto per semplicità):
 \vspace{1mm}
   \begin{lstlisting}[]
@@ -161,7 +166,6 @@ services:
         context: .
         dockerfile: Dockerfile
     environment:
-        # Cartella PDATA custom
         PGDATA: /var/lib/postgresql/data/pgdata
 
         # Parametri di replicazione
@@ -174,7 +178,7 @@ services:
     volumes:
         - /var/replica-pg13-timescale/:/var/lib/postgresql/data
 \end{lstlisting}
-
+Questo file semplicemente costruisce il container leggendo le istruzioni dal \url{Dockerfile} del passo 1, e applicando le varabili di ambiente specificate nel campo \url{environment}. Ulteriori parametri possono essere specificati, come ad esempio la porta sulla quale viene esposto il database (campo \url{ports}) e la cartella dell'host che viene mappata come volume di dati nel container (campo \url{volumes});
   \item Infine, è stato avviato il container con \url{docker-compose} \url{up}.
 \end{enumerate}
 
@@ -213,7 +217,7 @@ La piattaforma prevede inoltre altri casi d’uso per i dati a media oraria:
   \item Esportazione dataset periodici, da mettere a disposizione degli utenti esterni (ad esempio pubbliche amministrazioni che hanno installato le centraline);
   \item Esportazione dataset \textit{on demand} da parte di utenti esterni, con indicazione di inizio/fine del periodo desiderato.
 \end{itemize}
-In tutti questi casi il requisito è di ottenere medie orarie del dato calibrato.
+In tutti questi casi il requisito è di ottenere \textbf{medie orarie del dato calibrato}.
 
 Per calcolare la media oraria nell'ultima settimana, ad ogni richiesta sul database viene eseguito una query SQL di questo tipo (ridotta per semplicità):
 
@@ -226,11 +230,14 @@ AND sd.sensor_id = 29510691 /* id centralina */
 ORDER BY bucket DESC;
 \end{lstlisting}
 
-La query fa uso della funzione \textit{time\_bucket} di Timescale, che consente di partizionare la tabella con i dati dei sensori minuto per minuto direttamente in fasce orarie. L'utilizzo combinato con la funzione \textit{avg()} va poi a prendere la media del valore su tutta l'ora.
+Dove \textit{station\_data} è la tabella contenente i dati dei sensori, la colonna \textit{data\_acquired} rappresenta data e ora di misurazione e la colonna \textit{float\_value} indica il valore grezzo della misurazione.
+I dati vengono limitati solo all'ultima settimana tramite una comparazione su clausola \textit{WHERE}.
 
-Questo però significa che se si desidera eseguire questa query più di una volta, il database deve eseguire la scansione dell'intera tabella e ricalcolare la media ogni volta. Nella maggior parte dei casi, tuttavia, i dati nella tabella non sono cambiati in modo significativo, quindi non è necessario eseguire la scansione dell'intero set di dati.
+La query inoltre fa uso della funzione \textit{time\_bucket} di Timescale, che consente di partizionare la tabella con i dati dei sensori minuto per minuto direttamente in fasce orarie; l'utilizzo combinato con la funzione \textit{avg()} consente poi di estrarre la media del valore su tutta l'ora.
 
-La figura \ref{fig:query-prima} mostra i tempi di risposta a questa query per tutte le centraline AirQino prima di aver applicato l'ottimizzazione.
+Questo però significa che se si desidera eseguire questa query più di una volta, il database deve eseguire la scansione dell'intera tabella e ricalcolare la media ogni volta. Questo risulta poco efficiente, perchè nella maggior parte dei casi i dati nella tabella non sono cambiati in modo significativo, quindi non è necessario eseguirne nuovamente la scansione.
+
+La figura \ref{fig:query-prima} mostra i tempi di risposta della query per tutte le centraline AirQino, prima di aver applicato l'ottimizzazione.
 
 \begin{figure}[H]
 \centering
@@ -242,10 +249,10 @@ La figura \ref{fig:query-prima} mostra i tempi di risposta a questa query per tu
 
 Come si può vedere, per le centraline più attive la query per recuperare la media oraria impiega fino a 35 secondi, un tempo molto elevato.
 
-Per rendere più veloce l'aggregazione dei dati, Timescale mette a disposizione una funzionalità chiamata \textbf{continuous aggregates} (\textit{aggregati continui}).
+Per affrontare il problema e rendere più veloce l'aggregazione dei dati, Timescale mette a disposizione una funzionalità chiamata \textbf{continuous aggregates} (\textit{aggregati continui}).
 
 \subsection{Continuous aggregates}\label{ssec:cont-aggr}
-I continuous aggregates sono una funzionalità integrata in TimescaleDB che consente di aggregare i dati in tempo reale, senza la necessità di eseguire query aggiuntive. Funzionano in maniera simile alle viste materializzate di PostgreSQL, con la differenza che non necessitano di essere aggiornati manualmente ogni volta che un nuovo dato viene inserito nella tabella. Infatti, la riaggregazione viene eseguita automaticamente in background tramite una \textbf{refresh policy} definita dall'utente in fase di creazione della vista.
+I continuous aggregates sono una funzionalità integrata in TimescaleDB che consente di aggregare i dati in tempo reale, senza la necessità di eseguire query aggiuntive \cite{timescale_ca_2}. Funzionano in maniera simile alle viste materializzate di PostgreSQL, con la differenza che non necessitano di essere aggiornati manualmente ogni volta che un nuovo dato viene inserito nella tabella. Infatti, la riaggregazione viene eseguita automaticamente in background tramite una \textbf{refresh policy} definita dall'utente in fase di creazione della vista.
 
 L’utilizzo dei countinuous aggregates offre diversi vantaggi:
 \begin{itemize}
@@ -267,7 +274,7 @@ Di seguito sono riportati i passi eseguiti sul database di produzione AirQino pe
 SELECT create_hypertable('station_data', 'data_acquired', migrate_data => true);
 \end{lstlisting}
 Dove \textit{data\_acquired} è la colonna temporale della tabella, in cui vengono salvati data e ora della misurazione.
-Questa operazione potrebbe impiegare molto tempo, in base alla quantità di dati nella tabella. Sul database di produzione AirQino ha richiesto circa 36 minuti.
+Questa operazione potrebbe impiegare molto tempo, in base alla quantità di dati nella tabella. Sul database di produzione AirQino ha richiesto circa 36 minuti;
   \item È stato creata la vista materializzata per il calcolo delle medie orarie con continuous aggregates:
 \vspace{1mm}
 \begin{lstlisting}[language=sql]
@@ -280,8 +287,9 @@ SELECT time_bucket('1 hour', sd.data_acquired) AS bucket,
 FROM station_data sd
 GROUP by bucket, station_id, sensor_id;
 \end{lstlisting}
-Questa operazione sul database di produzione AirQino ha richiesto circa 5 minuti.
-  \item Infine, è stata creata una \textit{refresh policy} adeguata:
+Dove il nome dell'aggregato è \textit{station\_data\_hourly\_avg}, mentre la funzionalità di aggregazione continua viene specificata nella clausola \textit{WITH}. Nella \textit{SELECT} invece sono stati specificati la tabella di partenza (\textit{station\_data}), l'intervallo di aggregazione (\textit{1 hour}) e l'operazione da eseguire per aggregare i dati (\textit{avg()}, ovvero la media).
+Questa operazione sul database di produzione AirQino ha richiesto circa 5 minuti;
+  \item Infine, è stata creata una \textit{refresh policy} adeguata con il comando:
 \vspace{1mm}
 \begin{lstlisting}[language=sql]
 SELECT add_continuous_aggregate_policy('station_data_hourly_avg',
@@ -289,13 +297,12 @@ SELECT add_continuous_aggregate_policy('station_data_hourly_avg',
      end_offset => INTERVAL '1 hour',
      schedule_interval => INTERVAL '1 hour');
 \end{lstlisting}
-Dove \textit{start\_offset} indica quanto indietro nel tempo vado a calcolare l'aggregato, \textit{end\_offset} indica fino a quando arrivo e schedule indica ogni quanto voglio refreshare la vista.
-In questo caso si vanno a refreshare ogni ora i dati della settimana passata (con un'ora di scarto).
-Per ragioni di performance conviene sempre escludere l'ultimo bucket (in questo caso l'ultima ora di dati arrivati).
-% todo ref
+Dove \textit{start\_offset} indica quanto indietro nel tempo si va a calcolare l'aggregato, \textit{end\_offset} indica fino a quando fermarsi e \textit{schedule\_interval} indica l'intervallo di aggiornamento della lista.
+In questo caso è stato scelto di aggiornare ogni ora i dati della settimana passata, fino a un'ora prima del tempo di esecuzione.
+Per ragioni di performance conviene sempre escludere l'ultimo \textit{bucket} (in questo caso l'ultima ora di dati arrivati). \cite{timescale_ca}
 \end{enumerate}
 
-Una volta creata la vista, è possibile ricreare la SELECT originale per la media degli ultimi 7 giorni prendendo i dati da questa nuova tabella di aggregati continui:
+Una volta creata la vista, è possibile riscrivere la SELECT originale per la media degli ultimi 7 giorni, ma stavolta prendendo i dati da questa nuova tabella con aggregati continui (\textit{station\_data\_hourly\_avg}):
 \vspace{1mm}
 \begin{lstlisting}[language=sql]
 SELECT sd.avg
@@ -305,7 +312,7 @@ AND sd.sensor_id = 29510691 /* id centralina */
 ORDER BY bucket DESC;
 \end{lstlisting}
 
-Questa nuova query è risultata molto più performante rispetto alla precedente, perchè le medie orarie sono di fatto già precalcolate. I risultati sulle centraline AirQino sono riportati di seguito in figura \ref{fig:query-dopo}.
+Questa query è risultata molto più performante rispetto alla precedente, essendo le medie orarie di fatto già precalcolate e sempre aggiornate in background. I nuovi risultati sulle centraline AirQino sono riportati di seguito in figura \ref{fig:query-dopo}.
 
 \begin{figure}[H]
 \centering
@@ -315,4 +322,4 @@ Questa nuova query è risultata molto più performante rispetto alla precedente,
 \label{fig:query-dopo}
 \end{figure}
 
-Da cui si può notare che con la nuova query, ottimizzata con continuous aggregates, i tempi di risposta risultano costanti per tutte le centraline indipendentemente dalla quantità di dati (con conseguente riduzione significativa dei tempi di risposta, anche 175 volte meno per alcune centraline), garantendo maggiore scalabilità ed efficienza.
+Da cui si può notare che con la nuova query, ottimizzata con continuous aggregates, i tempi di risposta risultano costanti per tutte le centraline, indipendentemente dalla quantità di dati (con conseguente riduzione significativa dei tempi di risposta, anche 175 volte meno per alcune centraline), garantendo maggiore \textbf{scalabilità} ed \textbf{efficienza}.

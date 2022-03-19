@@ -2,7 +2,7 @@
 \chapter{Introduzione}\label{ch:introduzione}
 Il lavoro di tesi è stato realizzato in collaborazione con Magenta srl \cite{magenta} e con l'Istituto per la BioEconomia del Consiglio Nazionale delle Ricerche (IBE CNR) \cite{ibe}.\\
 
-L'oggetto di studio è la piattaforma AirQino \cite{airqino} per il monitoraggio ambientale ad alta precisione in ambito urbano. Gli obiettivi sono stati molteplici:
+L'oggetto di studio è la piattaforma \textbf{AirQino} \cite{airqino} per il monitoraggio ambientale ad alta precisione in ambito urbano. Gli obiettivi sono stati molteplici:
 \begin{itemize}
   \item Sviluppi tecnologici alla piattaforma, rivolti a migliorare in un caso l'affidabilità dei dati inviati dai sensori, e nell'altro la gestione del problema della quantità di dati in aumento costante (capitolo \ref{ch:sviluppi});
   \item Studio e analisi del processo di calibrazione delle centraline AirQino, con un confronto quantitativo sulle diverse tecniche utilizzate (capitolo \ref{ch:calibrazione});
@@ -41,15 +41,15 @@ Il monitoraggio della qualità dell'aria è una delle attività più importanti 
 
 I principali inquinanti atmosferici sono l'ossido di zolfo (\ce{SO_{x}}), ossido di azoto (\ce{NO_{x}}), monossido di carbonio (\ce{CO}), ozono (\ce{O_{3}}) e particolato atmosferico (\ce{PM} o polveri sottili). Per il particolato si parla di \ce{PM10} se le particelle hanno un diametro inferiore o uguale ai 10\textmu m, e \ce{PM_{2.5}} se inferiore o uguale ai 2.5\textmu m.
 
-Il monitoraggio della qualità dell’aria è disciplinato in Italia dal DLgs. n. 155 del 13/08/2010, che recepisce la direttiva europea 2008/50/CE \cite{direttiva}. Il decreto assegna alle varie ARPA\footnote{Agenzia regionale per la protezione ambientale} regionali il compito istituzionale di effettuare il monitoraggio della qualità dell’aria e ne prescrive in dettaglio le modalità. Il monitoraggio viene effettuato attraverso stazioni ubicate in siti fissi di campionamento in base a precisi criteri di esposizione: si distinguono quindi stazioni di fondo (urbane o suburbane), di traffico urbane, ed industriali. Ad esempio, nella città di Firenze la rete regionale di rilevamento gestita da ARPAT \cite{arpat} è costituita da 6 stazioni: 2 urbane-traffico, 3 urbane-fondo, ed una suburbana-fondo. Avendo valore normativo, le misure effettuate devono inoltre rispondere a precisi criteri di accuratezza ed esser sottoposte a precisi processi di validazione. \cite{relazione_alice}
+Il monitoraggio della qualità dell’aria è disciplinato in Italia dal DLgs. n. 155 del 13/08/2010, che recepisce la direttiva europea 2008/50/CE \cite{direttiva}. Il decreto assegna alle varie ARPA\footnote{Agenzia regionale per la protezione ambientale} regionali il compito istituzionale di effettuare il monitoraggio della qualità dell’aria e ne prescrive in dettaglio le modalità. Il monitoraggio viene effettuato attraverso stazioni ubicate in siti fissi di campionamento in base a precisi criteri di esposizione: si distinguono quindi stazioni di fondo (urbane o suburbane), di traffico urbane, ed industriali. Ad esempio, nella città di Firenze la rete regionale di rilevamento gestita da ARPAT \cite{arpat} è costituita da 6 stazioni: 2 urbane-traffico, 3 urbane-fondo, ed una suburbana-fondo. Avendo valore normativo, le misure effettuate devono inoltre rispondere a precisi criteri di accuratezza ed essere sottoposte a precisi processi di validazione. \cite{relazione_alice}
 
-Queste reti di monitoraggio sono quindi costituite da stazioni dotate di costose strumentazioni, oltretutto con elevati costi di manutenzione; un altro loro limite intrinseco è la rappresentatività strettamente puntuale delle misure (possono fornire misurazioni dettagliate e altamente accurate \cite{MEAD2013186}, ma soltanto in posizioni precise e sparse per una determinata città). \cite{s16050710}
+Queste reti di monitoraggio sono quindi costituite da stazioni dotate di costose strumentazioni, oltretutto con elevati costi di manutenzione; un altro loro limite intrinseco è la rappresentatività strettamente puntuale delle misure (possono fornire misurazioni dettagliate e altamente accurate \cite{MEAD2013186}, ma soltanto in posizioni precise e sparse per una determinata città) \cite{s16050710}.
 Questo rende difficile raccogliere informazioni rappresentative e affidabili per un'intera area urbana e, quindi, formare un quadro più chiaro sull'andamento dell'inquinamento. \cite{s16050710}
 
-In questo scenario si inseriscono i nuovi sensori \textit{low-cost} per il monitoraggio dell’inquinamento atmosferico alternativo o integrativo, soprattutto in situazioni in cui i sistemi di monitoraggio tradizionali risultano poco pratici \cite{doi:10.1021/es4022602}. Nell’acquisizione delle misure, infatti, i sensori di nuova generazione prevedono una serie di evidenti vantaggi rispetto alle reti fisse di monitoraggio, come ad esempio il basso costo di acquisto e manutenzione, la portabilità (ideali per misure mobili e/o per installazioni fisse in svariati punti della città garantendo alta rappresentatività spaziale), alta risoluzione temporale e restituzione in tempo reale della misura su un portale web di facile accessibilità. \cite{relazione_alice}
+In questo scenario si inseriscono i nuovi sensori \textit{low-cost} per il monitoraggio dell’inquinamento atmosferico alternativo o integrativo, soprattutto in situazioni in cui i sistemi di monitoraggio tradizionali risultano poco pratici \cite{doi:10.1021/es4022602}. Nell’acquisizione delle misure, infatti, i sensori di nuova generazione prevedono una serie di evidenti vantaggi rispetto alle reti fisse di monitoraggio, come ad esempio il basso costo di acquisto e manutenzione, la portabilità (ideali per misure mobili o per installazioni fisse in svariati punti della città garantendo alta rappresentatività spaziale), alta risoluzione temporale e restituzione in tempo reale della misura su un portale web di facile accessibilità \cite{relazione_alice}.
 Oltre a fornire una rete più diffusa in grado di catturare efficacemente la variabilità dell'inquinamento atmosferico, il dispiegamento di sensori a basso costo in numero significativo può anche aiutare a valutare l'esposizione in tempo reale in modo da progettare strategie di mitigazione. \cite{KUMAR2015199}
 
-La stessa direttiva europea 2008/50/CE ha legittimato l’utilizzo di tali sensori, riconoscendo e regolamentando l’acquisizione di misure aggiuntive, anche a minor costo e minor precisione, ma che permettano di avere un quadro più completo (sia nello spazio che nel tempo) della qualità dell’aria. \cite{relazione_alice}
+La stessa direttiva europea 2008/50/CE \cite{direttiva} ha legittimato l’utilizzo di tali sensori, riconoscendo e regolamentando l’acquisizione di misure aggiuntive, anche a minor costo e minor precisione, ma che permettano di avere un quadro più completo (sia nello spazio che nel tempo) della qualità dell’aria. \cite{relazione_alice}
 
 % Motivazioni
 \section{Motivazioni}\label{sec:motivazoni}
@@ -90,7 +90,7 @@ Alcune delle caratteristiche di AirQino sono:
 \end{figure}
 
 La rete di sensori AirQino consente rilevare le principali sostanze inquinanti riscontrabili nell’aria (\ce{NO2}, \ce{O3}, \ce{CO}, \ce{PM_{2.5}}, \ce{PM_{10}}) ma anche ulteriori parametri ambientali, come la temperatura, l'umidità relativa dell’aria e il principale gas climalterante, la \ce{CO2}.
-Inoltre la centralina è estendibile, e permette di aggiungere ulteriori sensori ausiliari in base alle preferenze.\\
+Inoltre la centralina è \textbf{estendibile}, e permette di aggiungere ulteriori sensori ausiliari in base alle preferenze.\\
 
 La piattaforma AirQino mette inoltre a disposizione un portale web per la consultazione dei dati, all'indirizzo \url{https://airqino.magentalab.it}. La pagina si apre su mappa interattiva che visualizza tutte le reti di centraline. Selezionata una stazione di interesse, vengono mostrati dettagli e foto della stazione stessa (figura \ref{fig:airqino_web}). Per ciascun sensore della centralina selezionata è possibile visualizzare grafici di andamento medio settimanali, insieme al dato istantaneo relativo all'ultima misurazione. \cite{airqino}
 
@@ -111,9 +111,9 @@ L'architettura del sistema AirQino è organizzata nei seguenti elementi principa
   \item \textbf{Frontend}: applicazione web che permette la visualizzazione di mappa e grafici dei dati raccolti dalle centraline, utilizzando i servizi esposti dal backend. L'interfaccia è basata su tecnologia \textbf{Angular} \cite{angular}. Il frontend ha anche una sezione \textit{admin}, protetta da autenticazione, che permette la gestione del sistema. Le funzionalità di gestione previste sono:
     \begin{itemize}
       \item Gestione anagrafica centraline (nome, posizione, progetti a cui afferisce);
-      \item Configurazione dei parametri di funzionamento tra cui i parametri di calibrazione, per la trasformazione da dati grezzi a valori leggibili dall’utente, e le soglie rilevamento allarmi;
+      \item Configurazione dei parametri di funzionamento, tra cui i parametri di calibrazione (per la trasformazione da dati grezzi a valori leggibili dall’utente) e le soglie di rilevamento allarmi;
       \item Gestione utenti;
-      \item Scaricamento dati raw oppure convertiti. \cite{airqino}
+      \item Scaricamento di dati raw oppure convertiti. \cite{airqino}
     \end{itemize}
 \end{itemize}
 
@@ -212,7 +212,7 @@ Il sensore SDS011 basa il suo funzionamento sul principio della diffusione ottic
     \label{fig:mics}%
 \end{figure}
 
-Il sensore SDS011 è costituito da una ventola che aspira l’aria esterna per convogliarla in una camera di misura stagna. All’interno della camera di misura è contenuto un diodo laser e un fotodiodo rilevatore (figura \ref{fig:mics} (b)). Appena l’aria viene immessa nella camera, il laser viene acceso: un fascio di luce laser procede “dritto” senza diffondersi. Quando il laser colpisce il particolato, la sua luce viene diffusa e l’intensità luminosa che si disperde nella camera può essere rilevata dal fotodiodo. 
+Il sensore è costituito da una ventola che aspira l’aria esterna per convogliarla in una camera di misura stagna. All’interno della camera di misura è contenuto un diodo laser e un fotodiodo rilevatore (figura \ref{fig:mics} (b)). Appena l’aria viene immessa nella camera, il laser viene acceso: un fascio di luce laser procede “dritto” senza diffondersi. Quando il laser colpisce il particolato, la sua luce viene diffusa e l’intensità luminosa che si disperde nella camera può essere rilevata dal fotodiodo. 
 
 Il sensore riesce a distinguere tra il \ce{PM10} e il \ce{PM_{2.5}} perché la forma d’onda della luce rilevata dal fotodiodo è correlata con il numero e le dimensioni delle particelle: per questo motivo a bordo del sensore c’è un microcontrollore ad 8 bit che esegue l’analisi. \cite{sds}
 
