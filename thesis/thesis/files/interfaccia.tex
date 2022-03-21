@@ -1,9 +1,11 @@
 \chapter{Interfaccia di calibrazione}\label{ch:interfaccia}
-Questo capitolo riguarda lo sviluppo e la realizzazione di una dashboard web per la calibrazione multipla di centraline AirQino.
+Questo capitolo è incentrato sulle motivazioni, lo sviluppo e la realizzazione di una dashboard web per la calibrazione multipla di centraline AirQino.
 
 % Motivazioni
 \section{Motivazioni}\label{sec:motivazioni}
-Attualmente, il dato calibrato viene ottenuto con la seguente formula, fissa per tutte le centraline e sensori AirQino:
+I sensori possono essere soggetti a molteplici processi di calibrazioni durante loro ciclo di vita (vedi \ref{sec:calib-intro}). Lo scopo è quello di trovare i coefficienti della curva che meglio approssima la relazione tra il segnale del sensore e un segnale di riferimento, da cui poter ricavare il valore calibrato a partire dal dato grezzo.
+
+Attualmente, per tutte le centraline e sensori AirQino, il dato calibrato viene ottenuto con la seguente formula:
 
 $$y(t)=k_{1} x(t)+k_{2} x^{2}(t)+k_{3} T_{int}(t)+k_{4}$$\smallskip
 
@@ -11,13 +13,13 @@ dove:
 
 \begin{itemize}
   \item $x$ è il \textbf{dato grezzo};
-  \item $k1...k4$ sono i \textbf{coefficienti di calibrazione};
+  \item $k1...k4$ sono i \textbf{coefficienti di calibrazione} ottenuti applicando un modello di regressione ai valori misurati rispetto ad un segnale di riferimento;
   \item $T_int$ è la \textbf{temperatura interna} della centralina al tempo $t$;
-  \item $y$ è il \textbf{dato calibrato}.
+  \item $y$ è il \textbf{valore calibrato}.
 \end{itemize}
 
 I coefficienti $k1...k4$ sono memorizzati nella tabella \textit{field\_calibration} del database AirQino. Si ha
-un set di coefficienti per ogni terna centralina, sessione, sensore: in questo modo si possono utilizzare parametri di calibrazione diversi per sessioni diverse. I dati possono essere inseriti attraverso un form accessibile dalle pagine di amministrazione.\\
+un set di coefficienti per ogni terna centralina, sessione, sensore: in questo modo si possono utilizzare parametri di calibrazione diversi per \textit{sessioni} diverse. I dati possono essere inseriti attraverso un form accessibile dalle pagine di amministrazione.\\
 
 Questa soluzione risulta però poco flessibile, in quanto ogni singolo coefficiente di ogni sessione e di ogni centralina deve essere inserito manualmente. Come soluzione a questo problema è stato quindi previsto lo sviluppo di un componente di calibrazione, realizzato come servizio web, che permetta di superare i limiti sopra descritti, in particolare salvando sul database i coefficienti di calibrazione in modo massivo (ovvero ricevendo più set di coefficienti o applicando un set a più centraline).
 
@@ -46,9 +48,9 @@ Dove:
 \begin{itemize}
   \item La colonna \textbf{id\_airqino} indica il nome della centralina AirQino;
   \item La colonna \textbf{param} indica il sensore da calibrare;
-  \item Le colonne \textbf{a}, \textbf{b}, \textbf{c} e \textbf{q} rappresentano i coefficienti di calibrazione (rispettivamente \textit{k1}, \textit{k2}, \textit{k3} e \textit{k4});
-  \item La colonna \textbf{score} indica il coefficiente di correlazione lineare \textit{r};
-  \item Le colonne opzionali \textbf{formula}, \textbf{regression\_type} e \textbf{d} sono opzionali e riguardano il tipo di regressione e altri parametri al momento inutilizzati (non influiscono sul risultato finale).
+  \item Le colonne \textbf{a}, \textbf{b}, \textbf{c} e \textbf{q} rappresentano i coefficienti di calibrazione (rispettivamente \textit{k1}, \textit{k2}, \textit{k3} e \textit{k4} della formula riportata in \ref{sec:motivazioni});
+  \item La colonna \textbf{score} indica il coefficiente di determinazione $R^2$;
+  \item Le colonne \textbf{formula}, \textbf{regression\_type} e \textbf{d} sono opzionali e riguardano il tipo di regressione e altri parametri al momento inutilizzati (non influiscono sul risultato finale).
 \end{itemize}
 
 % Tecnologie utilizzate
@@ -59,7 +61,7 @@ Dove:
 \begin{itemize}
   \item \textbf{Flask} \cite{flask} è un framework scritto in Python per la realizzazione di applicazioni web. Ha la caratteristica di essere molto semplice e versatile nella gestione del routing e la creazione di API REST;
   \item \textbf{Pandas} \cite{pandas} è una libreria Python che fornisce strumenti di analisi e manipolazione dei dati. Utilizzata nel progetto per leggere i dati da un file csv;
-  \item \textbf{Psycopg2} \cite{psycopg2} è una libreria Python per la connessione a database che utilizzano PostgreSQL (come quello di AirQino);
+  \item \textbf{Psycopg2} \cite{psycopg2} è una libreria Python per la connessione a database che utilizzano Postgres (come quello di AirQino);
   \item \textbf{Docker} \cite{docker} è una tecnologia di containerizzazione che consente di organizzare le applicazioni in \textit{container}, componenti isolati che combinano il codice sorgente dell'applicazione con le librerie del sistema operativo e le dipendenze necessarie per eseguire il codice in qualsiasi ambiente. 
 \end{itemize}
 
@@ -114,7 +116,7 @@ La tabella, mostrata nel dettaglio in figura \ref{fig:interfaccia-3}, presenta l
 \begin{itemize}
   \item \textbf{Result}: è l'esito del caricamento sul database (\textit{Updated} se il dato era già presente ed è stato sovrascritto, \textit{Created} se il dato è stato creato per la prima volta, e \textit{Failed} se l'operazione invece è fallita per quel sensore);
   \item \textbf{Station}, \textbf{Sensor}, \textbf{R}, \textbf{k1}, \textbf{k2}, \textbf{k3}, \textbf{k4} sono gli stessi parametri passati nel file csv di input;
-  \item \textbf{Last SQL Query}: è l'ultima query effettuata sul database per quel sensore, utile in per debugging di eventuali errori (lo screenshot completo è riportato in figura \ref{fig:interfaccia-6}).
+  \item \textbf{Last SQL Query}: è l'ultima query effettuata sul database per quel sensore, utile in per verificarne la correttezza e/o capire il motivo di eventuali errori (lo screenshot completo è riportato in figura \ref{fig:interfaccia-6}).
 \end{itemize}
 
 \begin{figure}[H]
@@ -131,7 +133,7 @@ La tabella, mostrata nel dettaglio in figura \ref{fig:interfaccia-3}, presenta l
 \label{fig:interfaccia-6}
 \end{figure}
 
-La tabella è ordinabile per colonne (con un click su di esse) e filtrabile con ricerca \textit{full text} su qualsiasi campo (figura \ref{fig:interfaccia-4-5}).
+La tabella è ordinabile per colonne (tramite un click su ciascuna di esse) e filtrabile con ricerca \textit{full text} su qualsiasi campo (figura \ref{fig:interfaccia-4-5}).
 
 \begin{figure}[H]%
     \centering
@@ -155,11 +157,9 @@ Se invece i coefficienti non erano presenti nel database e sono stati caricati p
 
 % Autenticazione
 \subsection{Autenticazione}\label{sec:autenticazione}
-Per la gestione dell'autenticazione è stato scelto il software \textbf{Keycloak} \cite{keycloak}, che risultava essere già installato sul server di Magenta.
+Per la gestione dell'autenticazione è stato scelto il software \textbf{Keycloak} \cite{keycloak}, che risultava essere già installato sul server di Magenta. Keycloak è un prodotto software open source che abilita l'autenticazione \textit{Single Sign-On} (SSO) per applicazioni e servizi. È scritto in Java e supporta i protocolli di federazione delle identità per impostazione predefinita SAML v2 e OpenID Connect (OIDC) o OAuth2. \cite{keycloak}
 
-Keycloak è un prodotto software open source che abilita l'autenticazione \textit{Single Sign-On} (SSO) per applicazioni e servizi. È scritto in Java e supporta i protocolli di federazione delle identità per impostazione predefinita SAML v2 e OpenID Connect (OIDC) o OAuth2. \cite{keycloak}
-
-In particolare, Keycloak consente a un'applicazione di delegare la propria autenticazione ad un server web predisposto, consentendo allo sviluppatore di concentrarsi sulle funzionalità, senza doversi preoccupare di aspetti di sicurezza e crittografia. Keycloak infatti include un server e un agente. L'agente è installato sulle applicazioni che richiedono l'autenticazione, mentre il server gestisce tutte le richieste di autenticazione. Quando un utente tenta di accedere a una applicazione protetta da Keycloak, l'agente verifica se l'utente è autenticato e, in caso affermativo, fornisce le credenziali appropriate all'applicazione.
+In particolare, Keycloak consente a un'applicazione di delegare la propria autenticazione ad un server web predisposto, consentendo allo sviluppatore di concentrarsi sulle funzionalità, senza doversi preoccupare di aspetti di sicurezza e crittografia. Keycloak infatti include un server e un agente: l'agente è installato sulle applicazioni che richiedono l'autenticazione, mentre il server gestisce tutte le richieste di autenticazione. Quando un utente tenta di accedere a una applicazione protetta da Keycloak, l'agente verifica se l'utente è autenticato e, in caso affermativo, fornisce le credenziali appropriate all'applicazione.
 
 \begin{figure}[H]
 \centering
@@ -216,12 +216,12 @@ Con il termine CD (\textit{continuous delivery}) si indica invece la distribuzio
 
 La CI/CD porta diversi vantaggi, tra cui:
 \begin{itemize}
-  \item Il prodotto avrà una base solida poiché le integrazioni sono frequenti e anche i test vengono eseguiti in anticipo;
-  \item aumento della qualità del codice prodotto;
-  \item Il software viene consegnato più rapidamente.
+  \item Solidità del prodotto, poiché le integrazioni sono frequenti e anche i test vengono eseguiti in anticipo;
+  \item Aumento della qualità del codice;
+  \item Consegna più rapida del software.
 \end{itemize}
 
-Lo strumento di CI scelto per questa applicazione è \textbf{Jenkins} \cite{jenkins}. Si tratta di un software open source di integrazione continua che permette di automatizzare il processo di integrazione dei cambiamenti effettuati dai developer all'interno di un codice sorgente, eseguendo una serie di controlli per verificarne la correttezza.
+Lo strumento di CI scelto per questa applicazione è \textbf{Jenkins} \cite{jenkins}. Si tratta di un software open source di integrazione continua, scritto in Java, che permette di automatizzare il processo di integrazione dei cambiamenti all'interno di un codice sorgente, con la possibiltà di eseguire una serie di controlli per verificarne la correttezza.
 
 Tra le varie caratteristiche, Jenkins offre un sistema chiamato \textit{pipeline}, ovvero uno script (chiamato \textit{Jenkinsfile}) che fornisce a Jenkins una serie di lavori (\textit{stage}) da eseguire in modo simile a una pipeline (uno dopo l'altro).
 
@@ -259,5 +259,5 @@ In particolare:
   \item Infine, il terzo stage rilascia il frontend copiando i contenuti della cartella \url{dist} nella cartella corretta del server di produzione.
 \end{itemize}
 
-L'interfaccia web di Jenkins permette inoltre di monitorare l'andamento dei vari step e di verificare eventuali errori. Jenkins può essere anche combinato con Docker \cite{docker} in modo da garantire processi di rilascio automatizzati e allo stesso tempo avere l'isolamento delle dipendenze, che verranno installate solo sul container invece che su tutto il server.
+L'interfaccia web di Jenkins permette inoltre di monitorare l'andamento dei vari step e di verificare eventuali errori. Jenkins può essere anche combinato con Docker \cite{docker} in modo da garantire processi di rilascio automatizzati e allo stesso tempo avere l'isolamento delle dipendenze, che verranno installate solo sul container e non su tutto il server.
 

@@ -37,16 +37,16 @@ L'oggetto di studio è la piattaforma \textbf{AirQino} \cite{airqino} per il mon
 
 % Contesto
 \section{Contesto}\label{sec:contesto}
-Il monitoraggio della qualità dell'aria è una delle attività più importanti per la tutela della salute pubblica. La qualità dell'aria può essere influenzata da molte sorgenti di emissione, tra cui le automobili, le centrali elettriche, gli impianti di riscaldamento e le fabbriche. Gli effetti dell'inquinamento atmosferico sulla salute sono molteplici e possono essere a breve o a lungo termine. In questo contesto, i dati raccolti dal monitoraggio della qualità dell'aria possono essere utilizzati per valutare l'impatto dell'inquinamento atmosferico sulla salute umana e sull'ambiente, e per identificare le principali fonti di inquinamento ambientale.
+Il monitoraggio della qualità dell'aria è una delle attività più importanti per la tutela della salute pubblica. La qualità dell'aria può essere influenzata da molte sorgenti di emissione di origine naturale e antropiche, tra cui le automobili, le centrali elettriche, gli impianti di riscaldamento e le fabbriche. Gli effetti dell'inquinamento atmosferico sulla salute sono molteplici e possono essere a breve o a lungo termine. In questo contesto, i dati raccolti dal monitoraggio della qualità dell'aria possono essere utilizzati per valutare l'impatto dell'inquinamento atmosferico sulla salute umana e sull'ambiente, e per identificare le principali fonti di inquinamento ambientale.
 
-I principali inquinanti atmosferici sono l'ossido di zolfo (\ce{SO_{x}}), ossido di azoto (\ce{NO_{x}}), monossido di carbonio (\ce{CO}), ozono (\ce{O_{3}}) e particolato atmosferico (\ce{PM} o polveri sottili). Per il particolato si parla di \ce{PM10} se le particelle hanno un diametro inferiore o uguale ai 10\textmu m, e \ce{PM_{2.5}} se inferiore o uguale ai 2.5\textmu m.
+I principali inquinanti atmosferici sono l'ossido di zolfo (\ce{SO_{x}}), gli ossidi di azoto (\ce{NO_{x}}), il monossido di carbonio (\ce{CO}), l'ozono (\ce{O_{3}}) e il particolato atmosferico (\ce{PM} o polveri sottili). Per il particolato si parla di \ce{PM10} se le particelle hanno un diametro inferiore o uguale ai 10\textmu m, e \ce{PM_{2.5}} se inferiore o uguale ai 2.5\textmu m.
 
-Il monitoraggio della qualità dell’aria è disciplinato in Italia dal DLgs. n. 155 del 13/08/2010, che recepisce la direttiva europea 2008/50/CE \cite{direttiva}. Il decreto assegna alle varie ARPA\footnote{Agenzia regionale per la protezione ambientale} regionali il compito istituzionale di effettuare il monitoraggio della qualità dell’aria e ne prescrive in dettaglio le modalità. Il monitoraggio viene effettuato attraverso stazioni ubicate in siti fissi di campionamento in base a precisi criteri di esposizione: si distinguono quindi stazioni di fondo (urbane o suburbane), di traffico urbane, ed industriali. Ad esempio, nella città di Firenze la rete regionale di rilevamento gestita da ARPAT \cite{arpat} è costituita da 6 stazioni: 2 urbane-traffico, 3 urbane-fondo, ed una suburbana-fondo. Avendo valore normativo, le misure effettuate devono inoltre rispondere a precisi criteri di accuratezza ed essere sottoposte a precisi processi di validazione. \cite{relazione_alice}
+Il monitoraggio della qualità dell’aria è disciplinato in Italia dal DLgs. n. 155 del 13/08/2010, che recepisce la direttiva europea 2008/50/CE \cite{direttiva}. Il decreto assegna alle varie ARPA\footnote{Agenzia regionale per la protezione ambientale} regionali il compito istituzionale di effettuare il monitoraggio della qualità dell’aria e ne prescrive in dettaglio le modalità. Il monitoraggio viene effettuato attraverso stazioni ubicate in siti di campionamento sia fissi che mobili, in base a precisi criteri di esposizione: si distinguono quindi stazioni di fondo (urbane o suburbane), di traffico urbane, ed industriali. Ad esempio, nella città di Firenze la rete regionale di rilevamento gestita da ARPAT \cite{arpat} è costituita da 6 stazioni: 2 urbane-traffico, 3 urbane-fondo, ed una suburbana-fondo. Avendo valore normativo, le misure effettuate devono inoltre rispondere a precisi criteri di accuratezza ed essere sottoposte a precisi processi di validazione. \cite{relazione_alice}
 
 Queste reti di monitoraggio sono quindi costituite da stazioni dotate di costose strumentazioni, oltretutto con elevati costi di manutenzione; un altro loro limite intrinseco è la rappresentatività strettamente puntuale delle misure (possono fornire misurazioni dettagliate e altamente accurate \cite{MEAD2013186}, ma soltanto in posizioni precise e sparse per una determinata città) \cite{s16050710}.
 Questo rende difficile raccogliere informazioni rappresentative e affidabili per un'intera area urbana e, quindi, formare un quadro più chiaro sull'andamento dell'inquinamento. \cite{s16050710}
 
-In questo scenario si inseriscono i nuovi sensori \textit{low-cost} per il monitoraggio dell’inquinamento atmosferico alternativo o integrativo, soprattutto in situazioni in cui i sistemi di monitoraggio tradizionali risultano poco pratici \cite{doi:10.1021/es4022602}. Nell’acquisizione delle misure, infatti, i sensori di nuova generazione prevedono una serie di evidenti vantaggi rispetto alle reti fisse di monitoraggio, come ad esempio il basso costo di acquisto e manutenzione, la portabilità (ideali per misure mobili o per installazioni fisse in svariati punti della città garantendo alta rappresentatività spaziale), alta risoluzione temporale e restituzione in tempo reale della misura su un portale web di facile accessibilità \cite{relazione_alice}.
+In questo scenario si inseriscono i nuovi sensori \textit{low-cost} per il monitoraggio dell’inquinamento atmosferico integrativo, soprattutto in situazioni in cui i sistemi di monitoraggio tradizionali risultano poco pratici \cite{doi:10.1021/es4022602}. Nell’acquisizione delle misure, infatti, i sensori di nuova generazione prevedono, a fronte di una minore accuratezza di misura, una serie di vantaggi quali: il basso costo di installazione, l'altra risoluzione temporale del dato acquisito e l'alta rappresentatività spaziale data dalla presenza capillare di più punti di acquisizione. \cite{relazione_alice}.
 Oltre a fornire una rete più diffusa in grado di catturare efficacemente la variabilità dell'inquinamento atmosferico, il dispiegamento di sensori a basso costo in numero significativo può anche aiutare a valutare l'esposizione in tempo reale in modo da progettare strategie di mitigazione. \cite{KUMAR2015199}
 
 La stessa direttiva europea 2008/50/CE \cite{direttiva} ha legittimato l’utilizzo di tali sensori, riconoscendo e regolamentando l’acquisizione di misure aggiuntive, anche a minor costo e minor precisione, ma che permettano di avere un quadro più completo (sia nello spazio che nel tempo) della qualità dell’aria. \cite{relazione_alice}
@@ -55,13 +55,12 @@ La stessa direttiva europea 2008/50/CE \cite{direttiva} ha legittimato l’utili
 \section{Motivazioni}\label{sec:motivazoni}
 Ci sono alcuni inconvenienti da tenere conto per quanto riguarda l'utilizzo di sensori a basso costo. Questi includono: 
 \begin{itemize}
-  \item Una minore precisione di rilevamento rispetto alle tradizionali stazioni di monitoraggio; \cite{s17112478}
-  \item Derive del sensore, che richiedono frequenti ricalibrazioni;
+  \item Una minore accuratezza nelle misurazioni rispetto alle tradizionali stazioni di monitoraggio; \cite{s17112478}
   \item Sensibilità a fattori ambientali come temperatura, umidità e pressione;
-  \item Degradazione dell'accuratezza del rilevamento con il tempo. \cite{s18092843}
+  \item Derive del sensore, dovute all'usura dei componenti hardware, che richiedono frequenti ricalibrazioni \cite{s18092843};
 \end{itemize}
 
-La necessità di effettuare calibrazioni frequenti dei sensori implica la definizione di un \textbf{processo di calibrazione} che risulti il più possibile accurato ed efficiente.
+La necessità di effettuare calibrazioni frequenti dei sensori implica la definizione di un \textbf{processo di calibrazione} che risulti il più possibile accurato ed efficiente. Inoltre alcuni tipi di sensori non forniscono output in unità ingeneristica, per cui la fase di calibrazione risulta obbligatoria.
 
 Allo stesso tempo, un rete di monitoraggio ambientale deve fare i conti con la raccolta e l'analisi di grandi quantità di dati provenienti dai sensori in tempo reale. Su questo aspetto, uno degli obiettivi fondamentali per un sistema di questo tipo riguarda la necessità di garantire sempre \textbf{affidabilità} e \textbf{disponibilità} dei dati. Inoltre, dal punto di vista tecnologico si deve prevedere l'utilizzo di soluzioni che permettano al sistema di \textbf{scalare} facilmente in caso di crescita del numero di stazioni e di sensori. In generale si tratta di problemi difficili da affrontare, sia per quantità di dati che per affidabilità.
 
@@ -75,7 +74,7 @@ Il progetto nasce dall’esigenza di realizzare una rete di stazioni mobile per 
 
 Alcune delle caratteristiche di AirQino sono:
 \begin{itemize}
-  \item Sistema di rilevamento \textbf{polifunzionale}: il sistema offre la possibilità di rilevare gli agenti inquinanti presenti in atmosfera e identificarne le sorgenti;
+  \item Sistema di rilevamento \textbf{polifunzionale}: il sistema offre la possibilità di rilevare gli agenti inquinanti presenti in atmosfera;
   \item Sistema \textbf{versatile} e dispiegabile in più punti per creare una rete di monitoraggio capillare, flessibile ed economica;
   \item Alte \textbf{prestazioni} dei sensori installati, garantite da una rigorosa calibrazione e validazione degli apparati da parte dei laboratori del CNR;
   \item Tutte le stazioni sono \textbf{configurabili} con un’ampia gamma di sensori aggiuntivi a seconda delle proprie esigenze. \cite{airqino}
@@ -90,9 +89,9 @@ Alcune delle caratteristiche di AirQino sono:
 \end{figure}
 
 La rete di sensori AirQino consente rilevare le principali sostanze inquinanti riscontrabili nell’aria (\ce{NO2}, \ce{O3}, \ce{CO}, \ce{PM_{2.5}}, \ce{PM_{10}}) ma anche ulteriori parametri ambientali, come la temperatura, l'umidità relativa dell’aria e il principale gas climalterante, la \ce{CO2}.
-Inoltre la centralina è \textbf{estendibile}, e permette di aggiungere ulteriori sensori ausiliari in base alle preferenze.\\
+Inoltre la centralina è \textbf{estendibile}, e permette di aggiungere ulteriori sensori ausiliari in base alle necessità.\\
 
-La piattaforma AirQino mette inoltre a disposizione un portale web per la consultazione dei dati, all'indirizzo \url{https://airqino.magentalab.it}. La pagina si apre su mappa interattiva che visualizza tutte le reti di centraline. Selezionata una stazione di interesse, vengono mostrati dettagli e foto della stazione stessa (figura \ref{fig:airqino_web}). Per ciascun sensore della centralina selezionata è possibile visualizzare grafici di andamento medio settimanali, insieme al dato istantaneo relativo all'ultima misurazione. \cite{airqino}
+La piattaforma AirQino mette inoltre a disposizione un portale web per la consultazione dei dati, all'indirizzo \url{https://airqino.magentalab.it}. La la piattaforma consiste in una mappa interattiva che visualizza tutte le reti di centraline. Selezionata una stazione di interesse, vengono mostrati dettagli e foto della stazione stessa (figura \ref{fig:airqino_web}). Per ciascun sensore della centralina selezionata è possibile visualizzare grafici di andamento medio settimanali, insieme al dato istantaneo relativo all'ultima misurazione, nell'unità di misura come da normativa. \cite{airqino}
 
 \begin{figure}[H]
 \centering
@@ -113,7 +112,7 @@ L'architettura del sistema AirQino è organizzata nei seguenti elementi principa
       \item Gestione anagrafica centraline (nome, posizione, progetti a cui afferisce);
       \item Configurazione dei parametri di funzionamento, tra cui i parametri di calibrazione (per la trasformazione da dati grezzi a valori leggibili dall’utente) e le soglie di rilevamento allarmi;
       \item Gestione utenti;
-      \item Scaricamento di dati raw oppure convertiti. \cite{airqino}
+      \item Scaricamento di dati raw oppure calibrati. \cite{airqino}
     \end{itemize}
 \end{itemize}
 
@@ -140,7 +139,7 @@ La tabella \ref{fig:sensori-airqino} mostra le varie tipologie di sensori che so
         \ce{O3} & Semiconduttore & $\mathrm{\si{\micro}g/m^3}$ & 0-1000 & 15\% \\ \hline
         CO & Sensori di gas MOS & $\mathrm{\si{\micro}g/m^3}$ & 0-30 & 15\% \\ \hline
         VOC totali & Sensori di gas MOS & $\mathrm{\si{\micro}g/m^3}$ & 0-1000 & 15\% \\ \hline
-        \ce{CO2} & NDIR & ppm o $\mathrm{\si{\micro}g/m^3}$ & 0-2000 & 10\% \\ \hline
+        \ce{CO2} & NDIR & ppm & 0-2000 & 10\% \\ \hline
         \ce{PM_{2.5}} & Contatore di particelle ottico & $\mathrm{\si{\micro}g/m^3}$ & 0-1000 & 10\% \\ \hline
         \ce{PM10} & Contatore di particelle ottico & $\mathrm{\si{\micro}g/m^3}$ & 0-1000 & 10\% \\ \hline
         Umidità relativa & Stato solido & \% & 0-100 & 5\% \\ \hline
@@ -155,7 +154,6 @@ La tabella \ref{fig:sensori-airqino} mostra le varie tipologie di sensori che so
 Nello specifico i sensori utilizzati sono:
 \begin{itemize}
   \item \textbf{SenseAir S8} per acquisizione \ce{CO2};
-  \item \textbf{MiCS-OZ-47} per \ce{O3} e temperatura;
   \item \textbf{DHT22} per umidità relativa e temperatura;
   \item \textbf{MiCS-2614} per \ce{O3};
   \item \textbf{MiCS-2714} per \ce{NO2};
@@ -163,7 +161,7 @@ Nello specifico i sensori utilizzati sono:
   \item \textbf{SDS011} per \ce{PM_{2.5}} e \ce{PM10}. \cite{relazione_alice}
 \end{itemize}
 
-Di seguito vengono approfonditi due sensori con principi di funzionamento diversi: MiCS-2714 (\ref{sensore-no2}) per \ce{NO2} e SDS011 (\ref{sensore-pm}) per \ce{PM_{2.5}} e \ce{PM_10}.
+Oggetto di questo studio sono stati due sensori con principi di funzionamento diversi: MiCS-2714 (\ref{sensore-no2}) per \ce{NO2} e SDS011 (\ref{sensore-pm}) per \ce{PM_{2.5}} e \ce{PM_10}.
 
 \subsubsection{MiCS-2714}\label{sensore-no2}
 Il MiCS-2714 è un sensore di tipo MOS, ovvero costituito da un \textit{film} depositato su una piastra di elementi riscaldanti la cui temperatura operativa è generalmente compresa tra 300°C e 500°C. \cite{relazione_alice}
@@ -235,7 +233,7 @@ Di seguito le specifiche del sensore SDS011 come riportate dal \textit{datasheet
     \label{fig:sds-specifiche}
 \end{table}
 
-\subsection{Progetti correlati}\label{ssec:correlati}
+\subsection{Progetti che includono la piattaforma AirQino}\label{ssec:correlati}
 Di seguito sono elencati alcuni progetti che fanno uso delle centraline AirQino:
 
 \begin{itemize}
@@ -243,10 +241,11 @@ Di seguito sono elencati alcuni progetti che fanno uso delle centraline AirQino:
   \item \textbf{SMART Treedom} \cite{smartreedom} è il frutto dalla collaborazione tra Treedom e l’Istituto di Biometeorologia del Consiglio Nazionale delle Ricerche. La finalità del progetto è stata quella di prototipare un sistema integrato che possa essere modulato con diversi sensori in base al tipo di grandezza fisica che si vuole misurare e una tecnologia laser per la misura delle polveri sottili;
   \item \textbf{Trafair} \cite{trafair} è un progetto europeo biennale co-finanziato dal programma europeo Connecting Europe Facility (CEF) nel settore delle telecomunicazioni con lo scopo di sviluppare un servizio di previsione della qualità dell’aria urbana basata su previsioni meteo e flussi di traffico in sei città europee di dimensioni diverse: Zaragoza, Firenze, Modena, Livorno, Santiago de Compostela e Pisa;
   \item \textbf{Smart Garda Lake} \cite{garda} nasce nel 2017 con lo scopo di creare una rete di monitoraggio ambientale per rilevamenti in campo meteorologico, inquinamento acustico, stato delle acque superficiali e qualità dell’aria all’insegna degli obiettivi di sostenibilità dell’Agenda 2030 dell’ONU;
+  \item \textbf{PlanetWatch} \cite{planetwatch} è una piattaforma decentralizzata che consente di monitorare e proteggere il pianeta attraverso la condivisione di informazioni. Gli utenti possono condividere informazioni sull'ambiente, la sostenibilità e la responsabilità sociale;
   \item \textbf{Brenner LEC} \cite{lec} si colloca nel contesto di un’area sensibile come le Alpi e si pone l’obiettivo di creare un “corridoio a emissioni ridotte” (LEC – Lower Emission Corridor) lungo l’asse autostradale del Brennero al fine di ottenere un chiaro beneficio ambientale nei settori della tutela dell’aria e della protezione del clima, nonché una riduzione dell’inquinamento acustico.
 \end{itemize}
 
-\subsection{Progetti simili}\label{ssec:competitor}
+\subsection{Altre piattaforme}\label{ssec:competitor}
 Esistono anche altre piattaforme con obiettivi simili ad AirQino:
 
 \begin{itemize}
@@ -254,6 +253,5 @@ Esistono anche altre piattaforme con obiettivi simili ad AirQino:
 	\item \textbf{Aqicn} \cite{aqicn} è un progetto open source lanciato nel 2010 che consente di monitorare l'inquinamento atmosferico in tempo reale;
 	\item \textbf{IQAir} \cite{iqair} è una società svizzera che produce e vende purificatori d'aria per uso residenziale e commerciale. La loro applicazione fornisce un rapporto in tempo reale sulla qualità dell'aria e previsione dell'inquinamento atmosferico;
 	\item \textbf{Decentlab} \cite{decentlab} è un'azienda svizzera che fornisce dispositivi e servizi di sensori wireless per soluzioni di monitoraggio distribuite ed economiche;
-	\item \textbf{PlanetWatch} \cite{planetwatch} è una piattaforma decentralizzata che consente di monitorare e proteggere il pianeta attraverso la condivisione di informazioni. Gli utenti possono condividere informazioni sull'ambiente, la sostenibilità e la responsabilità sociale;
 	\item \textbf{HackAIR} \cite{hackair} è una piattaforma open source che consente ai cittadini di monitorare la qualità dell'aria nei propri quartieri. Gli utenti possono interagire con la piattaforma per segnalare la qualità dell'aria nel proprio quartiere, visualizzare i dati relativi alla qualità dell'aria e condividere informazioni e dati con altri utenti.
 \end{itemize}
