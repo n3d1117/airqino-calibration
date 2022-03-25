@@ -65,7 +65,7 @@ La sezioni seguenti spiegano il lavoro svolto per configurare la replica del dat
    \begin{lstlisting}[language=sql]
 SET password_encryption = 'scram-sha-256'; 
 CREATE ROLE repuser WITH REPLICATION PASSWORD 'SOME_SECURE_PASSWORD' LOGIN;\end{lstlisting}
-dove \textit{repuser} è il nome dell'utente di replicazione e\\ \textit{SOME\_SECURE\_PASSWORD} è la password di replicazione;
+Dove \textit{repuser} è il nome dell'utente di replicazione e\\ \textit{SOME\_SECURE\_PASSWORD} è la password di replicazione;
   \item Sono stati aggiunti i seguenti parametri di configurazione al file \url{/var/lib/postgresql/data/postgresql.conf}:
   \vspace{1mm}
   \begin{lstlisting}[]
@@ -75,14 +75,14 @@ max_wal_senders = 2
 max_replication_slots = 2
 synchronous_commit = off
 \end{lstlisting}
-questi sono i parametri adatti ad una configurazione a replica singola: in caso di più repliche sarà necessario aumentare il valore di \url{max_wal_senders} e \url{max_replication_slots} \cite{stre_re};
+Questi sono i parametri adatti ad una configurazione a replica singola: in caso di più repliche sarà necessario aumentare il valore di \url{max_wal_senders} e \url{max_replication_slots} \cite{stre_re};
 
   \item Sono stati aggiunti i seguenti parametri al file \url{/var/lib/postgresql/data/pg_hba.conf} per configurare l'autenticazione basata su host, in modo da accettare connessioni dalla replica:
   \vspace{1mm}
 \begin{lstlisting}[]
 host     replication     repuser   <REPLICA_IP>/32       scram-sha-256
 \end{lstlisting}
-dove \textit{repuser} è l'utente creato al passo 1 e \textit{REPLICA\_IP} è l'IP della macchina in cui si trova la replica \cite{stre_re};
+Dove \textit{repuser} è l'utente creato al passo 1 e \textit{REPLICA\_IP} è l'IP della macchina in cui si trova la replica \cite{stre_re};
   \item È stato riavviato il database per applicare i cambiamenti;
   \item Infine è stato creato uno \textit{slot di replicazione} sul database con il comando:
   \vspace{1mm}
@@ -113,7 +113,7 @@ pg_basebackup -h <PRIMARY_HOST> -p <PRIMARY_PORT> -D $PGDATA -U repuser -vP -R -
 \end{lstlisting}
 Dove \textit{PRIMARY\_HOST} è l'IP della macchina in cui si trova il database primario, \textit{PRIMARY\_PORT} è la porta del database primario e \textit{repuser} è l'utente di replicazione creato al passo 1.
 
-Da notare che con la flag \textit{-W} viene chiesta in maniera interattiva la password di replicazione, anch'essa impostata in precedenza al passo 1;
+Da notare che con la \textit{flag} \textit{-W} viene chiesta in maniera interattiva la password di replicazione, anch'essa impostata in precedenza al passo 1;
   \item Infine è stata riavviata l'istanza Postgres:
   \vspace{1mm}
 \begin{lstlisting}[]
@@ -123,7 +123,7 @@ A questo punto la replica è attiva e sincronizzata 1:1 in tempo reale con il da
 \end{enumerate}
 
 \subsubsection{Automazione con Docker}
-L'intero setup è stato poi automatizzato con Docker e docker-compose, in modo da avviare la sincronizzazione direttamente all'avvio del container, rendendo la procedura molto più semplice da gestire.
+L'intero setup è stato poi automatizzato con Docker \cite{docker} e docker-compose, in modo da avviare la sincronizzazione direttamente all'avvio del container, rendendo la procedura molto più semplice da gestire.
 
 Poichè la creazione della replica richiede l'interruzione dell'istanza Postgres, questa procedura non si può eseguire all'interno del container Docker stesso, perchè si andrebbe a interrompere tutto il container.
 Per questo è stato necessario aggiungere i comandi per la replica in uno script di \textit{entrypoint}, che viene eseguito subito prima di avviare il container \cite{dockerfile}:
@@ -270,7 +270,7 @@ Timescale inoltre introduce il concetto di \textit{hypertable}, normali tabelle 
 Di seguito sono riportati i passi eseguiti sul database di produzione AirQino per l'attivazione del meccanismo di continuous aggregates sulla tabella con i dati dei sensori (\textit{station\_data}):
 
 \begin{enumerate}
-  \item È stata creata la \textit{hypertable} a partire dalla tabella originale, avendo cura di migrare tutti i dati (questo è necessario perchè i contnuous aggregates si applicano solo alle \textit{hypertable}):
+  \item È stata creata la \textit{hypertable} a partire dalla tabella originale, avendo cura di migrare tutti i dati (questo è necessario perchè i continuous aggregates si applicano solo alle \textit{hypertable}):
 \vspace{1mm}
 \begin{lstlisting}[language=sql]
 SELECT create_hypertable('station_data', 'data_acquired', migrate_data => true);

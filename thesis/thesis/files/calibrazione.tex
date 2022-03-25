@@ -31,7 +31,7 @@ Il comune rurale di Capannori è stato scelto in quanto si trova all'interno di 
 \begin{figure}[H]
 \centering
 \captionsetup{justification=centering}
-\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/smart72.jpg}
+\includegraphics[width=0.65\textwidth,height=\textheight,keepaspectratio]{img/smart72.jpg}
 \caption{Una centralina AirQino\\Fonte: \url{https://airqino.magentalab.it}}
 \label{fig:smart72}
 \end{figure}
@@ -39,7 +39,7 @@ Il comune rurale di Capannori è stato scelto in quanto si trova all'interno di 
 \begin{figure}[H]
 \centering
 \captionsetup{justification=centering}
-\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/lu-capannori.jpg}
+\includegraphics[width=0.65\textwidth,height=\textheight,keepaspectratio]{img/lu-capannori.jpg}
 \caption{Centralina ARPAT in sede Capannori (provincia di Lucca)\\Fonte: \url{http://arpat.toscana.it}}
 \label{fig:capannori}
 \end{figure}
@@ -55,8 +55,7 @@ Il comune rurale di Capannori è stato scelto in quanto si trova all'interno di 
 \subsection{Dataset \ce{NO2}}\label{ssec:dataset-no2}
 Il dataset di misurazioni \ce{NO2} di AirQino è stato ottenuto con delle query specifiche sul database della piattaforma.
 I dati ARPAT (Capannori) per il confronto invece vengono messi a disposizione sul sito ufficiale \cite{arpat} e sono accessibili tramite API, a seguito di un periodo di validazione che può durare anche diversi mesi.
-
-Ci sono delle differenze sostanziali tra i due set di dati:\\
+Ci sono delle differenze sostanziali tra i due set di dati:
 
 \begin{table}[H]
 \centering
@@ -64,7 +63,7 @@ Ci sono delle differenze sostanziali tra i due set di dati:\\
 \begin{tabular}{|l|l|l|l|}
 \cline{2-4}
 \multicolumn{1}{c|}{} & \textbf{Periodo} & \textbf{Unità} & \textbf{Frequenza dati} \\ \hline
-\textbf{SMART16} & da 01/01/2020 a 31/12/2020 & \textit{counts} & circa 2 minuti \\ \hline
+\textbf{SMART16} & da 01/01/2020 a 31/12/2020 & \textit{counts} & circa due minuti \\ \hline
 \textbf{ARPAT} & da 01/01/2020 a 31/12/2020 & µg/m³ & medie giornaliere \\ \hline
 \end{tabular}
 \captionsetup{justification=centering}
@@ -96,7 +95,7 @@ La figura \ref{fig:arpat-no2} invece riporta l'andamento della concentrazione di
 
 \subsection{Dataset \ce{PM_{2.5}} e \ce{PM10}}\label{ssec:dataset-pm}
 Come per \ce{NO2}, i dati ARPAT (Capannori) invece sono stati collezionati tramite API da sito ufficiale, e poi confrontati con i dati di AirQino.
-Anche in questo caso ci sono delle differenze tra i due set di dati:\\
+Anche in questo caso ci sono delle differenze tra i due set di dati:
 
 \begin{table}[H]
 \centering
@@ -104,8 +103,8 @@ Anche in questo caso ci sono delle differenze tra i due set di dati:\\
 \begin{tabular}{|l|l|l|l|}
 \cline{2-4}
 \multicolumn{1}{c|}{} & \textbf{Periodo} & \textbf{Unità} & \textbf{Frequenza dati} \\ \hline
-\textbf{SMART16} & da 01/09/2020 a 31/08/2021 & µg/m³ & circa 2 minuti \\ \hline
-\textbf{ARPAT} & da 01/09/2020 a 31/08/2021 & µg/m³ & medie ogni 8h \\ \hline
+\textbf{SMART16} & da 01/09/2020 a 31/08/2021 & µg/m³ & circa due minuti \\ \hline
+\textbf{ARPAT} & da 01/09/2020 a 31/08/2021 & µg/m³ & medie ogni otto ore \\ \hline
 \end{tabular}
 \captionsetup{justification=centering}
 \caption{Differenze tra i dati di SMART16 e ARPAT (per \ce{PM})}
@@ -113,9 +112,7 @@ Anche in questo caso ci sono delle differenze tra i due set di dati:\\
 \end{table}
 
 Il sensore utilizzato dalle centraline SMART è il \textbf{SDS011} (vedi \ref{ssec:hardware}) che fornisce l'uscita direttamente in unità ingegneristica (µg/m³, con una calibrazione di fabbrica indicata nel \textit{datasheet}), quindi in questo caso non c'è bisogno di convertire l'unità di misura nella fase di calibrazione (a differenza di quanto accade con \ce{NO2}).
-
 Nella figura \ref{fig:smart16-pm} sono riportati gli andamenti della concentrazione di \ce{PM_{2.5}} e \ce{PM10} nell'aria (in µg/m³) misurati dalla centralina SMART16 nel periodo di interesse (da 01/09/2020 a 31/08/2021).
-
 La figura \ref{fig:arpat-pm} invece riporta gli andamenti della concentrazione di \ce{PM_{2.5}} e \ce{PM10} nell'aria (in µg/m³) misurato dalla stazione ARPAT di Capannori.
 
 \begin{figure}[H]%
@@ -142,17 +139,17 @@ Per facilitare il caricamento e l'elaborazione, si è resa necessaria una fase i
 \subsubsection{Dataset ARPAT \ce{NO2}}
 Il dataset originale \ce{NO2}, fornito da ARPAT, consiste in un file csv da 8785 misurazioni, con encoding ISO-8859-1, valori separati da punto e virgola (;), e strutturato come in figura \ref{fig:ds-arpat}. In particolare:
 \begin{itemize}
-  \item La data è in formato AAAAMMGG (colonna 'DATA');
-  \item L'ora risulta in formato intero (colonna 'ORA FINE MISURA', con valori da 1 a 24, dove 24 indica le 00:00);
+  \item La data è in formato AAAAMMGG (colonna "DATA");
+  \item L'ora risulta in formato intero (colonna "ORA FINE MISURA", con valori da 1 a 24, dove 24 indica le 00:00);
   \item Data e ora sono da considerarsi con fuso orario locale;
-  \item La colonna VALIDITÀ indica se la misurazione è da considerare valida per la calibrazione oppure no;
-  \item La media oraria è riportata in µg/m³ (u nità di misura come da normativa \cite{dlgs}).
+  \item La colonna "VALIDITÀ" indica se la misurazione è da considerare valida per la calibrazione;
+  \item La media oraria è riportata in µg/m³ (come da normativa \cite{dlgs}).
 \end{itemize}
 
 \begin{figure}[H]
 \centering
 \captionsetup{justification=centering}
-\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/dataset_arpat_no2_prima.png}
+\includegraphics[width=0.70\textwidth,height=\textheight,keepaspectratio]{img/dataset_arpat_no2_prima.png}
 \caption{Struttura del dataset originale \ce{NO2} fornito da ARPAT}
 \label{fig:ds-arpat}
 \end{figure}
@@ -176,14 +173,14 @@ Il risultato è un file csv che si presenta come riportato in figura \ref{fig:ds
 \end{figure}
 
 \subsubsection{Dataset ARPAT \ce{PM_{2.5}} e \ce{PM10}}
-Il dataset originale \ce{PM_{2.5}} e \ce{PM10}, fornito da ARPAT, consiste in un singolo file csv da 33.674 misurazioni con encoding UTF-8, valori separati da virgola (,), e strutturato come in figura \ref{fig:pm-arpat}. In particolare:
+Il dataset originale \ce{PM_{2.5}} e \ce{PM10}, fornito da ARPAT, consiste in un singolo file csv da 33.674 misurazioni con encoding UTF-8, valori separati da virgola, e strutturato come in figura \ref{fig:pm-arpat}. In particolare:
 \begin{itemize}
   \item È stato considerato il periodo da 01/09/2020 a 31/08/2021;
-  \item La data è in formato gg/mm/aaaa (colonna 'DATA');
-  \item L'ora è in formato intero (colonna 'ORA' con valori da 1 a 24, dove 24 indica le 00:00);
+  \item La data è in formato gg/mm/aaaa (colonna "DATA");
+  \item L'ora è in formato intero (colonna "ORA" con valori da 1 a 24, dove 24 indica le 00:00);
   \item Data e ora sono da considerarsi con fuso orario locale;
   \item I valori di \ce{PM_{2.5}} e \ce{PM10} sono riportati rispettivamente nelle colonne "PM2.5\_LU-CAPANNORI" e "PM10\_LU-CAPANNORI";
-  \item I dati sono riportati come medie orarie, ma di fatto rappresentano medie ogni 8 ore.
+  \item I dati sono riportati come medie orarie, ma di fatto rappresentano medie ogni otto ore.
 \end{itemize}
 
 \begin{figure}[H]
@@ -209,13 +206,16 @@ Il risultato è un file csv di 4211 misurazioni che si presenta come riportato i
 \centering
 \captionsetup{justification=centering}
 \includegraphics[width=0.65\textwidth,height=\textheight,keepaspectratio]{img/dataset_arpat_pm_dopo.png}
-\caption{Struttura del dataset ARPAT \ce{PM_{2.5}} e \ce{PM10} processato\\con ricampionamento a 8 ore}
+\caption{Struttura del dataset ARPAT \ce{PM_{2.5}} e \ce{PM10} processato\\con ricampionamento a otto ore}
 \label{fig:ds-arpat-pm-dopo}
 \end{figure}
 
 
 \subsubsection{Dataset SMART16}
-Il dataset originale per la centralina SMART16 di AirQino consiste in due file csv (uno di 201.279 misurazioni per \ce{NO2}, e l'altro di 324.431 misurazioni per \ce{PM_{2.5}} e \ce{PM10}), strutturati rispettivamente come in figura \ref{fig:no2-smart-ds} e \ref{fig:pm-smart-ds}. In particolare:
+Il dataset originale per la centralina SMART16 di AirQino consiste in due file csv (uno di 201.279 misurazioni per \ce{NO2}, e l'altro di 324.431 misurazioni per \ce{PM_{2.5}} e \ce{PM10}), strutturati rispettivamente come in figura \ref{fig:no2-smart-ds} e \ref{fig:pm-smart-ds}. 
+
+
+In particolare:
 
 \begin{itemize}
   \item Nel primo ci sono dati dal 01/01/2020 al 31/12/2020, nel secondo invece dal 18/08/2020 al 30/08/2021;
@@ -223,8 +223,8 @@ Il dataset originale per la centralina SMART16 di AirQino consiste in due file c
   \item I valori di \ce{NO2} sono riportati nella colonna "no2";
   \item I valori di \ce{PM_{2.5}} e \ce{PM10} sono riportati rispettivamente nelle colonne "pm2\_5" e "pm10";
   \item In entrambi i file sono riportate anche le coordinate GPS inviate dalla centralina al momento della misurazione (colonne "long" e "lat");
-  \item Le colonne tair, rad, co2, o3, co, voc, ds18 si riferiscono rispettivamente a temperatura ambientale, umidità, \ce{CO2}, \ce{O2}, \ce{CO}, \ce{VOC} e temperatura interna;
-  \item In entrambi i file i dati sono riportati con frequenza di circa 2 minuti.
+  \item Le colonne "tair", "rad", "co2", "o3", "co", "voc", "ds18" si riferiscono rispettivamente a temperatura ambientale, umidità, \ce{CO2}, \ce{O2}, \ce{CO}, \ce{VOC} e temperatura interna;
+  \item In entrambi i file i dati sono riportati con frequenza di circa due minuti.
 \end{itemize}
 
 \begin{figure}[H]
@@ -254,8 +254,8 @@ Di seguito sono riportati i risultati del preprocessamento dei due dataset:
 \begin{figure}[H]%
     \centering
     \captionsetup{justification=centering}
-    \subfloat[\centering Dataset \ce{NO2} processato]{{\includegraphics[width=6.7cm]{img/no2_smart_ds_dopo} }}%
-    \subfloat[\centering Dataset \ce{PM_{2.5}} e \ce{PM10} processato]{{\includegraphics[width=6.4cm]{img/pm_smart_ds_dopo} }}%
+    \subfloat[\centering Dataset \ce{NO2} processato]{{\includegraphics[width=5.9cm]{img/no2_smart_ds_dopo} }}%
+    \subfloat[\centering Dataset \ce{PM} processato]{{\includegraphics[width=5.6cm]{img/pm_smart_ds_dopo} }}%
     \caption{Struttura dei dataset SMART16 processati\\con ricampionamento a una e otto ore}%
     \label{fig:ris-prepro}%
 \end{figure}
@@ -267,7 +267,7 @@ I risultati di questa unione sono riportati di seguito (figure \ref{fig:no2-ds-f
 \begin{figure}[H]
 \centering
 \captionsetup{justification=centering}
-\includegraphics[width=0.55\textwidth,height=\textheight,keepaspectratio]{img/no2_ds_final}
+\includegraphics[width=0.45\textwidth,height=\textheight,keepaspectratio]{img/no2_ds_final}
 \caption{Struttura del dataset finale per \ce{NO2} (SMART16 vs ARPAT)}
 \label{fig:no2-ds-final}
 \end{figure}
@@ -275,15 +275,14 @@ I risultati di questa unione sono riportati di seguito (figure \ref{fig:no2-ds-f
 \begin{figure}[H]
 \centering
 \captionsetup{justification=centering}
-\includegraphics[width=0.55\textwidth,height=\textheight,keepaspectratio]{img/pm_ds_final}
+\includegraphics[width=0.45\textwidth,height=\textheight,keepaspectratio]{img/pm_ds_final}
 \caption{Struttura del dataset finale per PM (SMART16 vs ARPAT)}
 \label{fig:pm-ds-final}
 \end{figure}
 
 % Regressione
 \section{Regressione}\label{sec:regressione}
-Nella statistica applicata si osserva (o si ipotizza) l’esistenza di relazioni fra due o più grandezze. Sorge allora il problema di determinare una funzione che, in base ai dati ricavati mediante esperimenti o rilevazioni statistiche, rappresenti questi relazioni permettendo di analizzare meglio i fenomeni osservati. 
-
+Nella statistica applicata si osserva l’esistenza di relazioni fra due o più grandezze. Sorge allora il problema di determinare una funzione che, in base ai dati ricavati mediante esperimenti o rilevazioni statistiche, rappresenti questi relazioni permettendo di analizzare meglio i fenomeni osservati. 
 Con il termine \textit{regressione} si intende una tecnica statistica che serve a stimare la relazione esistente tra due o più variabili.
 
 \subsection{Introduzione}\label{ssec:regressione-introduzione}
@@ -298,9 +297,11 @@ Per fare questo si può procedere in due modi:
 
 Osservando la relazione tra le variabili si sceglie il tipo di funzione interpolante: lineare, quadratica, esponenziale, ecc. e quindi si procede alla determinazione dei parametri, ossia delle costanti che compaiono nella funzione scelta in modo che sia soddisfatta una condizione di accostamento prefissata.
 
-Per conseguire questo scopo il metodo più utilizzato è il metodo dei \textbf{minimi quadrati}, che costituisce un’applicazione della ricerca del minimo di una funzione di più variabili mediante gli strumenti dell’analisi infinitesimale.
+Per conseguire questo scopo il metodo più utilizzato è il metodo dei \textbf{minimi quadrati}, che costituisce un’applicazione della ricerca del minimo di una funzione di più variabili mediante gli strumenti dell’analisi infinitesimale.\\
 
-Considerate due variabili $X$ e $Y$ sulle quali vengono effettuate $n$ rilevazioni: $$\left(x_{1}, y_{1}\right),\left(x_{2}, y_{2}\right), \ldots,\left(x_{i}, y_{i}\right), \ldots,\left(x_{n}, y_{n}\right)$$
+Considerate due variabili $X$ e $Y$ sulle quali vengono effettuate $n$ rilevazioni: 
+
+$$\left(x_{1}, y_{1}\right),\left(x_{2}, y_{2}\right), \ldots,\left(x_{i}, y_{i}\right), \ldots,\left(x_{n}, y_{n}\right)$$\smallskip
 
 Sia $y=f(x; a, b, c, ..., k)$ la funzione interpolante scelta. Siano inoltre $\hat{y}_{i}$ valori predetti sulla curva corrispondenti ai valori $x_i$ rilevati.
 
@@ -415,7 +416,7 @@ Per verificare l'indipendenza tra la variabile indipendente e i residui è utile
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.65\textwidth,height=\textheight,keepaspectratio]{img/residual_plot}
+\includegraphics[width=0.70\textwidth,height=\textheight,keepaspectratio]{img/residual_plot}
 \caption{Esempio di plot dei residui}
 \label{fig:residui-plot}
 \end{figure}
@@ -608,7 +609,7 @@ che, risolto, permette di ricavare i parametri $a_0$, $a_1$, $a_2$, ..., $a_k$.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.55\textwidth,height=\textheight,keepaspectratio]{img/poly_reg_example.png}
+\includegraphics[width=0.60\textwidth,height=\textheight,keepaspectratio]{img/poly_reg_example.png}
 \caption{Esempio di regressione polinomiale di terzo grado}
 \label{fig:poly_reg}
 \end{figure}
@@ -732,6 +733,7 @@ I risultati dell'analisi grafica dei residui sono riportati in figura \ref{fig:r
 \end{figure}
 
 La tabella \ref{fig:risultati-no2} mostra i risultati, in termini di $R^2$ e RMSE, della procedura di calibrazione applicata al sensore di \ce{NO2} per ciascun modello di regressione, su tutto il dataset. In grassetto è stato evidenziato il modello migliore in termini di $R^2$ e RMSE.
+In figura \ref{fig:risultati-no2-hist} sono riportati gli stessi risultati in forma di istogramma, ordinati per performance.
 
 \begin{table}[H]
     \footnotesize
@@ -759,13 +761,11 @@ La tabella \ref{fig:risultati-no2} mostra i risultati, in termini di $R^2$ e RMS
     \label{fig:risultati-no2}
 \end{table}
 
-E in figura \ref{fig:risultati-no2-hist} gli stessi risultati in forma di istogramma, ordinati per performance:
-
 \begin{figure}[H]%
     \centering
     \captionsetup{justification=centering}
-    \subfloat[\centering Risultati $\mathrm{R^2}$]{{\includegraphics[width=6.9cm]{img/hist_no2_1} }}%
-    \subfloat[\centering Risultati RMSE]{{\includegraphics[width=6.9cm]{img/hist_no2_2} }}%
+    \subfloat[\centering Risultati $\mathrm{R^2}$]{{\includegraphics[width=6.7cm]{img/hist_no2_1} }}%
+    \subfloat[\centering Risultati RMSE]{{\includegraphics[width=6.7cm]{img/hist_no2_2} }}%
     \caption{Istogramma dei risultati della calibrazione \ce{NO2}}%
     \label{fig:risultati-no2-hist}%
 \end{figure}
@@ -774,7 +774,7 @@ Per quanto riguarda l'applicazione del modello lineare \textit{avanzato}, è sta
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/cook_no2.png}
+\includegraphics[width=0.80\textwidth,height=\textheight,keepaspectratio]{img/cook_no2.png}
 \caption{Rimozione di outlier con distanza di Cook su dataset \ce{NO2}}%
 \label{fig:cook-no2}%
 \end{figure}
@@ -873,17 +873,17 @@ I risultati dell'analisi grafica dei residui sono riportati in figura \ref{fig:r
 \begin{figure}[H]
 \centering
 \subfloat[Scatterplot]{%
-\includegraphics[width=0.42\textwidth]{img/res_pm2.5_scatter}%
+\includegraphics[width=0.45\textwidth]{img/res_pm2.5_scatter}%
 }\hfil
 \subfloat[Plot]{%
-\includegraphics[width=0.42\textwidth]{img/res_pm2.5_plot}%
+\includegraphics[width=0.45\textwidth]{img/res_pm2.5_plot}%
 }
 
 \subfloat[Distribuzione]{%
-\includegraphics[width=0.42\textwidth]{img/res_pm2.5_distr}%
+\includegraphics[width=0.45\textwidth]{img/res_pm2.5_distr}%
 }\hfil
 \subfloat[Q-Q plot]{%
-\includegraphics[width=0.42\textwidth]{img/res_pm2.5_qq}%
+\includegraphics[width=0.45\textwidth]{img/res_pm2.5_qq}%
 }
 \caption{Analisi dei residui dataset \ce{PM_{2.5}}}
 \label{fig:residui_pm2.5}
@@ -927,11 +927,13 @@ E in figura \ref{fig:risultati-pm2.5-hist} gli stessi risultati in forma di isto
     \label{fig:risultati-pm2.5-hist}%
 \end{figure}
 
+\clearpage
+
 Anche in questo caso nel modello lineare \textit{avanzato}, è stata riapplicata la regressione dopo aver eliminato tutti i punti con distanza di Cook (\ref{sssec:regressione-cook}) sopra la soglia pari a $\frac{4}{numero\ di\ osservazioni} = \frac{4}{1037} \approx 0,0038$. In particolare sono stati individuati e rimossi 80 outlier su 1037 osservazioni totali, circa il 7.71\% (figura \ref{fig:cook-pm2.5}).
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/cook_pm2.5.png}
+\includegraphics[width=0.80\textwidth,height=\textheight,keepaspectratio]{img/cook_pm2.5.png}
 \caption{Rimozione di outlier con distanza di Cook su dataset \ce{PM_{2.5}}}%
 \label{fig:cook-pm2.5}%
 \end{figure}
@@ -1021,7 +1023,7 @@ Il confronto tra le misurazioni AirQino e le misurazioni di riferimento ARPAT pe
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.55\textwidth,height=\textheight,keepaspectratio]{img/sc_pm10.png}
+\includegraphics[width=0.45\textwidth,height=\textheight,keepaspectratio]{img/sc_pm10.png}
 \caption{Scatterplot dataset \ce{PM_{10}}}
 \label{fig:scatterplot_pm10}
 \end{figure}
@@ -1031,17 +1033,17 @@ I risultati dell'analisi grafica dei residui sono riportati in figura \ref{fig:r
 \begin{figure}[H]
 \centering
 \subfloat[Scatterplot]{%
-\includegraphics[width=0.42\textwidth]{img/res_pm10_scatter}%
+\includegraphics[width=0.45\textwidth]{img/res_pm10_scatter}%
 }\hfil
 \subfloat[Plot]{%
-\includegraphics[width=0.42\textwidth]{img/res_pm10_plot}%
+\includegraphics[width=0.45\textwidth]{img/res_pm10_plot}%
 }
 
 \subfloat[Distribuzione]{%
-\includegraphics[width=0.42\textwidth]{img/res_pm10_distr}%
+\includegraphics[width=0.45\textwidth]{img/res_pm10_distr}%
 }\hfil
 \subfloat[Q-Q plot]{%
-\includegraphics[width=0.42\textwidth]{img/res_pm10_qq}%
+\includegraphics[width=0.45\textwidth]{img/res_pm10_qq}%
 }
 \caption{Analisi dei residui dataset \ce{PM_{10}}}
 \label{fig:residui_pm10}
@@ -1085,11 +1087,13 @@ E in figura \ref{fig:risultati-pm10-hist} gli stessi risultati in forma di istog
     \label{fig:risultati-pm10-hist}%
 \end{figure}
 
+\clearpage
+
 Anche in questo caso nel modello lineare \textit{avanzato}, è stata riapplicata la regressione dopo aver eliminato tutti i punti con distanza di Cook (\ref{sssec:regressione-cook}) sopra la soglia pari a $\frac{4}{numero\ di\ osservazioni} = \frac{4}{1037} \approx 0,0038$. In particolare sono stati individuati e rimossi 70 outlier su 1037 osservazioni totali, circa il 6.71\% (figura \ref{fig:cook-pm10}).
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.75\textwidth,height=\textheight,keepaspectratio]{img/cook_pm10.png}
+\includegraphics[width=0.80\textwidth,height=\textheight,keepaspectratio]{img/cook_pm10.png}
 \caption{Rimozione di outlier con distanza di Cook su dataset \ce{PM_{10}}}%
 \label{fig:cook-pm10}%
 \end{figure}
@@ -1180,7 +1184,7 @@ Per questo motivo, la corretta convalida di un modello sviluppato per prevedere 
 
 Una delle procedure per validare un modello di regressione consiste nel testarlo su nuove osservazioni (non viste in fase di addestramento) per poi valutare se le prestazioni predittive del modello siano effettivamente in linea con le aspettative. In questo contesto è ragionevole aspettarsi che la predizione del modelli risulti coerente con le concentrazioni attese in determinati periodi, ad esempio in base alla \textbf{stagionalità}. Ad esempio nel periodo estivo sono più alti i livelli di \ce{O3} (dovuti alla maggiore radiazione solare), mentre nel periodo invernale salgono i valori di \ce{NO2} e \ce{PM}, dovuti sia al traffico che agli impianti di riscaldamento.
 
-Per svolgere la fase di validazione è stato quindi considerato il periodo dal 01/09/21 al 20/11/21, di cui sono disponibili sia le misurazioni della centralina SMART16 di AirQino (ottenute con query sul database) che della stazione ARPAT di Capannori (disponibili sul sito ufficiale tramite API \cite{arpat}).
+Per svolgere la fase di validazione è stato quindi considerato il periodo dal 01/09/21 al 20/11/21, di cui sono disponibili sia le misurazioni della centralina SMART16 di AirQino (ottenute con query sul database) che della stazione ARPAT di Capannori (disponibili sul sito ufficiale tramite API \cite{arpat}).\\
 
 Le tabelle \ref{tab:val-pm25} e \ref{tab:val-pm10} riassumono i risultati, in termini di $R^2$ e RMSE, del confronto di misurazione della concentrazione di \ce{PM_{2.5}} e \ce{PM_{10}} della centralina SMART16 AirQino nelle due configurazioni (ovvero con sensori calibrati e non calibrati) nel periodo di validazione.
 
@@ -1206,7 +1210,7 @@ Le tabelle \ref{tab:val-pm25} e \ref{tab:val-pm10} riassumono i risultati, in te
 \textbf{Calibrato} & 0.494 & 5.711 \\ \hline
 \textbf{Non calibrato} & 0.431 & 6.942 \\ \hline
 \end{tabular}
-\caption{confronto nella misurazione delle concentrazioni medie di \ce{PM_{10}} tra stazione AirQino calibrata e non calibrata rispetto alla stazione di riferimento ARPAT (periodo di validazione dal 01/09/21 al 20/11/21).}
+\caption{Confronto nella misurazione delle concentrazioni medie di \ce{PM_{10}} tra stazione AirQino calibrata e non calibrata rispetto alla stazione di riferimento ARPAT (periodo di validazione dal 01/09/21 al 20/11/21).}
 \label{tab:val-pm10}
 \end{table}
 
@@ -1215,14 +1219,14 @@ Le figure \ref{fig:val-pm2.5} e \ref{fig:val-pm10} mostrano l'andamento temporal
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{img/val_pm2.5}
-\caption{Confronto tra l'andamento temporale delle concentrazioni di \ce{PM_{2.5}} misurate a Capannori (LU) dalla stazione AirQino calibrata e non calibrata con riferimento alla stazione ARPAT (medie a 8h, periodo dal 01/09/21 al 20/11/21)}
+\caption{Confronto tra l'andamento temporale delle concentrazioni di \ce{PM_{2.5}} misurate a Capannori (LU) dalla stazione AirQino calibrata e non calibrata con riferimento alla stazione ARPAT (medie a otto ore, periodo dal 01/09/21 al 20/11/21)}
 \label{fig:val-pm2.5}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{img/val_pm10}
-\caption{Confronto tra l'andamento temporale delle concentrazioni di \ce{PM_{10}} misurate a Capannori (LU) dalla stazione AirQino calibrata e non calibrata con riferimento alla stazione ARPAT (medie a 8h, periodo dal 01/09/21 al 20/11/21)}
+\caption{Confronto tra l'andamento temporale delle concentrazioni di \ce{PM_{10}} misurate a Capannori (LU) dalla stazione AirQino calibrata e non calibrata con riferimento alla stazione ARPAT (medie a otto ore, periodo dal 01/09/21 al 20/11/21)}
 \label{fig:val-pm10}
 \end{figure}
 
@@ -1250,6 +1254,6 @@ Dai confronti sull'andamento temporale (figure \ref{fig:val-pm2.5} e \ref{fig:va
 
 Modelli di regressione polinomiale così come altri modelli non lineari (Random Forest, Gradient Boosting, SVR, KernelRidge) non hanno portato miglioramenti rispetto ai modelli lineari. In particolare da questa analisi è risultato evidente come la presenza di \textit{outlier} influisca significativamente sulle performance del modello, e strategie che implicano tecniche di rimozione di outlier abbiano riportato performance migliori rispetto a tecniche più complesse (anche non lineari).
 
-In generale, i risultati per i \ce{PM_{2.5}} e \ce{PM_10} sono risultati di gran lunga migliori rispetto alla calibrazione dei sensori di \ce{NO2}. Questo si può ricondurre in parte alla diversa frequenza dei dati (medie orarie per \ce{NO2}, medie a 8h per i PM che riducono la rumorosità dei dati), e in parte anche alla natura e alle differenze dei sensori stessi (vedi \ref{ssec:hardware}), questi infatti hanno un principio fisico di funzionamento diverso (\textbf{SDS011} per i PM è ad infrarossi, più costoso e con output calibrato di fabbrica, mentre il \textbf{MiCS-2714} per \ce{NO2} funziona per ossidazione e richiede calibrazione). La difficoltà di utilizzare sensori low cost per i gassosi è ampiamente dimostrata anche in letteratura \cite{low_cost_gas_sensors}. Inoltre questo tipo di sensori possono essere soggetti a contaminazione incrociata da altri gas, che interferiscono sia con la sensibilità che con la precisione della misurazione \cite{cross_contamination}.
+In generale, i risultati per i \ce{PM_{2.5}} e \ce{PM_10} sono risultati di gran lunga migliori rispetto alla calibrazione dei sensori di \ce{NO2}. Questo si può ricondurre in parte alla diversa frequenza dei dati (medie orarie per \ce{NO2}, medie a otto ore per i PM che riducono la rumorosità dei dati), e in parte anche alla natura e alle differenze dei sensori stessi (vedi \ref{ssec:hardware}), questi infatti hanno un principio fisico di funzionamento diverso (\textbf{SDS011} per i PM è ad infrarossi, più costoso e con output calibrato di fabbrica, mentre il \textbf{MiCS-2714} per \ce{NO2} funziona per ossidazione e richiede calibrazione). La difficoltà di utilizzare sensori low cost per i gassosi è ampiamente dimostrata anche in letteratura \cite{low_cost_gas_sensors}. Inoltre questo tipo di sensori possono essere soggetti a contaminazione incrociata da altri gas, che interferiscono sia con la sensibilità che con la precisione della misurazione \cite{cross_contamination}.
 
 Infine, i risultati per \ce{PM_{2.5}} si sono dimostrati essere sempre tendezialmente migliori dei corrispettivi \ce{PM_{10}}. Questo risulta in linea con quanto riportato in studi correlati \cite{s18092843} e altre reti di monitoraggio ambientale low-cost \cite{eval_zikova}, \cite{s17081805}, \cite{s17081922}.

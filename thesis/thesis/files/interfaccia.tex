@@ -9,6 +9,8 @@ Attualmente, per tutte le centraline e sensori AirQino, il dato calibrato viene 
 
 $$y(t)=k_{1} x(t)+k_{2} x^{2}(t)+k_{3} T_{int}(t)+k_{4}$$\smallskip
 
+\clearpage
+
 dove:
 
 \begin{itemize}
@@ -64,6 +66,8 @@ Dove:
   \item \textbf{Psycopg2} \cite{psycopg2} è una libreria Python per la connessione a database che utilizzano Postgres (come quello di AirQino);
   \item \textbf{Docker} \cite{docker} è una tecnologia di containerizzazione che consente di organizzare le applicazioni in \textit{container}, componenti isolati che combinano il codice sorgente dell'applicazione con le librerie del sistema operativo e le dipendenze necessarie per eseguire il codice in qualsiasi ambiente. 
 \end{itemize}
+
+\clearpage
 
 \subsection{Frontend}\label{ssec:interfaccia-frontend}
 
@@ -145,13 +149,13 @@ La tabella è ordinabile per colonne (tramite un click su ciascuna di esse) e fi
 \end{figure}
 
 In caso di esito negativo per un sensore (ad esempio se il sensore o la centralina specificati non esistono nel database), la riga corrispondente risulta colorata di rosso e la colonna \textbf{Result} fornisce un aiuto nel capire il motivo (es. "Failed: station SMART999 does not exist").
+Se invece i coefficienti non erano presenti nel database e sono stati caricati per la prima volta, la riga risulta colorata di azzurro. La figura \ref{fig:interfaccia-7} riporta un esempio di diversa colorazione delle righe in base all'esito: verde per coefficienti aggiornati, rosso per caricamento fallito e azzurro per coefficienti aggiunti per la prima volta.
 
-Se invece i coefficienti non erano presenti nel database e sono stati caricati per la prima volta, la riga risulta colorata di azzurro. La figura \ref{fig:interfaccia-7} riporta un esempio di diversa colorazione delle righe in base all'esito.
-
+\vspace{2mm}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.70\textwidth,height=\textheight,keepaspectratio]{img/interfaccia_7}
-\caption{Esempio di colorazione delle righe della tabella in base all'esito: verde per coefficienti aggiornati, rosso per caricamento fallito e azzurro per coefficienti aggiunti per la prima volta}
+\includegraphics[width=0.60\textwidth,height=\textheight,keepaspectratio]{img/interfaccia_7}
+\caption{Esempio di colorazione delle righe della tabella}
 \label{fig:interfaccia-7}
 \end{figure}
 
@@ -221,7 +225,7 @@ La CI/CD porta diversi vantaggi, tra cui:
   \item Consegna più rapida del software.
 \end{itemize}
 
-Lo strumento di CI scelto per questa applicazione è \textbf{Jenkins} \cite{jenkins}. Si tratta di un software open source di integrazione continua, scritto in Java, che permette di automatizzare il processo di integrazione dei cambiamenti all'interno di un codice sorgente, con la possibiltà di eseguire una serie di controlli per verificarne la correttezza.
+Lo strumento di CI scelto per questa applicazione è \textbf{Jenkins} \cite{jenkins}. Si tratta di un software open source di integrazione continua, scritto in Java, che permette di automatizzare il processo di integrazione dei cambiamenti all'interno di un codice sorgente, con la possibiltà di eseguire una serie di controlli per verificarne la correttezza.\\
 
 Tra le varie caratteristiche, Jenkins offre un sistema chiamato \textit{pipeline}, ovvero uno script (chiamato \textit{Jenkinsfile}) che fornisce a Jenkins una serie di lavori (\textit{stage}) da eseguire in modo simile a una pipeline (uno dopo l'altro).
 

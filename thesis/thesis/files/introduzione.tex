@@ -69,10 +69,10 @@ Il lavoro svolto si colloca proprio in questo contesto, con il duplice obiettivo
 % La piattaforma AirQino
 \section{La piattaforma AirQino}\label{sec:airqino}
 AirQino è una piattaforma di monitoraggio ambientale ad alta precisione, realizzata dal Consiglio Nazionale delle Ricerche (CNR) in collaborazione con TEA Group e Quanta Srl. \cite{GUALTIERI2017609}
-
-Il progetto nasce dall’esigenza di realizzare una rete di stazioni mobile per un monitoraggio più completo della qualità dell’aria in ambito urbano, in linea con la direttiva europea 2008/50/EC \cite{direttiva}, che riconosce e regolamenta l’importanza di misure aggiuntive rispetto a quelle delle stazioni fisse.
+Il progetto nasce dall’esigenza di realizzare una rete di stazioni mobile per un monitoraggio più completo della qualità dell’aria in ambito urbano, in linea con la direttiva europea 2008/50/EC \cite{direttiva}, che riconosce e regolamenta l’importanza di misure aggiuntive rispetto a quelle delle stazioni fisse. 
 
 Alcune delle caratteristiche di AirQino sono:
+
 \begin{itemize}
   \item Sistema di rilevamento \textbf{polifunzionale}: il sistema offre la possibilità di rilevare gli agenti inquinanti presenti in atmosfera;
   \item Sistema \textbf{versatile} e dispiegabile in più punti per creare una rete di monitoraggio capillare, flessibile ed economica;
@@ -80,29 +80,33 @@ Alcune delle caratteristiche di AirQino sono:
   \item Tutte le stazioni sono \textbf{configurabili} con un’ampia gamma di sensori aggiuntivi a seconda delle proprie esigenze. \cite{airqino}
 \end{itemize}
 
+La rete di sensori AirQino consente rilevare le principali sostanze inquinanti riscontrabili nell’aria (\ce{NO2}, \ce{O3}, \ce{CO}, \ce{PM_{2.5}}, \ce{PM_{10}}) ma anche ulteriori parametri ambientali, come la temperatura, l'umidità relativa dell’aria e il principale gas climalterante, la \ce{CO2}.
+Inoltre la centralina è \textbf{estendibile}, e permette di aggiungere ulteriori sensori ausiliari in base alle necessità.
+
 \begin{figure}[H]
 \centering
 \captionsetup{justification=centering}
-\includegraphics[width=0.50\textwidth,height=\textheight,keepaspectratio]{img/airqino_stazione}
+\includegraphics[width=0.60\textwidth,height=\textheight,keepaspectratio]{img/airqino_stazione}
 \caption{Una centralina AirQino\\Fonte: \url{https://airqino.it}}
 \label{fig:airqino_stazione}
 \end{figure}
 
-La rete di sensori AirQino consente rilevare le principali sostanze inquinanti riscontrabili nell’aria (\ce{NO2}, \ce{O3}, \ce{CO}, \ce{PM_{2.5}}, \ce{PM_{10}}) ma anche ulteriori parametri ambientali, come la temperatura, l'umidità relativa dell’aria e il principale gas climalterante, la \ce{CO2}.
-Inoltre la centralina è \textbf{estendibile}, e permette di aggiungere ulteriori sensori ausiliari in base alle necessità.\\
-
-La piattaforma AirQino mette inoltre a disposizione un portale web per la consultazione dei dati, all'indirizzo \url{https://airqino.magentalab.it}. La la piattaforma consiste in una mappa interattiva che visualizza tutte le reti di centraline. Selezionata una stazione di interesse, vengono mostrati dettagli e foto della stazione stessa (figura \ref{fig:airqino_web}). Per ciascun sensore della centralina selezionata è possibile visualizzare grafici di andamento medio settimanali, insieme al dato istantaneo relativo all'ultima misurazione, nell'unità di misura come da normativa. \cite{airqino}
-
 \begin{figure}[H]
 \centering
 \captionsetup{justification=centering}
-\includegraphics[width=0.70\textwidth,height=\textheight,keepaspectratio]{img/airqino_web}
+\includegraphics[width=0.80\textwidth,height=\textheight,keepaspectratio]{img/airqino_web}
 \caption{La piattaforma web di AirQino\\Fonte: \url{https://airqino.magentalab.it}}
 \label{fig:airqino_web}
 \end{figure}
 
+\clearpage
+
+La piattaforma AirQino mette inoltre a disposizione un portale web per la consultazione dei dati, all'indirizzo \url{https://airqino.magentalab.it}. 
+
+La piattaforma consiste in una mappa interattiva che visualizza tutte le reti di centraline. Selezionata una stazione di interesse, vengono mostrati dettagli e foto della stazione stessa (figura \ref{fig:airqino_web}). Per ciascun sensore della centralina selezionata è possibile visualizzare grafici di andamento medio settimanali, insieme al dato istantaneo relativo all'ultima misurazione, nell'unità di misura come da normativa. \cite{airqino}
+
 \subsection{Architettura e tecnologie}\label{ssec:airqino-architettura}
-L'architettura del sistema AirQino è organizzata nei seguenti elementi principali:
+L'architettura del sistema AirQino è organizzata nei seguenti elementi principali (\ref{fig:airqino-arch}):
 
 \begin{itemize}
   \item \textbf{Gateway}: server che espone servizi compatibili con le centraline, e normalizza i dati trasmessi verso il server di raccolta. Questa applicazione, realizzata con Java e framework \textbf{Spring} \cite{spring}, fornisce un endpoint con lo stesso indirizzo a cui le centraline comunicano, in modo da garantire continuità di servizio. Il gateway ha anche il compito di segnalare eventuali interruzioni di funzionamento, secondo regole ben definite. Il gateway produce anche un output su protocollo \textit{MQTT2}, utilizzando un broker open source per pubblicare i dati verso il backend;
@@ -119,9 +123,9 @@ L'architettura del sistema AirQino è organizzata nei seguenti elementi principa
 \begin{figure}[H]
 \centering
 \captionsetup{justification=centering}
-\includegraphics[width=0.90\textwidth,height=\textheight,keepaspectratio]{img/airqino_arch}
+\includegraphics[width=0.85\textwidth,height=\textheight,keepaspectratio]{img/airqino_arch}
 \caption{Schema architetturale della piattaforma AirQino}
-\label{fig:airqino}
+\label{fig:airqino-arch}
 \end{figure}
 
 % Sensori
@@ -176,10 +180,7 @@ Il MiCS-2714 è un sensore di tipo MOS, ovvero costituito da un \textit{film} de
 \end{figure}
 
 Di solito il  materiale funzionale del \textit{film} più adatto per la rilevazione di \ce{NO2} è l’ossido  di  ferro e lantanio (\ce{LaFeO3}), che oltre ad avere una buona sensibilità agli ossidi di azoto ha una bassa sensibilità al  monossido di carbonio. Questo tipo  di  materiale  funzionale risulta  molto  sensibile  ai  gas  ossidanti, come \ce{O3} e \ce{NO2}. 
-
-Qualsiasi sia il materiale funzionale, il principio di funzionamento per tutti i MOS nella rilevazione di gas è quello di interagire con il gas presente all’interno dell’atmosfera tramite reazioni di ossidoriduzione, portando a un cambiamento di conduttività, che viene rilevato da un circuito apposito. Le variazioni della conduttività dei sensori è fortemente influenzata dalle variazioni di umidità e temperatura. \cite{relazione_alice}
-
-Di seguito le specifiche del sensore MiCS-2714 come riportate dal \textit{datasheet}:
+Qualsiasi sia il materiale funzionale, il principio di funzionamento per tutti i MOS nella rilevazione di gas è quello di interagire con il gas presente all’interno dell’atmosfera tramite reazioni di ossidoriduzione, portando a un cambiamento di conduttività, che viene rilevato da un circuito apposito. Le variazioni della conduttività dei sensori è fortemente influenzata dalle variazioni di umidità e temperatura \cite{relazione_alice}. Di seguito le specifiche del sensore MiCS-2714 come riportate dal \textit{datasheet}:
 
 \begin{table}[H]
     \footnotesize
@@ -204,16 +205,14 @@ Il sensore SDS011 basa il suo funzionamento sul principio della diffusione ottic
 \begin{figure}[H]%
     \centering
     \captionsetup{justification=centering}
-    \subfloat[\centering Foto del sensore]{{\includegraphics[width=5.9cm]{img/sds1} }}%
-    \subfloat[\centering Componenti interni]{{\includegraphics[width=7.1cm]{img/sds2} }}%
+    \subfloat[\centering Foto del sensore]{{\includegraphics[width=5.3cm]{img/sds1} }}%
+    \subfloat[\centering Componenti interni]{{\includegraphics[width=6.8cm]{img/sds2} }}%
     \caption{Il sensore SDS011 per il rilevamento di \ce{PM_{2.5}} e \ce{PM10}\\Fonte: \url{https://circuitdigest.com}}%
     \label{fig:mics}%
 \end{figure}
 
 Il sensore è costituito da una ventola che aspira l’aria esterna per convogliarla in una camera di misura stagna. All’interno della camera di misura è contenuto un diodo laser e un fotodiodo rilevatore (figura \ref{fig:mics} (b)). Appena l’aria viene immessa nella camera, il laser viene acceso: un fascio di luce laser procede “dritto” senza diffondersi. Quando il laser colpisce il particolato, la sua luce viene diffusa e l’intensità luminosa che si disperde nella camera può essere rilevata dal fotodiodo. 
-
-Il sensore riesce a distinguere tra il \ce{PM10} e il \ce{PM_{2.5}} perché la forma d’onda della luce rilevata dal fotodiodo è correlata con il numero e le dimensioni delle particelle: per questo motivo a bordo del sensore c’è un microcontrollore ad 8 bit che esegue l’analisi. \cite{sds}
-
+Il sensore riesce a distinguere tra il \ce{PM10} e il \ce{PM_{2.5}} perché la forma d’onda della luce rilevata dal fotodiodo è correlata con il numero e le dimensioni delle particelle: per questo motivo a bordo del sensore c’è un microcontrollore ad 8 bit che esegue l’analisi \cite{sds}.
 Di seguito le specifiche del sensore SDS011 come riportate dal \textit{datasheet}:
 
 \begin{table}[H]
