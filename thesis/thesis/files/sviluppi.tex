@@ -8,7 +8,7 @@ Spesso fare analisi mediamente complesse sui dati contenuti in un database può 
 
 Il concetto di \textit{replica} è diverso dal \textit{mirroring}, in cui vengono create una o più copie di un database su diverse istanze del server, e funzionano come copie di riserva (e si attivano soltanto nel caso di guasto del nodo principale).
 
-Un sistema di replica correttamente implementato può offrire diversi vantaggi, tra cui \textbf{riduzione del carico} (perchè i dati replicati possono essere distribuiti su più server), \textbf{efficienza} (i server offrono prestazioni migliori perchè meno gravati da query pesanti) e \textbf{ridondanza} (i dati sono raggiungibili da più indirizzi).
+Un sistema di replica correttamente implementato può offrire diversi vantaggi, tra cui \textbf{riduzione del carico} (perché i dati replicati possono essere distribuiti su più server), \textbf{efficienza} (i server offrono prestazioni migliori perché meno gravati da query pesanti) e \textbf{ridondanza} (i dati sono raggiungibili da più indirizzi).
 
 Di contro, questa tecnica comporta la necessità di mantenimento dei nodi secondari, spesso collocati su server diversi (con i costi a questi associati). Inoltre, repliche errate o non implementate in maniera corretta possono causare la mancata sincronizzazione tra i nodi, portando ad una perdita o incoerenza dei dati.
 
@@ -125,7 +125,7 @@ A questo punto la replica è attiva e sincronizzata 1:1 in tempo reale con il da
 \subsubsection{Automazione con Docker}
 L'intero setup è stato poi automatizzato con Docker \cite{docker} e docker-compose, in modo da avviare la sincronizzazione direttamente all'avvio del container, rendendo la procedura molto più semplice da gestire.
 
-Poichè la creazione della replica richiede l'interruzione dell'istanza Postgres, questa procedura non si può eseguire all'interno del container Docker stesso, perchè si andrebbe a interrompere tutto il container.
+Poichè la creazione della replica richiede l'interruzione dell'istanza Postgres, questa procedura non si può eseguire all'interno del container Docker stesso, perché si andrebbe a interrompere tutto il container.
 Per questo è stato necessario aggiungere i comandi per la replica in uno script di \textit{entrypoint}, che viene eseguito subito prima di avviare il container \cite{dockerfile}:
 \begin{enumerate}
   \item È stato creato un \url{Dockerfile} partendo dall'immagine Timescale ufficiale (\url{timescaledb:latest}), con l'aggiunta di uno script \textit{entrypoint}, in questo modo:
@@ -237,7 +237,7 @@ I dati vengono limitati solo all'ultima settimana tramite una comparazione su cl
 
 La query inoltre fa uso della funzione \textit{time\_bucket} di Timescale, che consente di partizionare la tabella con i dati dei sensori minuto per minuto direttamente in fasce orarie; l'utilizzo combinato con la funzione \textit{avg()} consente poi di estrarre la media del valore su tutta l'ora.
 
-Questo però significa che se si desidera eseguire questa query più di una volta, il database deve eseguire la scansione dell'intera tabella e ricalcolare la media ogni volta. Questo risulta poco efficiente, perchè nella maggior parte dei casi i dati nella tabella non sono cambiati in modo significativo, quindi non è necessario eseguirne nuovamente la scansione.
+Questo però significa che se si desidera eseguire questa query più di una volta, il database deve eseguire la scansione dell'intera tabella e ricalcolare la media ogni volta. Questo risulta poco efficiente, perché nella maggior parte dei casi i dati nella tabella non sono cambiati in modo significativo, quindi non è necessario eseguirne nuovamente la scansione.
 
 La figura \ref{fig:query-prima} mostra i tempi di risposta della query per estrarre la media oraria di \ce{NO2} per tutte le centraline AirQino, prima di aver applicato l'ottimizzazione.
 
@@ -270,7 +270,7 @@ Timescale inoltre introduce il concetto di \textit{hypertable}, normali tabelle 
 Di seguito sono riportati i passi eseguiti sul database di produzione AirQino per l'attivazione del meccanismo di continuous aggregates sulla tabella con i dati dei sensori (\textit{station\_data}):
 
 \begin{enumerate}
-  \item È stata creata la \textit{hypertable} a partire dalla tabella originale, avendo cura di migrare tutti i dati (questo è necessario perchè i continuous aggregates si applicano solo alle \textit{hypertable}):
+  \item È stata creata la \textit{hypertable} a partire dalla tabella originale, avendo cura di migrare tutti i dati (questo è necessario perché i continuous aggregates si applicano solo alle \textit{hypertable}):
 \vspace{1mm}
 \begin{lstlisting}[language=sql]
 SELECT create_hypertable('station_data', 'data_acquired', migrate_data => true);
@@ -324,4 +324,4 @@ Questa query è risultata molto più performante rispetto alla precedente, essen
 \label{fig:query-dopo}
 \end{figure}
 
-Da cui si può notare che con la nuova query, ottimizzata con continuous aggregates, i tempi di risposta risultano costanti per tutte le centraline, indipendentemente dalla quantità di dati (con conseguente riduzione significativa dei tempi di risposta, anche 175 volte meno per alcune centraline), garantendo maggiore \textbf{scalabilità} ed \textbf{efficienza} al sistema.
+Da cui si può notare che con la nuova query, ottimizzata con continuous aggregates, i tempi di risposta risultano costanti per tutte le centraline, indipendentemente dalla quantità di dati. Questo miglioramento ha portato ad una riduzione significativa dei tempi di risposta (anche 175 volte meno per alcune centraline), garantendo maggiore \textbf{scalabilità} ed \textbf{efficienza} al sistema.

@@ -11,7 +11,7 @@ $$y(t)=k_{1} x(t)+k_{2} x^{2}(t)+k_{3} T_{int}(t)+k_{4}$$\smallskip
 
 \clearpage
 
-dove:
+Dove:
 
 \begin{itemize}
   \item $x$ è il \textbf{dato grezzo};
@@ -94,9 +94,9 @@ L'interfaccia, dopo il primo caricamento, si presenta come in figura \ref{fig:in
 \includegraphics[width=0.70\textwidth,height=\textheight,keepaspectratio]{img/interfaccia_1}
 \caption{Interfaccia iniziale dell'applicazione}
 \label{fig:interfaccia-1}
-\end{figure}
+\end{figure} 
 
-Se il formato del file csv scelto non è compatibile con quello previsto (vedi \ref{sec:requisiti}), la pagina restituisce un errore informativo dove viene indicata esattamente quali colonne mancano nell'header (figura \ref{fig:interfaccia-8}).
+Se il formato del file csv scelto non è compatibile con quello previsto (vedi \ref{sec:requisiti}), la pagina restituisce un errore informativo dove viene indicata esattamente quali colonne mancano nell'\textit{header} (figura \ref{fig:interfaccia-8}).
 
 \begin{figure}[H]
 \centering
@@ -161,7 +161,7 @@ Se invece i coefficienti non erano presenti nel database e sono stati caricati p
 
 % Autenticazione
 \subsection{Autenticazione}\label{sec:autenticazione}
-Per la gestione dell'autenticazione è stato scelto il software \textbf{Keycloak} \cite{keycloak}, che risultava essere già installato sul server di Magenta. Keycloak è un prodotto software open source che abilita l'autenticazione \textit{Single Sign-On} (SSO) per applicazioni e servizi. È scritto in Java e supporta i protocolli di federazione delle identità per impostazione predefinita SAML v2 e OpenID Connect (OIDC) o OAuth2. \cite{keycloak}
+Per la gestione dell'autenticazione è stato scelto il software \textbf{Keycloak} \cite{keycloak}, che risultava essere già installato sul server di Magenta. Keycloak è un prodotto software open source che abilita l'autenticazione \textit{Single Sign-On} (SSO) per applicazioni e servizi. È scritto in Java e supporta i protocolli di federazione delle identità per impostazione predefinita SAML v2 e OpenID Connect (OIDC) o OAuth2. \cite{keycloak_art}
 
 In particolare, Keycloak consente a un'applicazione di delegare la propria autenticazione ad un server web predisposto, consentendo allo sviluppatore di concentrarsi sulle funzionalità, senza doversi preoccupare di aspetti di sicurezza e crittografia. Keycloak infatti include un server e un agente: l'agente è installato sulle applicazioni che richiedono l'autenticazione, mentre il server gestisce tutte le richieste di autenticazione. Quando un utente tenta di accedere a una applicazione protetta da Keycloak, l'agente verifica se l'utente è autenticato e, in caso affermativo, fornisce le credenziali appropriate all'applicazione.
 

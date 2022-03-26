@@ -41,7 +41,7 @@ Il monitoraggio della qualità dell'aria è una delle attività più importanti 
 
 I principali inquinanti atmosferici sono l'ossido di zolfo (\ce{SO_{x}}), gli ossidi di azoto (\ce{NO_{x}}), il monossido di carbonio (\ce{CO}), l'ozono (\ce{O_{3}}) e il particolato atmosferico (\ce{PM} o polveri sottili). Per il particolato si parla di \ce{PM10} se le particelle hanno un diametro inferiore o uguale ai 10\textmu m, e \ce{PM_{2.5}} se inferiore o uguale ai 2.5\textmu m.
 
-Il monitoraggio della qualità dell’aria è disciplinato in Italia dal DLgs. n. 155 del 13/08/2010, che recepisce la direttiva europea 2008/50/CE \cite{direttiva}. Il decreto assegna alle varie ARPA\footnote{Agenzia regionale per la protezione ambientale} regionali il compito istituzionale di effettuare il monitoraggio della qualità dell’aria e ne prescrive in dettaglio le modalità. Il monitoraggio viene effettuato attraverso stazioni ubicate in siti di campionamento sia fissi che mobili, in base a precisi criteri di esposizione: si distinguono quindi stazioni di fondo (urbane o suburbane), di traffico urbane, ed industriali. Ad esempio, nella città di Firenze la rete regionale di rilevamento gestita da ARPAT \cite{arpat} è costituita da 6 stazioni: 2 urbane-traffico, 3 urbane-fondo, ed una suburbana-fondo. Avendo valore normativo, le misure effettuate devono inoltre rispondere a precisi criteri di accuratezza ed essere sottoposte a precisi processi di validazione. \cite{relazione_alice}
+Il monitoraggio della qualità dell’aria è disciplinato in Italia dal DLgs. n. 155 del 13/08/2010, che recepisce la direttiva europea 2008/50/CE \cite{direttiva}. Il decreto assegna alle varie ARPA\footnote{Agenzia regionale per la protezione ambientale} regionali il compito istituzionale di effettuare il monitoraggio della qualità dell’aria e ne prescrive in dettaglio le modalità. Il monitoraggio viene effettuato attraverso stazioni ubicate in siti di campionamento sia fissi che mobili, in base a precisi criteri di esposizione: si distinguono quindi stazioni di fondo (urbane o suburbane), di traffico urbane, e industriali. Ad esempio, nella città di Firenze la rete regionale di rilevamento gestita da ARPAT \cite{arpat} è costituita da 6 stazioni: 2 urbane-traffico, 3 urbane-fondo e una suburbana-fondo. Avendo valore normativo, le misure effettuate devono inoltre rispondere a precisi criteri di accuratezza ed essere sottoposte a precisi processi di validazione. \cite{relazione_alice}
 
 Queste reti di monitoraggio sono quindi costituite da stazioni dotate di costose strumentazioni, oltretutto con elevati costi di manutenzione; un altro loro limite intrinseco è la rappresentatività strettamente puntuale delle misure (possono fornire misurazioni dettagliate e altamente accurate \cite{MEAD2013186}, ma soltanto in posizioni precise e sparse per una determinata città) \cite{s16050710}.
 Questo rende difficile raccogliere informazioni rappresentative e affidabili per un'intera area urbana e, quindi, formare un quadro più chiaro sull'andamento dell'inquinamento. \cite{s16050710}
@@ -60,7 +60,7 @@ Ci sono alcuni inconvenienti da tenere conto per quanto riguarda l'utilizzo di s
   \item Derive del sensore, dovute all'usura dei componenti hardware, che richiedono frequenti ricalibrazioni \cite{s18092843};
 \end{itemize}
 
-La necessità di effettuare calibrazioni frequenti dei sensori implica la definizione di un \textbf{processo di calibrazione} che risulti il più possibile accurato ed efficiente. Inoltre alcuni tipi di sensori non forniscono output in unità ingeneristica, per cui la fase di calibrazione risulta obbligatoria.
+La necessità di effettuare calibrazioni frequenti dei sensori implica la definizione di un \textbf{processo di calibrazione} che risulti il più possibile accurato ed efficiente. Inoltre alcuni tipi di sensori non forniscono output in unità ingegneristica, per cui la fase di calibrazione risulta obbligatoria.
 
 Allo stesso tempo, un rete di monitoraggio ambientale deve fare i conti con la raccolta e l'analisi di grandi quantità di dati provenienti dai sensori in tempo reale. Su questo aspetto, uno degli obiettivi fondamentali per un sistema di questo tipo riguarda la necessità di garantire sempre \textbf{affidabilità} e \textbf{disponibilità} dei dati. Inoltre, dal punto di vista tecnologico si deve prevedere l'utilizzo di soluzioni che permettano al sistema di \textbf{scalare} facilmente in caso di crescita del numero di stazioni e di sensori. In generale si tratta di problemi difficili da affrontare, sia per quantità di dati che per affidabilità.
 
@@ -109,14 +109,14 @@ La piattaforma consiste in una mappa interattiva che visualizza tutte le reti di
 L'architettura del sistema AirQino è organizzata nei seguenti elementi principali (\ref{fig:airqino-arch}):
 
 \begin{itemize}
-  \item \textbf{Gateway}: server che espone servizi compatibili con le centraline, e normalizza i dati trasmessi verso il server di raccolta. Questa applicazione, realizzata con Java e framework \textbf{Spring} \cite{spring}, fornisce un endpoint con lo stesso indirizzo a cui le centraline comunicano, in modo da garantire continuità di servizio. Il gateway ha anche il compito di segnalare eventuali interruzioni di funzionamento, secondo regole ben definite. Il gateway produce anche un output su protocollo \textit{MQTT2}, utilizzando un broker open source per pubblicare i dati verso il backend;
+  \item \textbf{Gateway}: server che espone servizi compatibili con le centraline, e normalizza i dati trasmessi verso il server di raccolta. Questa applicazione, realizzata con Java e framework \textbf{Spring} \cite{spring}, fornisce un \textit{endpoint} con lo stesso indirizzo a cui le centraline comunicano, in modo da garantire continuità di servizio. Il gateway ha anche il compito di segnalare eventuali interruzioni di funzionamento, secondo regole ben definite. Il gateway produce anche un output su protocollo \textit{MQTT2}, utilizzando un broker open source per pubblicare i dati verso il backend;
   \item \textbf{Backend}: applicazione server che si interfaccia con il broker \textit{MQTT} e scrive sul database i dati, esponendo inoltre servizi web di tipo REST utilizzati dal frontend web. Il backend è realizzato con Java e framework \textbf{Spring} \cite{spring} e utilizza \textbf{Timescale} \cite{timescale}, un database relazionale open source per la gestione efficienti di dati temporali;
   \item \textbf{Frontend}: applicazione web che permette la visualizzazione di mappa e grafici dei dati raccolti dalle centraline, utilizzando i servizi esposti dal backend. L'interfaccia è basata su tecnologia \textbf{Angular} \cite{angular}. Il frontend ha anche una sezione \textit{admin}, protetta da autenticazione, che permette la gestione del sistema. Le funzionalità di gestione previste sono:
     \begin{itemize}
       \item Gestione anagrafica centraline (nome, posizione, progetti a cui afferisce);
       \item Configurazione dei parametri di funzionamento, tra cui i parametri di calibrazione (per la trasformazione da dati grezzi a valori leggibili dall’utente) e le soglie di rilevamento allarmi;
       \item Gestione utenti;
-      \item Scaricamento di dati raw oppure calibrati. \cite{airqino}
+      \item Scaricamento di dati \textit{raw} oppure calibrati. \cite{airqino}
     \end{itemize}
 \end{itemize}
 
@@ -252,5 +252,18 @@ Esistono anche altre piattaforme con obiettivi simili ad AirQino:
 	\item \textbf{Aqicn} \cite{aqicn} è un progetto open source lanciato nel 2010 che consente di monitorare l'inquinamento atmosferico in tempo reale;
 	\item \textbf{IQAir} \cite{iqair} è una società svizzera che produce e vende purificatori d'aria per uso residenziale e commerciale. La loro applicazione fornisce un rapporto in tempo reale sulla qualità dell'aria e previsione dell'inquinamento atmosferico;
 	\item \textbf{Decentlab} \cite{decentlab} è un'azienda svizzera che fornisce dispositivi e servizi di sensori wireless per soluzioni di monitoraggio distribuite ed economiche;
-	\item \textbf{HackAIR} \cite{hackair} è una piattaforma open source che consente ai cittadini di monitorare la qualità dell'aria nei propri quartieri. Gli utenti possono interagire con la piattaforma per segnalare la qualità dell'aria nel proprio quartiere, visualizzare i dati relativi alla qualità dell'aria e condividere informazioni e dati con altri utenti.
+	\item \textbf{HackAIR} \cite{hackair} è una piattaforma open source che consente ai cittadini di monitorare la qualità dell'aria nei propri quartieri. Gli utenti possono interagire con la piattaforma per segnalare e visualizzare i dati relativi alla qualità dell'aria, e condividere informazioni e dati con altri utenti.
 \end{itemize}
+
+% Contributi
+\section{Contributi di questa tesi}\label{sec:contributi}
+Questo lavoro di tesi ha contribuito ai seguenti sviluppi e risultati scientifici:
+
+\begin{itemize}
+	\item Creazione di una \textit{replica} del database di produzione AirQino tramite la funzionalità di \textbf{streaming replication}, con lo scopo di migliorare l'affidabilità dei dati provenienti dai sensori e alleggerire il carico dal database primario in caso di query particolarmente onerose o test di performance;
+	\item Riduzione significativa dei tempi di risposta del database di AirQino, tramite l'implementazione della funzionalità di \textbf{continuous aggregates}, per alcuni query specifiche finalizzate a ricavare la media oraria delle misurazioni dei sensori nell'ultima settimana, con conseguente miglioramento nelle prestazioni della piattaforma;
+	\item Analisi e confronto tra le performance di diversi modelli di \textbf{regressione} (sia lineare che non lineare) applicati alle misurazioni dei sensori AirQino di \ce{NO2}, \ce{PM{2.5}} e \ce{PM10} confrontati con la stazione ARPAT di riferimento, con individuazione del modello più adatto per la calibrazione del segnale e per il miglioramento della predizione su dati futuri;
+	\item Realizzazione di un'\textbf{interfaccia web} autenticata con lo scopo di semplificare la calibrazione di più centraline AirQino contemporaneamente.
+\end{itemize}
+
+Nel prossimo capitolo vengono introdotti gli sviluppi tecnologici effettuati sulla piattaforma AirQino. Nel capitolo \ref{ch:calibrazione} viene presentato il lavoro svolto sulla calibrazione delle centraline, i risultati scientifici ottenuti dai modelli di regressione e la validazione sul campo del modello più performante. Infine, nel capitolo \ref{ch:interfaccia} viene presentato il processo di sviluppo e realizzazione dell'interfaccia web per la calibrazione multipla di centraline AirQino.

@@ -3,7 +3,7 @@ Questo capitolo riguarda la parte di tesi incentrata sulla calibrazione delle ce
 
 La sezione \ref{sec:regressione} racchiude una breve panoramica teorica sui concetti di regressione, correlazione, metriche (coefficiente di correlazione, coefficiente di determinazione, scarto quadratico medio), analisi dei residui e modelli di regressione (sia lineare che non lineare).
 
-La sezione \ref{sec:esperimenti} elenca gli esperimenti svolti per ciascun inquinante (\ce{NO2}, \ce{PM_{2.5}} e \ce{PM_{10}}) e presenta i risultati ottenuti (con analisi dei residui e confrontando i vari modelli, sia su tutto l'anno che con cadenza mensile), mentre in \ref{sec:validazione} viene presentato il lavoro svolto per la validazione in campo del modello selezionato.
+La sezione \ref{sec:esperimenti} elenca gli esperimenti svolti per ciascun inquinante (\ce{NO2}, \ce{PM_{2.5}} e \ce{PM_{10}}) e presenta i risultati ottenuti (con analisi dei residui e confrontando i vari modelli, sia su tutto l'anno che con cadenza mensile), mentre in \ref{sec:validazione} viene presentato il lavoro svolto per la validazione sul campo del modello selezionato.
 
 Infine, la sezione \ref{sec:discussione} riassume tutto il lavoro svolto e fornisce un'analisi qualitativa dei risultati ottenuti.
 
@@ -25,7 +25,7 @@ I dataset a disposizione sono due:
   \item Dataset delle misurazioni di concentrazione di \ce{PM_{2.5}} e \ce{PM10} nell'aria relative alla centralina SMART16 AirQino (43°50'23.4"N 10°34'22.2"E).
 \end{itemize}
 
-I dati sono stati collezionati nel periodo dal 01/01/2020 al 20/11/2021 di colocazione di SMART16 con la stazione ARPAT di Capannori (Lucca).
+I dati sono stati collezionati nel periodo dal 01/01/2020 al 20/11/2021 di co-locazione di SMART16 con la stazione ARPAT di Capannori (Lucca).
 Il comune rurale di Capannori è stato scelto in quanto si trova all'interno di un'area interessata sia da una varietà di fonti di emissione che da condizioni meteorologiche tali da evitare la dispersione degli inquinanti.
 
 \begin{figure}[H]
@@ -63,8 +63,8 @@ Ci sono delle differenze sostanziali tra i due set di dati:
 \begin{tabular}{|l|l|l|l|}
 \cline{2-4}
 \multicolumn{1}{c|}{} & \textbf{Periodo} & \textbf{Unità} & \textbf{Frequenza dati} \\ \hline
-\textbf{SMART16} & da 01/01/2020 a 31/12/2020 & \textit{counts} & circa due minuti \\ \hline
-\textbf{ARPAT} & da 01/01/2020 a 31/12/2020 & µg/m³ & medie giornaliere \\ \hline
+\textbf{SMART16} & dal 01/01/2020 al 31/12/2020 & \textit{counts} & circa due minuti \\ \hline
+\textbf{ARPAT} & dal 01/01/2020 al 31/12/2020 & µg/m³ & medie giornaliere \\ \hline
 \end{tabular}
 \captionsetup{justification=centering}
 \caption{Differenze tra i dati di SMART16 e ARPAT (per \ce{NO2})}
@@ -73,7 +73,7 @@ Ci sono delle differenze sostanziali tra i due set di dati:
 
 Le centraline AirQino misurano la concentrazione di \ce{NO2} con il sensore \textbf{MiCS-2714} (come già accennato in \ref{ssec:hardware}) che fornisce output in \textit{counts} (unità di misura del segnale che viene passato attraverso un covertitore analogico digitale, con uscita a 10 bit). Questo significa che sarà compito della fase di calibrazione convertire l'output direttamente in unità ingegneristica (in questo caso µg/m³).\\
 
-Nella figura \ref{fig:smart16-no2} viene riportato l'andamento della concentrazione di \ce{NO2} nell'ambiente (in \textit{counts}) misurata dalla centralina SMART16 nel periodo di interesse (da 01/01/2020 a 31/12/2020).
+Nella figura \ref{fig:smart16-no2} viene riportato l'andamento della concentrazione di \ce{NO2} nell'ambiente (in \textit{counts}) misurata dalla centralina SMART16 nel periodo di interesse (dal 01/01/2020 al 31/12/2020).
 
 La figura \ref{fig:arpat-no2} invece riporta l'andamento della concentrazione di \ce{NO2} nell'aria (in µg/m³) misurato dalla stazione ARPAT di Capannori nello stesso periodo.
 
@@ -81,7 +81,7 @@ La figura \ref{fig:arpat-no2} invece riporta l'andamento della concentrazione di
 \centering
 \captionsetup{justification=centering}
 \includegraphics[width=0.70\textwidth,height=\textheight,keepaspectratio]{img/smart16_no2}
-\caption{Andamento (in \textit{counts}) di \ce{NO2} (SMART16)\\nel periodo da 01/01/2020 a 31/12/2020}
+\caption{Andamento (in \textit{counts}) di \ce{NO2} (SMART16)\\nel periodo dal 01/01/2020 al 31/12/2020}
 \label{fig:smart16-no2}
 \end{figure}
 
@@ -89,7 +89,7 @@ La figura \ref{fig:arpat-no2} invece riporta l'andamento della concentrazione di
 \centering
 \captionsetup{justification=centering}
 \includegraphics[width=0.70\textwidth,height=\textheight,keepaspectratio]{img/lu-capannori_no2_2020_cleaned_no2.png}
-\caption{Andamento \ce{NO2} (in µg/m³) misurato dalla stazione ARPAT di Capannori nel periodo da 01/01/2020 a 31/12/2020}
+\caption{Andamento \ce{NO2} (in µg/m³) misurato dalla stazione ARPAT di Capannori nel periodo dal 01/01/2020 al 31/12/2020}
 \label{fig:arpat-no2}
 \end{figure}
 
@@ -103,8 +103,8 @@ Anche in questo caso ci sono delle differenze tra i due set di dati:
 \begin{tabular}{|l|l|l|l|}
 \cline{2-4}
 \multicolumn{1}{c|}{} & \textbf{Periodo} & \textbf{Unità} & \textbf{Frequenza dati} \\ \hline
-\textbf{SMART16} & da 01/09/2020 a 31/08/2021 & µg/m³ & circa due minuti \\ \hline
-\textbf{ARPAT} & da 01/09/2020 a 31/08/2021 & µg/m³ & medie ogni otto ore \\ \hline
+\textbf{SMART16} & dal 01/09/2020 al 31/08/2021 & µg/m³ & circa due minuti \\ \hline
+\textbf{ARPAT} & dal 01/09/2020 al 31/08/2021 & µg/m³ & medie ogni otto ore \\ \hline
 \end{tabular}
 \captionsetup{justification=centering}
 \caption{Differenze tra i dati di SMART16 e ARPAT (per \ce{PM})}
@@ -112,7 +112,7 @@ Anche in questo caso ci sono delle differenze tra i due set di dati:
 \end{table}
 
 Il sensore utilizzato dalle centraline SMART è il \textbf{SDS011} (vedi \ref{ssec:hardware}) che fornisce l'uscita direttamente in unità ingegneristica (µg/m³, con una calibrazione di fabbrica indicata nel \textit{datasheet}), quindi in questo caso non c'è bisogno di convertire l'unità di misura nella fase di calibrazione (a differenza di quanto accade con \ce{NO2}).
-Nella figura \ref{fig:smart16-pm} sono riportati gli andamenti della concentrazione di \ce{PM_{2.5}} e \ce{PM10} nell'aria (in µg/m³) misurati dalla centralina SMART16 nel periodo di interesse (da 01/09/2020 a 31/08/2021).
+Nella figura \ref{fig:smart16-pm} sono riportati gli andamenti della concentrazione di \ce{PM_{2.5}} e \ce{PM10} nell'aria (in µg/m³) misurati dalla centralina SMART16 nel periodo di interesse (dal 01/09/2020 al 31/08/2021).
 La figura \ref{fig:arpat-pm} invece riporta gli andamenti della concentrazione di \ce{PM_{2.5}} e \ce{PM10} nell'aria (in µg/m³) misurato dalla stazione ARPAT di Capannori.
 
 \begin{figure}[H]%
@@ -120,7 +120,7 @@ La figura \ref{fig:arpat-pm} invece riporta gli andamenti della concentrazione d
     \captionsetup{justification=centering}
     \subfloat[\centering Andamento \ce{PM_{2.5}} (in µg/m³)]{{\includegraphics[width=6.7cm]{img/smart16_new_pm2.5} }}%
     \subfloat[\centering Andamento \ce{PM_{10}} (in µg/m³)]{{\includegraphics[width=6.7cm]{img/smart16_new_pm10} }}%
-    \caption{Andamento \ce{PM_{2.5}} e \ce{PM10} (SMART16)\\nel periodo da 01/09/2020 a 31/08/2021}%
+    \caption{Andamento \ce{PM_{2.5}} e \ce{PM10} (SMART16)\\nel periodo dal 01/09/2020 al 31/08/2021}%
     \label{fig:smart16-pm}%
 \end{figure}
 
@@ -129,7 +129,7 @@ La figura \ref{fig:arpat-pm} invece riporta gli andamenti della concentrazione d
     \captionsetup{justification=centering}
     \subfloat[\centering Andamento \ce{PM_{2.5}} (in µg/m³)]{{\includegraphics[width=6.7cm]{img/lu-capannori_pm_dati_orari_cleaned_pm2.5} }}%
     \subfloat[\centering Andamento \ce{PM_{10}} (in µg/m³)]{{\includegraphics[width=6.7cm]{img/lu-capannori_pm_dati_orari_cleaned_pm10} }}%
-    \caption{Andamento \ce{PM_{2.5}} e \ce{PM10} (ARPAT)\\nel periodo da 01/09/2020 a 31/08/2021}%
+    \caption{Andamento \ce{PM_{2.5}} e \ce{PM10} (ARPAT)\\nel periodo dal 01/09/2020 al 31/08/2021}%
     \label{fig:arpat-pm}%
 \end{figure}
 
@@ -175,7 +175,7 @@ Il risultato è un file csv che si presenta come riportato in figura \ref{fig:ds
 \subsubsection{Dataset ARPAT \ce{PM_{2.5}} e \ce{PM10}}
 Il dataset originale \ce{PM_{2.5}} e \ce{PM10}, fornito da ARPAT, consiste in un singolo file csv da 33.674 misurazioni con encoding UTF-8, valori separati da virgola, e strutturato come in figura \ref{fig:pm-arpat}. In particolare:
 \begin{itemize}
-  \item È stato considerato il periodo da 01/09/2020 a 31/08/2021;
+  \item È stato considerato il periodo dal 01/09/2020 al 31/08/2021;
   \item La data è in formato gg/mm/aaaa (colonna "DATA");
   \item L'ora è in formato intero (colonna "ORA" con valori da 1 a 24, dove 24 indica le 00:00);
   \item Data e ora sono da considerarsi con fuso orario locale;
@@ -649,7 +649,7 @@ L’algoritmo Gradient Boosting applicato a problemi di regressione può essere 
 \subsubsection{Regressione con SVR}\label{sssec:regressione-svr}
 Un altro modello per la regressione è SVR (\textit{support-vector regression}), basato sui modelli SVM (support-vector machines) di apprendimento supervisionato, spesso impiegati nel problema della classificazione. \cite{svm}
 
-Rispetto alla regressione lineare e al metodo dei minimi quadrati, SVR presenta più flessibilità perchè consente di definire una soglia di accettazione dell'errore nel modello. Infatti l'agoritmo SVR si propone di minimizzare non l'errore quadratico, come nel metodo dei minimi quadrati, ma i coefficienti (nello specifico, la norma al quadrato del vettore dei coefficienti). La funzione obiettivo quindi diventa:
+Rispetto alla regressione lineare e al metodo dei minimi quadrati, SVR presenta più flessibilità perché consente di definire una soglia di accettazione dell'errore nel modello. Infatti l'algoritmo SVR si propone di minimizzare non l'errore quadratico, come nel metodo dei minimi quadrati, ma i coefficienti (nello specifico, la norma al quadrato del vettore dei coefficienti). La funzione obiettivo quindi diventa:
 
 $$min \frac{1}{2}\|\mathbf{w}\|^{2}$$\smallskip
 
@@ -675,7 +675,7 @@ La forma del modello di regressione KRR è identica a quello basato su SVR (desc
 Una volta collezionati i dati sia dalle centraline AirQino che ARPAT è stata avviata la fase di calibrazione, con le seguenti analisi per ciascun inquinante (\ce{NO2}, \ce{PM_{2.5}} e \ce{PM10}):
 
 \begin{itemize}
-  \item \textbf{Scatterplot} preliminare delle misurazioni AirQino confrontate con le misurazioni di riferimento ARPAT, per individuare relazioni tra le variabili. Questo perchè in generale
+  \item \textbf{Scatterplot} preliminare delle misurazioni AirQino confrontate con le misurazioni di riferimento ARPAT, per individuare relazioni tra le variabili. Questo perché in generale
   \item  ci si aspetta che la risposta del sensore sia lineare all'aumentare delle concentrazioni e correlata al segnale di riferimento;
   \item \textbf{Analisi dei residui} della regressione lineare, per verificare le assunzioni del modello (vedi sezione \ref{ssec:regressione-residui});
   \item \textbf{Applicazione di modelli} di regressione lineare e non lineare su tutto il dataset:
@@ -1188,6 +1188,7 @@ Per svolgere la fase di validazione è stato quindi considerato il periodo dal 0
 
 Le tabelle \ref{tab:val-pm25} e \ref{tab:val-pm10} riassumono i risultati, in termini di $R^2$ e RMSE, del confronto di misurazione della concentrazione di \ce{PM_{2.5}} e \ce{PM_{10}} della centralina SMART16 AirQino nelle due configurazioni (ovvero con sensori calibrati e non calibrati) nel periodo di validazione.
 
+\vspace{5mm}
 \begin{table}[H]
 \footnotesize
 \centering
@@ -1216,6 +1217,7 @@ Le tabelle \ref{tab:val-pm25} e \ref{tab:val-pm10} riassumono i risultati, in te
 
 Le figure \ref{fig:val-pm2.5} e \ref{fig:val-pm10} mostrano l'andamento temporale delle misurazioni di \ce{PM_{2.5}} e \ce{PM_{10}}, calibrate e non calibrate, della stazione AirQino rispetto alle osservazioni della stazione ARPAT nel periodo di validazione.
 
+\vspace{8mm}
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{img/val_pm2.5}
@@ -1254,6 +1256,6 @@ Dai confronti sull'andamento temporale (figure \ref{fig:val-pm2.5} e \ref{fig:va
 
 Modelli di regressione polinomiale così come altri modelli non lineari (Random Forest, Gradient Boosting, SVR, KernelRidge) non hanno portato miglioramenti rispetto ai modelli lineari. In particolare da questa analisi è risultato evidente come la presenza di \textit{outlier} influisca significativamente sulle performance del modello, e strategie che implicano tecniche di rimozione di outlier abbiano riportato performance migliori rispetto a tecniche più complesse (anche non lineari).
 
-In generale, i risultati per i \ce{PM_{2.5}} e \ce{PM_10} sono risultati di gran lunga migliori rispetto alla calibrazione dei sensori di \ce{NO2}. Questo si può ricondurre in parte alla diversa frequenza dei dati (medie orarie per \ce{NO2}, medie a otto ore per i PM che riducono la rumorosità dei dati), e in parte anche alla natura e alle differenze dei sensori stessi (vedi \ref{ssec:hardware}), questi infatti hanno un principio fisico di funzionamento diverso (\textbf{SDS011} per i PM è ad infrarossi, più costoso e con output calibrato di fabbrica, mentre il \textbf{MiCS-2714} per \ce{NO2} funziona per ossidazione e richiede calibrazione). La difficoltà di utilizzare sensori low cost per i gassosi è ampiamente dimostrata anche in letteratura \cite{low_cost_gas_sensors}. Inoltre questo tipo di sensori possono essere soggetti a contaminazione incrociata da altri gas, che interferiscono sia con la sensibilità che con la precisione della misurazione \cite{cross_contamination}.
+In generale, i risultati per i \ce{PM_{2.5}} e \ce{PM_10} sono risultati di gran lunga migliori rispetto alla calibrazione dei sensori di \ce{NO2}. Questo si può ricondurre in parte alla diversa frequenza dei dati (medie orarie per \ce{NO2}, medie a otto ore per i PM che riducono la rumorosità dei dati), e in parte anche alla natura e alle differenze dei sensori stessi (vedi \ref{ssec:hardware}), questi infatti hanno un principio fisico di funzionamento diverso (\textbf{SDS011} per i PM è ad infrarossi, più costoso e con output calibrato di fabbrica, mentre il \textbf{MiCS-2714} per \ce{NO2} funziona per ossidazione e richiede calibrazione). La difficoltà di utilizzare sensori low cost per i gassosi è ampiamente dimostrata anche in letteratura \cite{low_cost_gas_sensors}. Inoltre questo tipo di sensori possono essere soggetti a contaminazione incrociata con altri gas, che interferiscono sia con la sensibilità che con la precisione della misurazione \cite{cross_contamination}.
 
 Infine, i risultati per \ce{PM_{2.5}} si sono dimostrati essere sempre tendezialmente migliori dei corrispettivi \ce{PM_{10}}. Questo risulta in linea con quanto riportato in studi correlati \cite{s18092843} e altre reti di monitoraggio ambientale low-cost \cite{eval_zikova}, \cite{s17081805}, \cite{s17081922}.
