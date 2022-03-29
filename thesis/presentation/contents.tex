@@ -109,8 +109,8 @@ L’inquinamento atmosferico è uno dei principali problemi che interessano le a
   \begin{enumerate}
     \item Miglioramento dell'\textbf{affidabilità} dei dati provenienti dai sensori
     \item Riduzione dei \textbf{tempi di risposta} dal database
-  \end{enumerate}\vspace{0.2cm}
-  \item Studio e confronto tra diverse tecniche volte a migliorare l’accuratezza del processo di \textbf{calibrazione} dei sensori (sia \ce{NO2} che PM)\vspace{0.2cm}
+  \end{enumerate}\vspace{0.3cm}
+  \item Studio e confronto tra diverse tecniche volte a migliorare l’accuratezza del processo di \textbf{calibrazione} dei sensori (sia \ce{NO2} che PM)\vspace{0.3cm}
   \item Sviluppo di un’\textbf{interfaccia web} per facilitare la calibrazione \textit{massiva} di centraline
 \end{itemize}
 \end{frame}
@@ -118,9 +118,62 @@ L’inquinamento atmosferico è uno dei principali problemi che interessano le a
 
 \section{Sviluppi tecnologici}
 \begin{frame}{Replica del database (1/2)}
+\begin{block}{Replica}
+Tutti i dati del database vengono copiati e distribuiti su un altro spazio fisico. La nuova istanza agisce come nodo secondario.  
+\end{block}
+
+\vspace{0.6cm}
+\begin{columns}
+
+\begin{column}{0.6\textwidth}
+\textbf{Vantaggi:}\vspace{0.1cm}
+\begin{itemize}
+  \item Maggiore \textbf{affidabilità}
+  \item Miglioramento delle \textbf{prestazioni}
+  \item Maggiore \textbf{sicurezza} dei dati
+\end{itemize}
+\end{column}
+
+\begin{column}{0.4\textwidth}
+\textbf{Svantaggi:}\vspace{0.1cm}
+\begin{itemize}
+  \item Mantenimento
+  \item Implementazione
+  \item Costo
+\end{itemize}
+\end{column}
+
+\end{columns}
+
 \end{frame}
 
 \begin{frame}{Replica del database (2/2)}
+
+\begin{columns}
+
+\begin{column}{0.45\textwidth}
+\begin{block}{Streaming replication}
+Funzionalità che consente di replicare i dati in tempo reale da una istanza di database Postgres a un’altra
+
+\begin{itemize}
+  \item Replica di sola lettura
+  \item Basata su \textbf{WAL}
+  \item Automazione con Docker\vspace{0.2cm}
+\end{itemize}
+\end{block}
+\end{column}
+
+\begin{column}{0.55\textwidth}
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=\textwidth]{images/streaming_replication}
+\caption{Streaming replication}
+\end{figure}
+\end{column}
+
+\end{columns}
+
 \end{frame}
 
 \begin{frame}{Ottimizzazione di query temporali (1/2)}
