@@ -549,7 +549,7 @@ Un esempio di rilevazione grafica di outlier tramite distanza di Cook è riporta
 \label{fig:cook}
 \end{figure}
 
-in letteratura vengono proposte alcune soglie di \textit{cut-off}, oltre le quali un dato può essere considerato un outlier. In \cite{applied_regression} viene proposta:
+In letteratura vengono proposte alcune soglie di \textit{cut-off}, oltre le quali un dato può essere considerato un outlier. In \cite{applied_regression} viene proposta:
 
 $$D_{i}>\frac{4}{n}$$\smallskip
 
@@ -675,8 +675,7 @@ La forma del modello di regressione KRR è identica a quello basato su SVR (desc
 Una volta collezionati i dati sia dalle centraline AirQino che ARPAT è stata avviata la fase di calibrazione, con le seguenti analisi per ciascun inquinante (\ce{NO2}, \ce{PM_{2.5}} e \ce{PM10}):
 
 \begin{itemize}
-  \item \textbf{Scatterplot} preliminare delle misurazioni AirQino confrontate con le misurazioni di riferimento ARPAT, per individuare relazioni tra le variabili. Questo perché in generale
-  \item  ci si aspetta che la risposta del sensore sia lineare all'aumentare delle concentrazioni e correlata al segnale di riferimento;
+  \item \textbf{Scatterplot} preliminare delle misurazioni AirQino confrontate con le misurazioni di riferimento ARPAT, per individuare relazioni tra le variabili. Questo perché in generale ci si aspetta che la risposta del sensore sia lineare all'aumentare delle concentrazioni e correlata al segnale di riferimento;
   \item \textbf{Analisi dei residui} della regressione lineare, per verificare le assunzioni del modello (vedi sezione \ref{ssec:regressione-residui});
   \item \textbf{Applicazione di modelli} di regressione lineare e non lineare su tutto il dataset:
         \begin{itemize}
@@ -691,6 +690,7 @@ Una volta collezionati i dati sia dalle centraline AirQino che ARPAT è stata av
     \item Applicazione e valutazione degli stessi modelli con \textbf{cadenza mensile}, per validare la consistenza dei risultati;
     \item Infine, \textbf{valutazione della performance} e accuratezza dei modelli applicati.
 \end{itemize}
+\clearpage
 
 Per tutti i risultati ottenuti e presentati nella sezione seguente sono state implementate le seguenti operazioni:
 \begin{itemize}

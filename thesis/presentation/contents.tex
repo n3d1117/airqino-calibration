@@ -83,7 +83,7 @@ L’inquinamento atmosferico è uno dei principali problemi che interessano le a
   \item Basato su ossidoriduzione
   \item Uscita in \textit{counts}
 \end{itemize}
-\vspace{0.2cm}
+\vspace{0.1cm}
 
 \end{block}
 
@@ -104,7 +104,7 @@ L’inquinamento atmosferico è uno dei principali problemi che interessano le a
   \item Uscita in $\mathrm{\si{\micro}g/m^3}$
   \item Più costoso
 \end{itemize}
-\vspace{0.2cm}
+\vspace{0.1cm}
 
 \end{block}
 \end{center}
@@ -168,7 +168,7 @@ Funzionalità che consente di replicare i dati in tempo reale da una istanza di 
 \begin{itemize}
   \item Replica di sola lettura
   \item Basata su \textbf{WAL}
-  \item Automazione con Docker\vspace{0.2cm}
+  \item Automazione con Docker\vspace{0.1cm}
 \end{itemize}
 \end{block}
 \end{column}
@@ -197,8 +197,8 @@ Funzionalità di \textbf{Timescale} per aggregare dati in tempo reale in maniera
 
 \begin{itemize}
   \item Miglioramento delle \textbf{performance}
-  \item Aggiornamento automatico in background dei dati aggregati
-  \item Risparmio di \textbf{spazio}\vspace{0.2cm}
+  \item Aggiornamento \textbf{automatico} in background
+  \item Risparmio di \textbf{spazio}\vspace{0.1cm}
 \end{itemize}
 \end{block}
 \end{column}
@@ -239,13 +239,100 @@ Tempi di risposta della query per estrarre la media oraria di \ce{NO2} dell'ulti
 \end{column}
 \end{columns}
 
-  
 \end{frame}
 
 
 \section{Calibrazione}
 
-\begin{frame}{Calibrazione}
+\begin{frame}{Calibrazione (1/4)}
+
+\begin{block}{Procedura per ogni sensore (\ce{NO2}, \ce{PM_{2.5}}, \ce{PM10})}
+\begin{enumerate}
+  \item Preprocessamento e creazione di un \textbf{dataset} (dati della centralina AirQino SMART16 e di riferimento ARPAT)
+  \item \textbf{Allineamento} temporale e ricampionamento
+  \item \textbf{Scatterplot} del segnale di riferimento e del segnale del sensore
+  \item Analisi dei \textbf{residui}
+  \item Applicazione di tredici diversi modelli di \alert{regressione} (sia lineare che non lineare)
+  \begin{itemize}
+    \item Su tutto il dataset
+    \item Con cadenza mensile
+  \end{itemize}
+  \item Valutazione della \textbf{performance} in termini di $R^2$ e $RMSE$
+  \item \textbf{Validazione} del modello più performante\vspace{0.1cm}
+\end{enumerate}
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Calibrazione (2/4)}
+\begin{columns}
+
+\begin{column}{0.55\textwidth}
+
+\begin{center}
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=\textwidth]{images/hist_pm2.5_1.png}
+\caption{Risultati ($R^2$)}
+\end{figure}
+\end{center}
+
+\end{column}
+\begin{column}{0.55\textwidth}
+
+\begin{center}
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=\textwidth]{images/hist_pm2.5_2.png}
+\caption{Risultati ($RMSE$)}
+\end{figure}
+\end{center}
+
+\end{column}
+  
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Calibrazione (3/4)}
+
+\begin{columns}
+\begin{column}{0.45\textwidth}
+
+\begin{block}{Regressione lineare avanzata}
+aaa  
+\end{block}
+
+\end{column}
+
+\begin{column}{0.55\textwidth}
+
+\begin{center}
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=\textwidth]{images/cook_no2.png}
+\caption{Rimozione di outlier (in rosso) con distanza di Cook su dataset \ce{NO2}}
+\end{figure}
+\end{center}
+
+\end{column}
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Calibrazione (4/4)}
+\begin{center}
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=\textwidth]{images/val_pm2.5.png}
+\caption{Confronto tra l’andamento temporale delle concentrazioni di \ce{PM_{2.5}} misurate dalla stazione AirQino calibrata e non calibrata con riferimento alla stazione ARPAT di Capannori (LU) - medie a otto ore}
+\end{figure}
+\end{center}
 \end{frame}
 
 
