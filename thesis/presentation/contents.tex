@@ -17,24 +17,34 @@ L’inquinamento atmosferico è uno dei principali problemi che interessano le a
 \begin{frame}{La piattaforma AirQino (1/3)}
 \begin{columns}
 
-
-\begin{column}{0.4\textwidth}
-\begin{center}
-\includegraphics[width=.7\textwidth]{images/airqino_stazione}
+\begin{column}{0.45\textwidth}
 
 \begin{itemize}
   \item Monitoraggio ambientale ad alta precisione
   \item Configurabile ed estendibile
-\end{itemize}
+  \item Dati in tempo reale
+\end{itemize}\vspace{0.1cm}
 
-\end{center}
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=.6\textwidth]{images/airqino_stazione}
+\caption{Una centralina AirQino}
+\end{figure}
+
 \end{column}
 
-\begin{column}{0.6\textwidth}
+\begin{column}{0.65\textwidth}
 
 \begin{center}
-\includegraphics[width=\textwidth]{images/airqino_web}
 \alert{https://airqino.magentalab.it}
+\vspace{-0.3cm}
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=\textwidth]{images/airqino_web_n}
+\caption{Pagina web AirQino}
+\end{figure}
 \end{center}
 
 \end{column}
@@ -176,17 +186,76 @@ Funzionalità che consente di replicare i dati in tempo reale da una istanza di 
 
 \end{frame}
 
+
 \begin{frame}{Ottimizzazione di query temporali (1/2)}
+
+\begin{columns}
+
+\begin{column}{0.45\textwidth}
+\begin{block}{Continuous aggregates}
+Funzionalità di \textbf{Timescale} per aggregare dati in tempo reale in maniera incrementale
+
+\begin{itemize}
+  \item Miglioramento delle \textbf{performance}
+  \item Aggiornamento automatico in background dei dati aggregati
+  \item Risparmio di \textbf{spazio}\vspace{0.2cm}
+\end{itemize}
+\end{block}
+\end{column}
+
+\begin{column}{0.55\textwidth}
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=\textwidth]{images/continuous_aggregates_r}
+\caption{Continuous aggregates}
+\end{figure}
+\end{column}
+
+\end{columns}
+
 \end{frame}
 
 \begin{frame}{Ottimizzazione di query temporali (2/2)}
+Tempi di risposta della query per estrarre la media oraria di \ce{NO2} dell'ultima settimana da tutte le centraline \textbf{AirQino}:
+
+\begin{columns}
+\begin{column}{0.55\textwidth}
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=\textwidth]{images/query_prima}
+\caption{Prima dell'ottimizzazione}
+\end{figure}
+\end{column}
+
+\begin{column}{0.55\textwidth}
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=\textwidth]{images/query_dopo}
+\caption{Dopo l'ottimizzazione}
+\end{figure}
+\end{column}
+\end{columns}
+
+  
 \end{frame}
 
-%\section{Calibrazione}
-%
-%
-%\section{Interfaccia}
-%
-%
-%\section{Conclusione}
+
+\section{Calibrazione}
+
+\begin{frame}{Calibrazione}
+\end{frame}
+
+
+
+\section{Interfaccia}
+\begin{frame}{Interfaccia}
+\end{frame}
+
+
+\section{Conclusioni e sviluppi futuri}
+\begin{frame}{Conclusioni e sviluppi futuri}
+\end{frame}
 
