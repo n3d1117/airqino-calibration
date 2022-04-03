@@ -415,27 +415,27 @@ Soluzione per la calibrazione massiva di centraline \textbf{AirQino}:
 \section{Conclusioni e sviluppi futuri}
 \begin{frame}{Conclusioni e sviluppi futuri (1/2)}
 \begin{itemize}
-  \item Le reti di sensori \textit{low-cost} per il monitoraggio della qualità dell'aria, come \textbf{AirQino}, possano rappresentare una soluzione efficace per il rilevamento dell'inquinamento atmosferico ad alta risoluzione sia temporale che spaziale
+  \item Reti di sensori \textit{low-cost} per il monitoraggio della qualità dell'aria (es. \textbf{AirQino}) rappresentano una soluzione efficace per il rilevamento dell'inquinamento atmosferico\vspace{0.2cm}
   \begin{itemize}
-    \item Queste soluzioni possono integrarsi con le reti di monitoraggio regionali già esistenti fornendo un quadro più completo della qualità dell'aria in ambiente urbano
+    \item Anche in ottica di \textbf{integrazione} con le reti di monitoraggio regionali già esistenti, fornendo un quadro più completo della qualità dell'aria in ambiente urbano
   \end{itemize}\vspace{0.2cm}
-  \item Anche con sensori a basso costo è possibile misurare inquinanti come \ce{PM_{2.5}} e \ce{PM10} con una buona accuratezza
+  \item Anche con sensori a basso costo è possibile misurare inquinanti come \ce{NO2}, \ce{PM_{2.5}} e \ce{PM10} con una buona accuratezza\vspace{0.2cm}
   \begin{itemize}
-    \item Ancora migliore se si ha a disposizione un segnale di riferimento ARPAT con cui correggere i dati proveniente dai sensori
-    \item L'applicazione di tecniche di regressione robusta in fase di calibrazione ha riportato miglioramenti significativi in termini di accuratezza
+    \item Ancora migliore se si ha a disposizione un \textbf{segnale di riferimento} con cui correggere i dati provenienti dai sensori\vspace{0.1cm}
+    \item L'applicazione di tecniche di \textbf{regressione robusta} in fase di calibrazione ha riportato miglioramenti significativi
   \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Conclusioni e sviluppi futuri (2/2)}
 \begin{itemize}
-  \item Perfezionare il processo di calibrazione delle centraline, ad esempio aggiungendo ulteriori variabili in input modello di regressione, come la \textbf{temperatura} e l'\textbf{umidità} relativa, e verificare se questo porti ad un aumento dell'accuratezza della predizione
+  \item Perfezionare il processo di calibrazione delle centraline, ad esempio aggiungendo ulteriori variabili in input al modello di regressione, come la \textbf{temperatura} e l'\textbf{umidità} relativa
   \begin{itemize}
     \item La temperatura tende a correlare negativamente con i PM (all'aumentare della temperatura le polveri sottili tendono a calare), mentre l'umidità presenta l'effetto contrario
   \end{itemize}\vspace{0.2cm}
-  \item Realizzazione di una \textbf{procedura di allerta} sul segnale delle centraline
+  \item Realizzare una \textbf{procedura di allerta} sul segnale delle centraline
   \begin{itemize}
-    \item Con un controllo in tempo reale sull'andamento del segnale e monitorando la differenza con il segnale di riferimento (es. stazione ARPAT)
+    \item Con un controllo in tempo reale sull'andamento e monitorando la differenza con il segnale di riferimento (es. stazione ARPAT)
   \end{itemize}
 \end{itemize}
 \end{frame}
