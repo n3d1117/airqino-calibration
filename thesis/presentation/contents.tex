@@ -129,31 +129,18 @@ L’inquinamento atmosferico è uno dei principali problemi che interessano le a
 \section{Sviluppi tecnologici}
 \begin{frame}{Sviluppi – Replica del database (1/2)}
 \begin{block}{Replica}
-Tutti i dati del database vengono copiati e distribuiti su un altro spazio fisico. La nuova istanza agisce come nodo secondario.  
-\end{block}
+Tutti i dati del database vengono copiati e distribuiti su un altro spazio fisico. 
 
-\vspace{0.6cm}
-\begin{columns}
+La nuova istanza agisce come nodo secondario, alleggerendo il carico dal database primario. 
 
-\begin{column}{0.6\textwidth}
+\vspace{0.4cm}
 \textbf{Vantaggi:}\vspace{0.1cm}
 \begin{itemize}
   \item Maggiore \textbf{affidabilità}
   \item Miglioramento delle \textbf{prestazioni}
   \item Maggiore \textbf{sicurezza} dei dati
-\end{itemize}
-\end{column}
-
-\begin{column}{0.4\textwidth}
-\textbf{Svantaggi:}\vspace{0.1cm}
-\begin{itemize}
-  \item Mantenimento
-  \item Implementazione
-  \item Costo
-\end{itemize}
-\end{column}
-
-\end{columns}
+\end{itemize}\vspace{0.1cm}
+\end{block}
 
 \end{frame}
 
@@ -167,7 +154,7 @@ Funzionalità che consente di replicare i dati in tempo reale da una istanza di 
 
 \begin{itemize}
   \item Replica di sola lettura
-  \item Basata su \textbf{WAL}
+  \item Basata su \textbf{WAL} (\textit{Write Ahead Log})
   \item Automazione con Docker\vspace{0.1cm}
 \end{itemize}
 \end{block}
@@ -344,7 +331,7 @@ $D_{i}>\frac{4}{n}$
 \end{frame}
 
 \section{Interfaccia}
-\begin{frame}{Interfaccia (1/2)}
+\begin{frame}{Interfaccia utente web (1/2)}
 
 \vspace{-0.2cm}
 \begin{center}
@@ -381,7 +368,7 @@ Soluzione per la calibrazione massiva di centraline \textbf{AirQino}:
 \end{columns}
 \end{frame}
 
-\begin{frame}{Interfaccia (2/2)}
+\begin{frame}{Interfaccia utente web (2/2)}
 \begin{columns}
 
 \begin{column}{0.43\textwidth}
