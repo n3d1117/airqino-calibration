@@ -52,7 +52,7 @@ L’inquinamento atmosferico è uno dei principali problemi che interessano le a
 \end{columns}
 \end{frame}
 
-\begin{frame}[t]{La piattaforma AirQino (2/3) – Architettura}
+\begin{frame}[t]{La piattaforma AirQino – Architettura (2/3)}
 \begin{center}
 
 \begin{figure}[H]
@@ -65,7 +65,7 @@ L’inquinamento atmosferico è uno dei principali problemi che interessano le a
 \end{center}
 \end{frame}
 
-\begin{frame}[t]{La piattaforma AirQino (3/3) – Sensori}
+\begin{frame}[t]{La piattaforma AirQino – Sensori (3/3)}
 \begin{columns}
 
 \begin{column}{0.5\textwidth}
@@ -127,11 +127,9 @@ L’inquinamento atmosferico è uno dei principali problemi che interessano le a
 
 
 \section{Sviluppi tecnologici}
-\begin{frame}{Sviluppi – Replica del database (1/2)}
+\begin{frame}{Sviluppi – Replica del database (1/4)}
 \begin{block}{Replica}
-Tutti i dati del database vengono copiati e distribuiti su un altro spazio fisico. 
-
-La nuova istanza agisce come nodo secondario, alleggerendo il carico dal database primario. 
+Tutti i dati presenti nel database vengono copiati e distribuiti su un altro spazio fisico. La nuova istanza agisce come nodo secondario, alleggerendo il carico dal database primario. 
 
 \vspace{0.4cm}
 \textbf{Vantaggi:}\vspace{0.1cm}
@@ -144,7 +142,7 @@ La nuova istanza agisce come nodo secondario, alleggerendo il carico dal databas
 
 \end{frame}
 
-\begin{frame}{Sviluppi – Replica del database (2/2)}
+\begin{frame}{Sviluppi – Replica del database (2/4)}
 
 \begin{columns}
 
@@ -174,7 +172,7 @@ Funzionalità che consente di replicare i dati in tempo reale da una istanza di 
 \end{frame}
 
 
-\begin{frame}{Sviluppi – Ottimizzazione di query temporali (1/2)}
+\begin{frame}{Sviluppi – Ottimizzazione di query temporali (3/4)}
 
 \begin{columns}
 
@@ -203,7 +201,7 @@ Funzionalità di \textbf{Timescale} per aggregare dati in tempo reale in maniera
 
 \end{frame}
 
-\begin{frame}{Sviluppi – Ottimizzazione di query temporali (2/2)}
+\begin{frame}{Sviluppi – Ottimizzazione di query temporali (4/4)}
 Tempi di risposta della query per estrarre la media oraria di \ce{NO2} dell'ultima settimana da tutte le centraline \textbf{AirQino}:
 
 \begin{columns}
@@ -231,9 +229,40 @@ Tempi di risposta della query per estrarre la media oraria di \ce{NO2} dell'ulti
 
 \section{Calibrazione}
 
-\begin{frame}{Calibrazione (1/4) – Procedura}
-comparazione verso sensori di riferimento
-confronto delle concentrazioni rilevate dalle stazioni di riferimento ARPAT
+\begin{frame}{Calibrazione – Centraline (1/5)}
+\begin{columns}
+\begin{column}{0.58\textwidth}
+\begin{itemize}
+  \item \alert{SMART16} (AirQino), in co-locazione con la stazione \textbf{ARPAT} di Capannori (Lucca)\vspace{.1cm}
+  \begin{itemize}
+    \item Parte del progetto \textbf{Carilucca}\vspace{.1cm}
+    \item Sito di particolare interesse data la varietà di fonti di emissione\,\footnotemark
+  \end{itemize}\vspace{.05cm}
+  \item \textbf{Calibrazione}: analisi della risposta dei sensori sotto diverse concentrazioni di gas (test \textit{indoor}) e comparazione verso sensori fissi di riferimento (test \textit{outdoor})
+\end{itemize}
+\end{column}
+\begin{column}{0.46\textwidth}
+\vspace{-.2cm}
+\begin{center}
+\includegraphics[width=.45\textwidth]{images/lu-capannori}
+\hspace{.2cm}
+\includegraphics[width=.33\textwidth]{images/cartina-provincia-lucca}
+\vspace{-.2cm}
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=.9\textwidth]{images/capannori_gps_r}
+\caption{Posizione della centralina SMART16 (AirQino) e stazione ARPAT a Capannori (Lucca)}
+\end{figure}
+\end{center}
+\end{column}
+\end{columns}
+\let\oldfootnotesize\footnotesize
+\renewcommand*{\footnotesize}{\oldfootnotesize\tiny}
+\addtocounter{footnote}{0}\footnotetext{\fullcite{atmos12081065}\vspace{0.05cm}}
+\end{frame}
+
+\begin{frame}{Calibrazione – Procedura (2/5)}
 \begin{block}{Procedura per ogni sensore (\ce{NO2}, \ce{PM_{2.5}}, \ce{PM10})}
 \begin{enumerate}
   \item Preprocessamento e creazione di un \textbf{dataset} (dati della centralina AirQino SMART16 e di riferimento ARPAT)
@@ -252,39 +281,29 @@ confronto delle concentrazioni rilevate dalle stazioni di riferimento ARPAT
 
 \end{frame}
 
-\begin{frame}{Calibrazione (2/4)  – Risultati}
+\begin{frame}{Calibrazione – Risultati (3/5)}
 \begin{columns}
 
 \begin{column}{0.55\textwidth}
-
 \begin{center}
-\begin{figure}[H]
-\centering
-\captionsetup{justification=centering}
-\includegraphics[width=\textwidth]{images/hist_pm2.5_1.png}
-\caption{Risultati \ce{PM_{2.5}} ($R^2$)}
-\end{figure}
+\textbf{Risultati \ce{NO2}} ($R^2$, $RMSE$)\vspace{0.2cm}
+\includegraphics[width=.8\textwidth]{images/hist_no2_1}
+\includegraphics[width=.8\textwidth]{images/hist_no2_2}
 \end{center}
-
 \end{column}
+\vrule{}
 \begin{column}{0.55\textwidth}
-
 \begin{center}
-\begin{figure}[H]
-\centering
-\captionsetup{justification=centering}
-\includegraphics[width=\textwidth]{images/hist_pm2.5_2.png}
-\caption{Risultati \ce{PM_{10}} ($RMSE$)}
-\end{figure}
+\textbf{Risultati \ce{PM_{2.5}}} ($R^2$, $RMSE$)\vspace{0.2cm}
+\includegraphics[width=.8\textwidth]{images/hist_pm2.5_1.png}
+\includegraphics[width=.8\textwidth]{images/hist_pm2.5_2.png}
 \end{center}
-
 \end{column}
-  
-\end{columns}
 
+\end{columns}
 \end{frame}
 
-\begin{frame}{Calibrazione (3/4) – Modello più performante}
+\begin{frame}{Calibrazione – Modello più performante (4/5)}
 
 \begin{columns}
 \hspace{0.3cm}\begin{column}{0.45\textwidth}
@@ -292,7 +311,7 @@ confronto delle concentrazioni rilevate dalle stazioni di riferimento ARPAT
 \begin{block}{Regressione lineare avanzata}
 Con rimozione dei valori anomali (\textit{outlier}) in base a determinate metriche.\vspace{0.2cm}
 
-\textbf{Distanza di Cook\footnotemark:}
+\textbf{Distanza di Cook\,\footnotemark:}
 $$D_{i}=\frac{\sum_{j=1}^{n}\left(\hat{y}_{j}-\hat{y}_{j(i)}\right)^{2}}{p  * MSE^{2}}$$
 
 \textbf{Soglia di cut-off\,\footnotemark}:
@@ -302,7 +321,7 @@ $D_{i}>\frac{4}{n}$
 \end{block}
 \end{column}
 
-\hspace{0.1cm}\begin{column}{0.55\textwidth}
+\hspace{0.1cm}\begin{column}{0.53\textwidth}
 
 \begin{center}
 \begin{figure}[H]
@@ -324,7 +343,7 @@ $D_{i}>\frac{4}{n}$
 
 \end{frame}
 
-\begin{frame}{Calibrazione (4/4) – Validazione}
+\begin{frame}{Calibrazione – Validazione (5/5)}
 \begin{center}
 \begin{figure}[H]
 \centering
@@ -408,7 +427,7 @@ Soluzione per la calibrazione massiva di centraline \textbf{AirQino}:
 
 
 \section{Conclusioni e sviluppi futuri}
-\begin{frame}{Conclusioni e sviluppi futuri (1/2)}
+\begin{frame}{Conclusioni (1/2)}
 \begin{itemize}
   \item Reti di sensori \textit{low-cost} per il monitoraggio della qualità dell'aria (es. \textbf{AirQino}) rappresentano una soluzione efficace per il rilevamento dell'inquinamento atmosferico\vspace{0.2cm}
   \begin{itemize}
@@ -422,14 +441,14 @@ Soluzione per la calibrazione massiva di centraline \textbf{AirQino}:
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Conclusioni e sviluppi futuri (2/2)}
+\begin{frame}{Sviluppi futuri (2/2)}
 \begin{itemize}
   \item Perfezionare il processo di calibrazione delle centraline, ad esempio implementando regressioni \textit{multivariate} (includendo fattori metereologici quali \textbf{temperatura} ed \textbf{umidità} relativa)\vspace{0.1cm}
   \begin{itemize}
     \item La \textbf{temperatura} tende a correlare negativamente con i PM (all'aumentare della temperatura le polveri sottili tendono a calare)
     \item L'\textbf{umidità} presenta l'effetto contrario e influisce anche sull'elettronica del sensore
   \end{itemize}\vspace{0.1cm}
-  \item Realizzare una procedura di \textbf{anomaly detection} sul segnale delle centraline\vspace{0.1cm}
+  \item Realizzare una procedura di \textbf{anomaly detection} sul segnale dei sensori\vspace{0.1cm}
   \begin{itemize}
     \item Con un controllo \textbf{in tempo reale} sull'andamento e monitorando la differenza con il segnale di riferimento (es. stazione ARPAT)
     \item \textbf{Post processing analysis}
@@ -438,8 +457,23 @@ Soluzione per la calibrazione massiva di centraline \textbf{AirQino}:
 \end{frame}
 
 \begin{frame}[noframenumbering]{Grazie per l'attenzione!}
+\begin{columns}
+
+\begin{column}{0.79\textwidth}
 \begin{center}
-\includegraphics[width=.9\textwidth]{images/airqino_web_n}
+\includegraphics[width=\textwidth]{images/airqino_web_n}
 \end{center}
+\end{column}
+
+\begin{column}{0.25\textwidth}\vspace{-.1cm}
+\begin{center}
+\includegraphics[width=\textwidth]{images/airqino}\vspace{0.4cm}
+\includegraphics[width=\textwidth]{images/magenta}\vspace{0.5cm}
+\includegraphics[width=\textwidth]{images/ibe}
+\end{center}
+\end{column}
+
+\end{columns}
+
 \end{frame}
 
