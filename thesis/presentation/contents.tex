@@ -79,9 +79,9 @@ L’inquinamento atmosferico è uno dei principali problemi che interessano le a
 \end{figure}
 \vspace{0.1cm}
 \begin{itemize}
-  \item Di tipo MOS
-  \item Basato su ossidoriduzione
+  \item Di tipo MOS, basato su \textit{ossidoriduzione}
   \item Uscita in \textit{counts}
+  \item Costo: meno di 5€
 \end{itemize}
 \vspace{0.1cm}
 
@@ -100,9 +100,9 @@ L’inquinamento atmosferico è uno dei principali problemi che interessano le a
 \end{figure}
 \vspace{0.1cm}
 \begin{itemize}
-  \item Basato su principio di diffusione ottica
+  \item Basato su \textit{scattering}
   \item Uscita in $\mathrm{\si{\micro}g/m^3}$
-  \item Più costoso
+  \item Costo: 25€ circa
 \end{itemize}
 \vspace{0.1cm}
 
@@ -232,14 +232,15 @@ Tempi di risposta della query per estrarre la media oraria di \ce{NO2} dell'ulti
 \section{Calibrazione}
 
 \begin{frame}{Calibrazione (1/4) – Procedura}
-
+comparazione verso sensori di riferimento
+confronto delle concentrazioni rilevate dalle stazioni di riferimento ARPAT
 \begin{block}{Procedura per ogni sensore (\ce{NO2}, \ce{PM_{2.5}}, \ce{PM10})}
 \begin{enumerate}
   \item Preprocessamento e creazione di un \textbf{dataset} (dati della centralina AirQino SMART16 e di riferimento ARPAT)
   \item \textbf{Allineamento} temporale e ricampionamento
   \item \textbf{Scatterplot} del segnale di riferimento e del segnale del sensore
   \item Analisi dei \textbf{residui}
-  \item Applicazione di tredici diversi modelli di \alert{regressione} (sia lineare che non lineare)
+  \item Applicazione di tredici diversi modelli di \alert{regressione}
   \begin{itemize}
     \item Su tutto il dataset
     \item Con cadenza mensile
@@ -286,34 +287,38 @@ Tempi di risposta della query per estrarre la media oraria di \ce{NO2} dell'ulti
 \begin{frame}{Calibrazione (3/4) – Modello più performante}
 
 \begin{columns}
-\begin{column}{0.45\textwidth}
+\hspace{0.3cm}\begin{column}{0.45\textwidth}
 
 \begin{block}{Regressione lineare avanzata}
 Con rimozione dei valori anomali (\textit{outlier}) in base a determinate metriche.\vspace{0.2cm}
 
-\textbf{Distanza di Cook:}
+\textbf{Distanza di Cook\footnotemark:}
 $$D_{i}=\frac{\sum_{j=1}^{n}\left(\hat{y}_{j}-\hat{y}_{j(i)}\right)^{2}}{p  * MSE^{2}}$$
 
-\textbf{Soglia di cut-off}:
+\textbf{Soglia di cut-off\,\footnotemark}:
 $D_{i}>\frac{4}{n}$
 
 \vspace{0.1cm}
 \end{block}
-
 \end{column}
 
-\begin{column}{0.55\textwidth}
+\hspace{0.1cm}\begin{column}{0.55\textwidth}
 
 \begin{center}
 \begin{figure}[H]
 \centering
 \captionsetup{justification=centering}
 \includegraphics[width=\textwidth]{images/cook_no2.png}
-\caption{Rilevamento di outlier (in rosso) tramite distanza di Cook}
+\caption{Rilevamento di \textit{outlier} (in rosso) tramite distanza di Cook}
 \end{figure}
 \end{center}
 
 \end{column}
+
+\let\oldfootnotesize\footnotesize
+\renewcommand*{\footnotesize}{\oldfootnotesize\tiny}
+\addtocounter{footnote}{-1}\footnotetext{\fullcite{cook_def}}
+\addtocounter{footnote}{1}\footnotetext{\fullcite{applied_regression}\vspace{0.05cm}}
 
 \end{columns}
 
@@ -346,7 +351,10 @@ Soluzione per la calibrazione massiva di centraline \textbf{AirQino}:
 \begin{itemize}
   \item Per permettere di inserire più \textbf{coefficienti} contemporaneamente
   \item Basata su caricamento di file \textbf{csv} appositi
-  \item Con riepilogo degli esiti in forma di tabella
+  \item Con riepilogo degli esiti in forma di tabella\vspace{.1cm}
+  \begin{itemize}
+  \item Statistiche sui coefficienti medi
+  \end{itemize}
 \end{itemize}
 
 \end{column}
@@ -406,9 +414,9 @@ Soluzione per la calibrazione massiva di centraline \textbf{AirQino}:
   \begin{itemize}
     \item Anche in ottica di \textbf{integrazione} con le reti di monitoraggio regionali già esistenti, fornendo un quadro più completo della qualità dell'aria in ambiente urbano
   \end{itemize}\vspace{0.2cm}
-  \item Anche con sensori a basso costo è possibile misurare inquinanti come \ce{NO2}, \ce{PM_{2.5}} e \ce{PM10} con una buona accuratezza\vspace{0.2cm}
+  \item Anche con sensori a basso costo è possibile misurare inquinanti come \ce{NO2}, \ce{PM_{2.5}} e \ce{PM10}\vspace{0.2cm}
   \begin{itemize}
-    \item Ancora migliore se si ha a disposizione un \textbf{segnale di riferimento} con cui correggere i dati provenienti dai sensori\vspace{0.1cm}
+    \item Con accuratezza ancora migliore se si ha a disposizione un \textbf{segnale di riferimento} con cui correggere i dati provenienti dai sensori\vspace{0.1cm}
     \item L'applicazione di tecniche di \textbf{regressione robusta} in fase di calibrazione ha riportato miglioramenti significativi
   \end{itemize}
 \end{itemize}
@@ -416,14 +424,22 @@ Soluzione per la calibrazione massiva di centraline \textbf{AirQino}:
 
 \begin{frame}{Conclusioni e sviluppi futuri (2/2)}
 \begin{itemize}
-  \item Perfezionare il processo di calibrazione delle centraline, ad esempio aggiungendo ulteriori variabili in input al modello di regressione, come la \textbf{temperatura} e l'\textbf{umidità} relativa
+  \item Perfezionare il processo di calibrazione delle centraline, ad esempio implementando regressioni \textit{multivariate} (includendo fattori metereologici quali \textbf{temperatura} ed \textbf{umidità} relativa)\vspace{0.1cm}
   \begin{itemize}
-    \item La temperatura tende a correlare negativamente con i PM (all'aumentare della temperatura le polveri sottili tendono a calare), mentre l'umidità presenta l'effetto contrario
-  \end{itemize}\vspace{0.2cm}
-  \item Realizzare una \textbf{procedura di allerta} sul segnale delle centraline
+    \item La \textbf{temperatura} tende a correlare negativamente con i PM (all'aumentare della temperatura le polveri sottili tendono a calare)
+    \item L'\textbf{umidità} presenta l'effetto contrario e influisce anche sull'elettronica del sensore
+  \end{itemize}\vspace{0.1cm}
+  \item Realizzare una procedura di \textbf{anomaly detection} sul segnale delle centraline\vspace{0.1cm}
   \begin{itemize}
-    \item Con un controllo in tempo reale sull'andamento e monitorando la differenza con il segnale di riferimento (es. stazione ARPAT)
+    \item Con un controllo \textbf{in tempo reale} sull'andamento e monitorando la differenza con il segnale di riferimento (es. stazione ARPAT)
+    \item \textbf{Post processing analysis}
   \end{itemize}
 \end{itemize}
+\end{frame}
+
+\begin{frame}[noframenumbering]{Grazie per l'attenzione!}
+\begin{center}
+\includegraphics[width=.9\textwidth]{images/airqino_web_n}
+\end{center}
 \end{frame}
 

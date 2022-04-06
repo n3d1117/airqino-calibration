@@ -20,6 +20,9 @@
 \usepackage[version=3]{mhchem}
 \usepackage{subfig}
 \usepackage{siunitx}
+\usepackage{lmodern,textcomp}
+\usepackage[backend=bibtex,isbn=false,doi=false,sorting=none,url=false,style=ieee]{biblatex}
+\addbibresource{biblio.bib}
 
 % Headline
 \setbeamertemplate{headline}{%
@@ -103,9 +106,15 @@
 \end{center}
 }
 
+% Citations in square brackets
+\makeatletter
+\renewcommand\@makefnmark{\hbox{\@textsuperscript{\usebeamercolor[fg]{footnote mark}\usebeamerfont*{footnote mark}[\@thefnmark]}}}
+\renewcommand\@makefntext[1]{\@textsuperscript{\usebeamercolor[fg]{footnote mark}\usebeamerfont*{footnote mark}[\@thefnmark]}\enspace\usebeamerfont*{footnote} #1}
+\makeatother
+
 % Footline contents
 \author{Edoardo D'Angelis}
-\title[13 Aprile 2022]{}
+\title[14 Aprile 2022]{}
 
 % BEGIN DOCUMENT
 \begin{document}
