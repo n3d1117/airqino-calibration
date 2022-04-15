@@ -1,16 +1,53 @@
 \section{Introduzione}
-\begin{frame}{Contesto}
-
+\begin{frame}{Contesto (1/2)}
+\vspace{0.3cm}
 L’\textbf{inquinamento atmosferico} è uno dei principali problemi che interessano le aree urbanizzate.
 \vspace{0.3cm}
 \begin{itemize}
- \item Può portare a \textbf{problemi di salute} causati dall’esposizione a lungo termine a sostanze nocive (PM, \ce{NO2}, \ce{CO2}, \ce{O3}, etc.)\vspace{0.3cm}
- \item Il \textbf{monitoraggio} è essenziale per la tutela della salute pubblica\vspace{-.3cm}
+ \item Può portare a \textbf{problemi di salute} causati dall’esposizione a lungo termine a sostanze nocive (PM, \ce{NO2}, \ce{CO2}, \ce{O3}, etc.)\vspace{.1cm}
+\end{itemize}
+
+\begin{table}[H]
+\footnotesize
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{Inquinante} & \textbf{Periodo di mediazione} & \textbf{Limite} \\ \hline
+\ce{NO2} & Media massima oraria & 200 $\mathrm{\si{\micro}g/m^3}$ \\ \hline
+\ce{PM_{2.5}} & Media giornaliera & 50 $\mathrm{\si{\micro}g/m^3}$ \\ \hline
+\ce{PM_{10}} & Media giornaliera & 25 $\mathrm{\si{\micro}g/m^3}$ \\ \hline
+\ce{O3} & Media massima oraria & 240 $\mathrm{\si{\micro}g/m^3}$ \\ \hline
+\ce{CO} & Media massima giornaliera (8h) & 10 $\mathrm{mg/m^3}$ \\ \hline
+\end{tabular}
+\caption{Limiti di riferimento dei principali inquinanti (D.Lgs.155/2010)}
+\end{table}
+
+\end{frame}
+
+\begin{frame}{Contesto (2/2)}
+
+\begin{columns}
+
+\begin{column}{0.65\textwidth}
+
+Il \textbf{monitoraggio} è essenziale per la tutela della salute pubblica:\vspace{0.2cm}
  \begin{enumerate}
- \item Con reti regionali di rilevamento fisse, gestite da ARPA (DLgs. n.155 del 13/08/2010)\vspace{0.1cm}
+ \item Con reti regionali di rilevamento fisse, gestite da \textbf{ARPA} (DLgs. n.155 del 13/08/2010)\vspace{0.2cm}
  \item Con nuove reti di sensori \textit{low cost} ad alta portabilità per l'acquisizione di misure aggiuntive, anche a minor precisione (es. \textbf{AirQino})
 \end{enumerate}
-\end{itemize}
+
+\end{column}
+
+\begin{column}{0.37\textwidth}\vspace{0.5cm}
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=\textwidth]{images/lu-capannori}
+\caption{Stazione di rilevamento ARPAT}
+\end{figure}
+\end{column}
+
+\end{columns}
 
 \end{frame}
 
@@ -113,7 +150,7 @@ L’\textbf{inquinamento atmosferico} è uno dei principali problemi che interes
 \end{columns}
 \end{frame}
 
-\begin{frame}{Obiettivi}
+\begin{frame}{Attività}
 \begin{itemize}
   \item Sviluppi tecnologici alla piattaforma \alert{AirQino}
   \begin{enumerate}
@@ -127,52 +164,52 @@ L’\textbf{inquinamento atmosferico} è uno dei principali problemi che interes
 
 
 \section{Sviluppi tecnologici}
-\begin{frame}{Sviluppi – Replica del database (1/4)}
-\begin{block}{Replica}
-Tutti i dati presenti nel database vengono copiati e distribuiti su un altro spazio fisico. La nuova istanza agisce come nodo secondario, alleggerendo il carico dal database primario. 
+%\begin{frame}{Sviluppi – Replica del database (1/4)}
+%\begin{block}{Replica}
+%Tutti i dati presenti nel database vengono copiati e distribuiti su un altro spazio fisico. La nuova istanza agisce come nodo secondario, alleggerendo il carico dal database primario. 
+%
+%\vspace{0.4cm}
+%\textbf{Vantaggi:}\vspace{0.1cm}
+%\begin{itemize}
+%  \item Maggiore \textbf{affidabilità}
+%  \item Miglioramento delle \textbf{prestazioni}
+%  \item Maggiore \textbf{sicurezza} dei dati
+%\end{itemize}\vspace{0.1cm}
+%\end{block}
+%
+%\end{frame}
+%
+%\begin{frame}{Sviluppi – Replica del database (2/4)}
+%
+%\begin{columns}
+%
+%\begin{column}{0.45\textwidth}
+%\begin{block}{Streaming replication}
+%Funzionalità che consente di replicare i dati in tempo reale da una istanza di database Postgres a un’altra
+%
+%\begin{itemize}
+%  \item Replica di sola lettura
+%  \item Basata su \textbf{WAL} (\textit{Write Ahead Log})
+%  \item Automazione con Docker\vspace{0.1cm}
+%\end{itemize}
+%\end{block}
+%\end{column}
+%
+%\begin{column}{0.55\textwidth}
+%\begin{figure}[H]
+%\centering
+%\captionsetup{justification=centering}
+%\includegraphics[width=\textwidth]{images/streaming_replication}
+%\caption{Streaming replication}
+%\end{figure}
+%\end{column}
+%
+%\end{columns}
+%
+%\end{frame}
 
-\vspace{0.4cm}
-\textbf{Vantaggi:}\vspace{0.1cm}
-\begin{itemize}
-  \item Maggiore \textbf{affidabilità}
-  \item Miglioramento delle \textbf{prestazioni}
-  \item Maggiore \textbf{sicurezza} dei dati
-\end{itemize}\vspace{0.1cm}
-\end{block}
 
-\end{frame}
-
-\begin{frame}{Sviluppi – Replica del database (2/4)}
-
-\begin{columns}
-
-\begin{column}{0.45\textwidth}
-\begin{block}{Streaming replication}
-Funzionalità che consente di replicare i dati in tempo reale da una istanza di database Postgres a un’altra
-
-\begin{itemize}
-  \item Replica di sola lettura
-  \item Basata su \textbf{WAL} (\textit{Write Ahead Log})
-  \item Automazione con Docker\vspace{0.1cm}
-\end{itemize}
-\end{block}
-\end{column}
-
-\begin{column}{0.55\textwidth}
-\begin{figure}[H]
-\centering
-\captionsetup{justification=centering}
-\includegraphics[width=\textwidth]{images/streaming_replication}
-\caption{Streaming replication}
-\end{figure}
-\end{column}
-
-\end{columns}
-
-\end{frame}
-
-
-\begin{frame}{Sviluppi – Ottimizzazione di query temporali (3/4)}
+\begin{frame}{Sviluppi – Ottimizzazione di query temporali (1/2)}
 
 \begin{columns}
 
@@ -201,7 +238,7 @@ Funzionalità di \textbf{Timescale} per aggregare dati in tempo reale in maniera
 
 \end{frame}
 
-\begin{frame}{Sviluppi – Ottimizzazione di query temporali (4/4)}
+\begin{frame}{Sviluppi – Ottimizzazione di query temporali (2/2)}
 Tempi di risposta della query per estrarre la media oraria di \ce{NO2} dell'ultima settimana da tutte le centraline \textbf{AirQino}:
 
 \begin{columns}
@@ -442,18 +479,34 @@ Soluzione per la calibrazione massiva di centraline \textbf{AirQino}:
 \end{frame}
 
 \begin{frame}{Sviluppi futuri}
+\begin{columns}
+
+\begin{column}{0.6\textwidth}
 \begin{itemize}
-  \item Perfezionare il processo di calibrazione delle centraline, ad esempio implementando regressioni \textit{multivariate} (includendo fattori metereologici quali \textbf{temperatura} e \textbf{umidità} relativa)\vspace{0.1cm}
+  \item Perfezionare il processo di calibrazione delle centraline, implementando regressioni \textit{multivariate} (includendo fattori metereologici quali \textbf{temperatura} e \textbf{umidità} relativa)\vspace{0.2cm}
   \begin{itemize}
-    \item La \textbf{temperatura} tende a correlare negativamente con i PM (all'aumentare della temperatura le polveri sottili tendono a calare)
+    \item La \textbf{temperatura} tende a correlare negativamente con i PM (all'aumentare della temperatura le polveri sottili tendono a calare)\vspace{0.2cm}
     \item L'\textbf{umidità} presenta l'effetto contrario e influisce anche sull'elettronica del sensore
   \end{itemize}\vspace{0.1cm}
-  \item Realizzare una procedura di \textbf{anomaly detection} sul segnale dei sensori\vspace{0.1cm}
-  \begin{itemize}
-    \item Con un controllo \textbf{in tempo reale} sull'andamento e monitorando la differenza con il segnale di riferimento (es. stazione ARPAT)
-    \item \textbf{Post processing analysis}
-  \end{itemize}
+%  \item Realizzare una procedura di \textbf{anomaly detection} sul segnale dei sensori\vspace{0.1cm}
+%  \begin{itemize}
+%    \item Con un controllo \textbf{in tempo reale} sull'andamento e monitorando la differenza con il segnale di riferimento (es. stazione ARPAT)
+%    \item \textbf{Post processing analysis}
+%  \end{itemize}
 \end{itemize}
+
+\end{column}
+
+\begin{column}{0.45\textwidth}
+\begin{figure}[H]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=\textwidth]{images/corr}
+\caption{Correlazione tra polveri sottili, temperatura e umidità misurate dalla centralina SMART16 (periodo dal 18/08/2020 al 30/08/2021)}
+\end{figure}
+\end{column}
+
+\end{columns}
 \end{frame}
 
 \begin{frame}[noframenumbering]{Grazie per l'attenzione!}
